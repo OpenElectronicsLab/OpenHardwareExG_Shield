@@ -40,7 +40,7 @@ $Descr A1 33110 23386
 encoding utf-8
 Sheet 1 1
 Title ""
-Date "27 sep 2014"
+Date "5 oct 2014"
 Rev ""
 Comp ""
 Comment1 ""
@@ -77,23 +77,8 @@ Wire Wire Line
 	27250 6650 27250 6600
 Wire Wire Line
 	12650 4150 12550 4150
-Connection ~ 8750 1800
-Connection ~ 8750 1900
-Connection ~ 8750 2000
 Wire Wire Line
-	8750 1800 8750 2850
-Wire Wire Line
-	8750 1900 8850 1900
-Wire Wire Line
-	10500 2700 9700 2700
-Wire Wire Line
-	9650 1900 9850 1900
-Wire Wire Line
-	9950 2250 9800 2250
-Wire Wire Line
-	9800 2250 9800 1900
-Wire Wire Line
-	8850 2000 8750 2000
+	9800 1900 9850 1900
 Wire Wire Line
 	10400 3200 10400 2850
 Wire Wire Line
@@ -252,22 +237,9 @@ Wire Wire Line
 	16250 3700 16250 3650
 Connection ~ 16250 3650
 Wire Wire Line
-	9650 1600 10700 1600
-Wire Wire Line
-	10700 1600 10700 3200
-Wire Wire Line
-	9650 1800 10500 1800
-Wire Wire Line
-	10500 1800 10500 3200
-Wire Wire Line
-	8150 1800 8850 1800
-Wire Wire Line
-	8850 1600 8150 1600
-Wire Wire Line
 	9950 6200 10800 6200
 Wire Wire Line
 	10800 6200 10800 5600
-Connection ~ 10500 2700
 Connection ~ 11800 7500
 Wire Wire Line
 	11800 7500 11800 6750
@@ -852,11 +824,7 @@ Wire Wire Line
 Wire Wire Line
 	10400 5850 9450 5850
 Wire Wire Line
-	8850 1700 8150 1700
-Wire Wire Line
 	10600 1700 10600 3200
-Wire Wire Line
-	10600 1700 9650 1700
 Wire Wire Line
 	11300 2500 11300 3200
 Wire Wire Line
@@ -1011,19 +979,6 @@ Wire Wire Line
 Wire Wire Line
 	26450 5450 26450 5350
 Connection ~ 26450 5450
-Connection ~ 10600 1900
-Connection ~ 10400 1900
-Connection ~ 9800 1900
-Wire Wire Line
-	10400 1900 10400 2250
-Wire Wire Line
-	10400 2250 10350 2250
-Wire Wire Line
-	10350 1900 10600 1900
-Wire Wire Line
-	9650 2000 9700 2000
-Wire Wire Line
-	9700 2000 9700 2700
 Wire Wire Line
 	12650 3750 12550 3750
 Wire Wire Line
@@ -1211,17 +1166,6 @@ Text Notes 5550 1800 0    80   ~ 0
 Input filters
 Text Notes 10150 1350 0    80   ~ 0
 Bio-potential amplifiers and ADCs
-$Comp
-L CONN_5X2 P4
-U 1 1 51BC70C8
-P 9250 1800
-F 0 "P4" H 9250 2100 60  0000 C CNN
-F 1 "CONN_5X2" V 9250 1800 50  0000 C CNN
-F 2 "PIN_ARRAY_5x2" V 9350 1800 50  0001 C CNN
-F 3 "" H 9250 1800 60  0001 C CNN
-	1    9250 1800
-	1    0    0    -1  
-$EndComp
 $Comp
 L TL431LP U15
 U 1 1 51BBCCA5
@@ -1971,12 +1915,6 @@ Text Notes 17150 3350 2    60   ~ 0
 AVDD1 decoupling capacitors for ADS1299
 Text Notes 16600 3600 1    45   ~ 0
 PIN\n54
-Text Label 8150 1800 0    60   ~ 0
-BIASOUT
-Text Label 8150 1700 0    60   ~ 0
-SRB2
-Text Label 8150 1600 0    60   ~ 0
-SRB1
 Text Label 9450 5850 0    60   ~ 0
 SRB2
 Text Label 9450 5650 0    60   ~ 0
@@ -3497,8 +3435,6 @@ Text Label 13700 10300 0    60   ~ 0
 BIASINV
 Text Label 13700 10400 0    60   ~ 0
 GND_ISO
-Text Label 10600 3100 1    60   ~ 0
-BIASINV
 $Comp
 L DGND #PWR?
 U 1 1 5426CAB8
@@ -3702,4 +3638,28 @@ Wire Wire Line
 	19950 10600 18850 10600
 Wire Wire Line
 	18850 10400 19950 10400
+Text Label 8750 2850 0    60   ~ 0
+BIASOUT
+Wire Wire Line
+	9800 1900 9800 2850
+Connection ~ 9800 2850
+Wire Wire Line
+	9950 2250 9800 2250
+Connection ~ 9800 2250
+Wire Wire Line
+	10400 1900 10350 1900
+Wire Wire Line
+	10350 2250 10600 2250
+Connection ~ 10600 2250
+Wire Wire Line
+	10400 1900 10400 2250
+Connection ~ 10400 2250
+Text Label 10600 1700 3    60   ~ 0
+BIASINV
+Wire Wire Line
+	10500 3200 10500 2500
+Text Label 10500 2500 3    60   ~ 0
+BIASIN
+Text Notes 9950 2550 0    60   ~ 0
+BIASIN is\ncurrently\nunused
 $EndSCHEMATC
