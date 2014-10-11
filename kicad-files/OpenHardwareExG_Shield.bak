@@ -3418,7 +3418,7 @@ Wire Wire Line
 Text Label 27000 6550 2    60   ~ 0
 MASTER
 Text Label 17000 10200 2    60   ~ 0
-MASTER
+MASTER_ISO
 $Comp
 L CONN_3X2 P?
 U 1 1 5426EC61
