@@ -40,7 +40,7 @@ $Descr A1 33110 23386
 encoding utf-8
 Sheet 1 1
 Title ""
-Date "11 oct 2014"
+Date "18 oct 2014"
 Rev ""
 Comp ""
 Comment1 ""
@@ -3798,4 +3798,8 @@ Wire Wire Line
 Wire Wire Line
 	2000 18950 2300 18950
 Connection ~ 2300 18950
+Text Label 29150 8600 0    60   ~ 0
+MASTER_AND_MASTER_CS
+Text Label 29150 9250 0    60   ~ 0
+SLAVE_AND_SLAVE_CS
 $EndSCHEMATC
