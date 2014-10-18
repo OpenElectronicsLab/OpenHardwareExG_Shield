@@ -4286,4 +4286,11 @@ Text Label 20000 7800 2    60   ~ 0
 VSEL
 Text Notes 18350 7500 0    39   ~ 0
 For 5V, connect VIN_ISO to VSEL\nand disconnect VSEL from DGND
+Wire Wire Line
+	25450 2000 26050 2000
+Wire Wire Line
+	26050 2000 26050 2100
+Connection ~ 26050 2100
+NoConn ~ 25450 1800
+NoConn ~ 25450 1900
 $EndSCHEMATC
