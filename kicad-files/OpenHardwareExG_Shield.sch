@@ -2564,8 +2564,6 @@ F 3 "~" H 30050 8900 60  0000 C CNN
 	3    30050 8900
 	1    0    0    -1  
 $EndComp
-Text Notes 27600 8200 0    60   ~ 0
-note: check to see if we can get 3 different footprints of widely available parts
 $Comp
 L VCC #PWR069
 U 1 1 54397683
@@ -5105,4 +5103,6 @@ Wire Wire Line
 	29650 1500 29650 1400
 Text Notes 23750 9550 2    60   ~ 0
 Analog Test Points
+Text Notes 28850 8250 0    60   ~ 0
+footprints based on TI-SN74HC02D
 $EndSCHEMATC
