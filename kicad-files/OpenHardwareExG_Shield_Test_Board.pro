@@ -1,5 +1,5 @@
-update=Sat 18 Oct 2014 03:54:51 PM CEST
-last_client=eeschema
+update=Sat 08 Nov 2014 06:04:25 PM CET
+last_client=cvpcb
 [eeschema]
 version=1
 LibDir=
@@ -42,3 +42,28 @@ LibName30=valves
 LibName31=arduino-shield
 LibName32=isolators
 LibName33=additional-logic
+[cvpcb]
+version=1
+NetIExt=net
+[cvpcb/libraries]
+EquName1=devcms
+[pcbnew]
+[pcbnew/libraries]
+LibName1=sockets
+LibName2=connect
+LibName3=discret
+LibName4=pin_array
+LibName5=divers
+LibName6=smd_capacitors
+LibName7=smd_resistors
+LibName8=smd_crystal&oscillator
+LibName9=smd_dil
+LibName10=smd_transistors
+LibName11=libcms
+LibName12=display
+LibName13=led
+LibName14=dip_sockets
+LibName15=pga_sockets
+LibName16=valves
+LibName17=connectors
+LibDir=
