@@ -39,7 +39,7 @@ $Descr A1 33110 23386
 encoding utf-8
 Sheet 1 1
 Title ""
-Date "2 nov 2014"
+Date "8 nov 2014"
 Rev ""
 Comp ""
 Comment1 ""
@@ -174,15 +174,15 @@ Text Label 27000 6350 2    60   ~ 0
 SIGNAL_B
 Text Label 27000 6250 2    60   ~ 0
 SIGNAL_A
-Text Label 22300 6250 0    60   ~ 0
+Text Label 21950 6250 0    60   ~ 0
 SIGNAL_A_BOGUS_ISO
-Text Label 22300 6350 0    60   ~ 0
+Text Label 21950 6350 0    60   ~ 0
 SIGNAL_B_BOGUS_ISO
-Text Label 22300 6450 0    60   ~ 0
+Text Label 21950 6450 0    60   ~ 0
 ~SEND_TO_GND~_MASTER_BOGUS_ISO
-Text Label 22300 6650 0    60   ~ 0
+Text Label 21950 6650 0    60   ~ 0
 SHIFT_CLK_BOGUS_ISO
-Text Label 22300 6750 0    60   ~ 0
+Text Label 21950 6750 0    60   ~ 0
 SHIFT_CARRY_BOGUS_ISO
 $Comp
 L INDUCTOR L3
@@ -287,7 +287,7 @@ F 3 "" H 24850 1850 60  0000 C CNN
 	1    24850 1850
 	-1   0    0    -1  
 $EndComp
-Text Label 22300 6550 0    60   ~ 0
+Text Label 21950 6550 0    60   ~ 0
 SHIFT_SH_~LD~_BOGUS_ISO
 Text Label 27000 6550 2    60   ~ 0
 SHIFT_SH_~LD~
@@ -762,7 +762,7 @@ F 3 "~" H 5750 5050 30  0000 C CNN
 	1    5750 5050
 	0    -1   -1   0   
 $EndComp
-Text Label 4750 2650 0    60   ~ 0
+Text Label 4550 2650 0    60   ~ 0
 SIGNAL_A_LADDER
 $Comp
 L SI8661 U8
@@ -1750,7 +1750,7 @@ F 3 "" H 23650 2250 60  0000 C CNN
 	1    23650 2250
 	1    0    0    -1  
 $EndComp
-Text Label 22300 6850 0    60   ~ 0
+Text Label 21950 6850 0    60   ~ 0
 GND_BOGUS_ISO
 Text Label 20800 6050 0    60   ~ 0
 GND_BOGUS_ISO
@@ -2237,7 +2237,7 @@ Wire Wire Line
 	26200 6050 26200 5950
 Connection ~ 26600 6050
 Wire Wire Line
-	22300 6750 24300 6750
+	21950 6750 24300 6750
 Connection ~ 22700 6050
 Wire Wire Line
 	20800 6050 22700 6050
@@ -2306,18 +2306,18 @@ Wire Wire Line
 Wire Wire Line
 	3700 20250 3100 20250
 Wire Wire Line
-	22300 6850 24300 6850
+	21950 6850 24300 6850
 Wire Wire Line
 	26450 5450 26450 5350
 Connection ~ 26450 5450
 Wire Wire Line
 	24300 6350 24200 6350
 Wire Wire Line
-	23700 6350 22300 6350
+	23700 6350 21950 6350
 Wire Wire Line
 	24300 6450 24200 6450
 Wire Wire Line
-	23700 6450 22300 6450
+	23700 6450 21950 6450
 Wire Wire Line
 	25500 6750 25400 6750
 Wire Notes Line
@@ -2719,19 +2719,19 @@ Connection ~ 5400 4900
 Wire Wire Line
 	6000 5050 6900 5050
 Wire Wire Line
-	5500 2650 4750 2650
+	5500 2650 4550 2650
 Wire Wire Line
 	24300 6250 24200 6250
 Wire Wire Line
-	23700 6250 22300 6250
+	23700 6250 21950 6250
 Wire Wire Line
 	24300 6550 24200 6550
 Wire Wire Line
-	23700 6550 22300 6550
+	23700 6550 21950 6550
 Wire Wire Line
 	24300 6650 24200 6650
 Wire Wire Line
-	23700 6650 22300 6650
+	23700 6650 21950 6650
 Wire Wire Line
 	1850 20200 1850 20300
 Wire Wire Line
