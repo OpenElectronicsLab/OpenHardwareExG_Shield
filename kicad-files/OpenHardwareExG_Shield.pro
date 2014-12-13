@@ -1,4 +1,4 @@
-update=Sat 08 Nov 2014 05:16:03 PM CET
+update=Sat 13 Dec 2014 04:49:05 PM CET
 version=1
 last_client=pcbnew
 [general]
@@ -89,3 +89,6 @@ LibName14=dip_sockets
 LibName15=pga_sockets
 LibName16=valves
 LibName17=connectors
+LibName18=arduino-shield
+LibName19=smt-tactile-button
+LibName20=testing
