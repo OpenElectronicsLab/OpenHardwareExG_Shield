@@ -1,4 +1,4 @@
-update=Sat 13 Dec 2014 04:49:05 PM CET
+update=Sun 25 Jan 2015 06:42:06 PM CET
 version=1
 last_client=pcbnew
 [general]
@@ -53,7 +53,7 @@ NetIExt=net
 EquName1=devcms
 [pcbnew]
 version=1
-LastNetListRead=
+LastNetListRead=OpenHardwareExG_Shield.net
 UseCmpFile=1
 PadDrill="    0.000000"
 PadDrillOvalY="    0.000000"
