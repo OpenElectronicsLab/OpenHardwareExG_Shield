@@ -1,4 +1,4 @@
-Cmp-Mod V01 Created by CvPcb (2013-jul-07)-stable date = Sun 25 Jan 2015 06:52:58 PM CET
+Cmp-Mod V01 Created by CvPcb (2013-jul-07)-stable date = Sat 07 Feb 2015 01:26:34 PM CET
 
 BeginCmp
 TimeStamp = /513B4D15;
@@ -631,10 +631,10 @@ IdModule  = POGO_PAD;
 EndCmp
 
 BeginCmp
-TimeStamp = /5401DF60;
+TimeStamp = /54D6029D;
 Reference = P10;
-ValeurCmp = CONN_10X2;
-IdModule  = pin_array_10x2;
+ValeurCmp = CONN_18;
+IdModule  = PIN_ARRAY_18x1;
 EndCmp
 
 BeginCmp
