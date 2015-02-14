@@ -41,7 +41,7 @@ $Descr A1 33110 23386
 encoding utf-8
 Sheet 1 1
 Title ""
-Date "7 feb 2015"
+Date "14 feb 2015"
 Rev ""
 Comp ""
 Comment1 ""
@@ -3549,6 +3549,67 @@ Text Notes 23750 9550 2    60   ~ 0
 Analog Test Points
 Text Notes 28850 8250 0    60   ~ 0
 footprints based on TI-SN74HC02D
+Text Notes 17800 6900 0    60   ~ 0
+Star Ground
+$Comp
+L AGND #PWR087
+U 1 1 54B135CE
+P 3100 5350
+F 0 "#PWR087" H 3100 5350 40  0001 C CNN
+F 1 "AGND" H 3100 5280 50  0000 C CNN
+F 2 "" H 3100 5350 60  0000 C CNN
+F 3 "" H 3100 5350 60  0000 C CNN
+	1    3100 5350
+	1    0    0    -1  
+$EndComp
+Text Notes 16500 5800 0    47   ~ 0
+For 3.3V (optional for ADS1298 and below):\nInstall: \n     R43 (0 Ohm resistor) \n     R45 (0 Ohm resistor) \nUninstall: \n     U4 (873-AAT3220IGY-33T1)\n     C52 (10 microFarad)\n     C56 (10 microFarad)\n     R43 (0 Ohm) \nReplace: \n     R42 (8.45k resistor) with 19.6k resistor
+$Comp
+L ADUM6000 U5
+U 1 1 5401FB81
+P 24850 1850
+F 0 "U5" H 24850 1350 60  0000 C CNN
+F 1 "ADUM6000" H 24850 2350 60  0000 C CNN
+F 2 "SO16W" H 24850 1850 60  0001 C CNN
+F 3 "" H 24850 1850 60  0000 C CNN
+	1    24850 1850
+	-1   0    0    -1  
+$EndComp
+$Comp
+L CONN_7 P22
+U 1 1 54C521DD
+P 20300 10150
+F 0 "P22" V 20270 10150 60  0000 C CNN
+F 1 "CONN_7" V 20370 10150 60  0000 C CNN
+F 2 "PIN_ARRAY_7x1" H 20300 10150 60  0001 C CNN
+F 3 "" H 20300 10150 60  0000 C CNN
+	1    20300 10150
+	1    0    0    -1  
+$EndComp
+$Comp
+L CONN_18 P10
+U 1 1 54D6029D
+P 2050 4400
+F 0 "P10" V 2000 4400 60  0000 C CNN
+F 1 "CONN_18" V 2100 4400 60  0000 C CNN
+F 2 "PIN_ARRAY_18x1" H 2050 4400 60  0001 C CNN
+F 3 "~" H 2050 4400 60  0000 C CNN
+	1    2050 4400
+	-1   0    0    1   
+$EndComp
+Text Label 8700 1900 2    60   ~ 0
+BIASOUT
+$Comp
+L AGND #PWR088
+U 1 1 54022BED
+P 17750 7200
+F 0 "#PWR088" H 17750 7200 40  0001 C CNN
+F 1 "AGND" H 17750 7130 50  0000 C CNN
+F 2 "" H 17750 7200 60  0000 C CNN
+F 3 "" H 17750 7200 60  0000 C CNN
+	1    17750 7200
+	1    0    0    -1  
+$EndComp
 Wire Wire Line
 	4950 1900 4200 1900
 Wire Wire Line
@@ -4923,59 +4984,14 @@ Wire Wire Line
 	29650 1500 29650 1400
 Wire Wire Line
 	17750 7050 19750 7050
-Text Notes 17800 6900 0    60   ~ 0
-Star Ground
 Connection ~ 18500 7050
 Connection ~ 19050 7050
 Connection ~ 19600 7050
 Connection ~ 23400 6550
 Wire Wire Line
-	23400 5550 23600 5550
-Wire Wire Line
-	23600 5550 23600 5800
-Wire Wire Line
-	23600 5800 23850 5800
-Wire Wire Line
-	23850 5800 23850 5750
-$Comp
-L +3.3VADC #PWR086
-U 1 1 54B12715
-P 23850 5750
-F 0 "#PWR086" H 23850 5870 20  0001 C CNN
-F 1 "+3.3VADC" H 23850 5840 30  0000 C CNN
-F 2 "" H 23850 5750 60  0000 C CNN
-F 3 "" H 23850 5750 60  0000 C CNN
-	1    23850 5750
-	1    0    0    -1  
-$EndComp
-Wire Wire Line
 	2400 5250 3100 5250
 Wire Wire Line
 	3100 5250 3100 5350
-$Comp
-L AGND #PWR087
-U 1 1 54B135CE
-P 3100 5350
-F 0 "#PWR087" H 3100 5350 40  0001 C CNN
-F 1 "AGND" H 3100 5280 50  0000 C CNN
-F 2 "" H 3100 5350 60  0000 C CNN
-F 3 "" H 3100 5350 60  0000 C CNN
-	1    3100 5350
-	1    0    0    -1  
-$EndComp
-Text Notes 16500 5800 0    47   ~ 0
-For 3.3V (optional for ADS1298 and below):\nInstall: \n     R43 (0 Ohm resistor) \n     R45 (0 Ohm resistor) \nUninstall: \n     U4 (873-AAT3220IGY-33T1)\n     C52 (10 microFarad)\n     C56 (10 microFarad)\n     R43 (0 Ohm) \nReplace: \n     R42 (8.45k resistor) with 19.6k resistor
-$Comp
-L ADUM6000 U5
-U 1 1 5401FB81
-P 24850 1850
-F 0 "U5" H 24850 1350 60  0000 C CNN
-F 1 "ADUM6000" H 24850 2350 60  0000 C CNN
-F 2 "SO16W" H 24850 1850 60  0001 C CNN
-F 3 "" H 24850 1850 60  0000 C CNN
-	1    24850 1850
-	-1   0    0    -1  
-$EndComp
 Wire Wire Line
 	25450 1700 25750 1700
 Wire Wire Line
@@ -4986,41 +5002,10 @@ Wire Wire Line
 Wire Wire Line
 	24000 1700 24000 1600
 Connection ~ 24000 1600
-$Comp
-L CONN_7 P22
-U 1 1 54C521DD
-P 20300 10150
-F 0 "P22" V 20270 10150 60  0000 C CNN
-F 1 "CONN_7" V 20370 10150 60  0000 C CNN
-F 2 "PIN_ARRAY_7x1" H 20300 10150 60  0001 C CNN
-F 3 "" H 20300 10150 60  0000 C CNN
-	1    20300 10150
-	1    0    0    -1  
-$EndComp
-$Comp
-L CONN_18 P10
-U 1 1 54D6029D
-P 2050 4400
-F 0 "P10" V 2000 4400 60  0000 C CNN
-F 1 "CONN_18" V 2100 4400 60  0000 C CNN
-F 2 "PIN_ARRAY_18x1" H 2050 4400 60  0001 C CNN
-F 3 "~" H 2050 4400 60  0000 C CNN
-	1    2050 4400
-	-1   0    0    1   
-$EndComp
-Text Label 8700 1900 2    60   ~ 0
-BIASOUT
 Wire Wire Line
 	8750 1900 8750 2850
-$Comp
-L AGND #PWR088
-U 1 1 54022BED
-P 17750 7200
-F 0 "#PWR088" H 17750 7200 40  0001 C CNN
-F 1 "AGND" H 17750 7130 50  0000 C CNN
-F 2 "" H 17750 7200 60  0000 C CNN
-F 3 "" H 17750 7200 60  0000 C CNN
-	1    17750 7200
-	1    0    0    -1  
-$EndComp
+Wire Wire Line
+	23400 5550 24000 5550
+Text Label 24000 5550 2    60   ~ 0
+3.3V_ISO
 $EndSCHEMATC
