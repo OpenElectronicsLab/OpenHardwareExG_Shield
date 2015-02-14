@@ -1,4 +1,4 @@
-update=Sat 14 Feb 2015 03:19:33 PM CET
+update=Sat 14 Feb 2015 03:58:55 PM CET
 version=1
 last_client=pcbnew
 [general]
@@ -94,3 +94,4 @@ LibName18=arduino-shield
 LibName19=smt-tactile-button
 LibName20=testing
 LibName21=fiducial_mark
+LibName22=Hole_M3
