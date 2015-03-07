@@ -565,9 +565,9 @@ F 3 "~" H 5750 2800 30  0000 C CNN
 	1    5750 2800
 	0    -1   -1   0   
 $EndComp
-Text Label 7400 2650 2    60   ~ 0
+Text Label 4100 2800 0    60   ~ 0
 IN8P_LADDER
-Text Label 3900 2800 0    60   ~ 0
+Text Label 7600 2650 2    60   ~ 0
 IN8N_LADDER
 $Comp
 L R R19
@@ -591,9 +591,9 @@ F 3 "~" H 5750 3100 30  0000 C CNN
 	1    5750 3100
 	0    -1   -1   0   
 $EndComp
-Text Label 7400 2950 2    60   ~ 0
+Text Label 4100 3100 0    60   ~ 0
 IN7P_LADDER
-Text Label 3900 3100 0    60   ~ 0
+Text Label 7600 2950 2    60   ~ 0
 IN7N_LADDER
 $Comp
 L R R21
@@ -617,9 +617,9 @@ F 3 "~" H 5750 3400 30  0000 C CNN
 	1    5750 3400
 	0    -1   -1   0   
 $EndComp
-Text Label 7400 3250 2    60   ~ 0
+Text Label 4100 3400 0    60   ~ 0
 IN6P_LADDER
-Text Label 3900 3400 0    60   ~ 0
+Text Label 7600 3250 2    60   ~ 0
 IN6N_LADDER
 $Comp
 L R R23
@@ -643,9 +643,9 @@ F 3 "~" H 5750 3700 30  0000 C CNN
 	1    5750 3700
 	0    -1   -1   0   
 $EndComp
-Text Label 7400 3550 2    60   ~ 0
+Text Label 4100 3700 0    60   ~ 0
 IN5P_LADDER
-Text Label 3900 3700 0    60   ~ 0
+Text Label 7600 3550 2    60   ~ 0
 IN5N_LADDER
 $Comp
 L R R25
@@ -669,9 +669,9 @@ F 3 "~" H 5750 4000 30  0000 C CNN
 	1    5750 4000
 	0    -1   -1   0   
 $EndComp
-Text Label 7400 3850 2    60   ~ 0
+Text Label 4100 4000 0    60   ~ 0
 IN4P_LADDER
-Text Label 3900 4000 0    60   ~ 0
+Text Label 7600 3850 2    60   ~ 0
 IN4N_LADDER
 $Comp
 L R R27
@@ -695,9 +695,9 @@ F 3 "~" H 5750 4300 30  0000 C CNN
 	1    5750 4300
 	0    -1   -1   0   
 $EndComp
-Text Label 7400 4150 2    60   ~ 0
+Text Label 4100 4300 0    60   ~ 0
 IN3P_LADDER
-Text Label 3900 4300 0    60   ~ 0
+Text Label 7600 4150 2    60   ~ 0
 IN3N_LADDER
 $Comp
 L R R29
@@ -721,9 +721,9 @@ F 3 "~" H 5750 4600 30  0000 C CNN
 	1    5750 4600
 	0    -1   -1   0   
 $EndComp
-Text Label 7400 4450 2    60   ~ 0
+Text Label 4100 4600 0    60   ~ 0
 IN2P_LADDER
-Text Label 3900 4600 0    60   ~ 0
+Text Label 7600 4450 2    60   ~ 0
 IN2N_LADDER
 $Comp
 L R R31
@@ -747,9 +747,9 @@ F 3 "~" H 5750 4900 30  0000 C CNN
 	1    5750 4900
 	0    -1   -1   0   
 $EndComp
-Text Label 7400 4750 2    60   ~ 0
+Text Label 4100 4900 0    60   ~ 0
 IN1P_LADDER
-Text Label 3900 4900 0    60   ~ 0
+Text Label 7600 4750 2    60   ~ 0
 IN1N_LADDER
 $Comp
 L R R33
@@ -2481,13 +2481,13 @@ Wire Wire Line
 Wire Wire Line
 	6400 6200 10250 6200
 Wire Wire Line
-	6000 2650 7400 2650
+	5500 2800 4100 2800
 Wire Wire Line
 	6100 2650 6100 2800
 Wire Wire Line
 	6100 2800 6000 2800
 Wire Wire Line
-	3900 2800 5500 2800
+	7600 2650 6000 2650
 Wire Wire Line
 	5400 2800 5400 2950
 Wire Wire Line
@@ -2495,13 +2495,13 @@ Wire Wire Line
 Connection ~ 6100 2650
 Connection ~ 5400 2800
 Wire Wire Line
-	6000 2950 7400 2950
+	5500 3100 4100 3100
 Wire Wire Line
 	6100 2950 6100 3100
 Wire Wire Line
 	6100 3100 6000 3100
 Wire Wire Line
-	3900 3100 5500 3100
+	7600 2950 6000 2950
 Wire Wire Line
 	5400 3100 5400 3250
 Wire Wire Line
@@ -2509,13 +2509,13 @@ Wire Wire Line
 Connection ~ 6100 2950
 Connection ~ 5400 3100
 Wire Wire Line
-	6000 3250 7400 3250
+	5500 3400 4100 3400
 Wire Wire Line
 	6100 3250 6100 3400
 Wire Wire Line
 	6100 3400 6000 3400
 Wire Wire Line
-	3900 3400 5500 3400
+	7600 3250 6000 3250
 Wire Wire Line
 	5400 3400 5400 3550
 Wire Wire Line
@@ -2523,13 +2523,13 @@ Wire Wire Line
 Connection ~ 6100 3250
 Connection ~ 5400 3400
 Wire Wire Line
-	6000 3550 7400 3550
+	5500 3700 4100 3700
 Wire Wire Line
 	6100 3550 6100 3700
 Wire Wire Line
 	6100 3700 6000 3700
 Wire Wire Line
-	3900 3700 5500 3700
+	7600 3550 6000 3550
 Wire Wire Line
 	5400 3700 5400 3850
 Wire Wire Line
@@ -2537,13 +2537,13 @@ Wire Wire Line
 Connection ~ 6100 3550
 Connection ~ 5400 3700
 Wire Wire Line
-	6000 3850 7400 3850
+	5500 4000 4100 4000
 Wire Wire Line
 	6100 3850 6100 4000
 Wire Wire Line
 	6100 4000 6000 4000
 Wire Wire Line
-	3900 4000 5500 4000
+	7600 3850 6000 3850
 Wire Wire Line
 	5400 4000 5400 4150
 Wire Wire Line
@@ -2551,13 +2551,13 @@ Wire Wire Line
 Connection ~ 6100 3850
 Connection ~ 5400 4000
 Wire Wire Line
-	6000 4150 7400 4150
+	5500 4300 4100 4300
 Wire Wire Line
 	6100 4150 6100 4300
 Wire Wire Line
 	6100 4300 6000 4300
 Wire Wire Line
-	3900 4300 5500 4300
+	7600 4150 6000 4150
 Wire Wire Line
 	5400 4300 5400 4450
 Wire Wire Line
@@ -2565,13 +2565,13 @@ Wire Wire Line
 Connection ~ 6100 4150
 Connection ~ 5400 4300
 Wire Wire Line
-	6000 4450 7400 4450
+	5500 4600 4100 4600
 Wire Wire Line
 	6100 4450 6100 4600
 Wire Wire Line
 	6100 4600 6000 4600
 Wire Wire Line
-	3900 4600 5500 4600
+	7600 4450 6000 4450
 Wire Wire Line
 	5400 4600 5400 4750
 Wire Wire Line
@@ -2579,13 +2579,13 @@ Wire Wire Line
 Connection ~ 6100 4450
 Connection ~ 5400 4600
 Wire Wire Line
-	6000 4750 7400 4750
+	5500 4900 4100 4900
 Wire Wire Line
 	6100 4750 6100 4900
 Wire Wire Line
 	6100 4900 6000 4900
 Wire Wire Line
-	3900 4900 5500 4900
+	7600 4750 6000 4750
 Wire Wire Line
 	5400 4900 5400 5050
 Wire Wire Line
@@ -3248,70 +3248,70 @@ Wire Wire Line
 Wire Wire Line
 	11700 3000 10400 3000
 Wire Wire Line
-	11700 3100 10400 3100
-Wire Wire Line
 	11700 3200 10400 3200
 Wire Wire Line
-	11700 3300 10400 3300
+	11700 3100 10400 3100
 Wire Wire Line
 	11700 3400 10400 3400
 Wire Wire Line
-	11700 3500 10400 3500
+	11700 3300 10400 3300
 Wire Wire Line
 	11700 3600 10400 3600
 Wire Wire Line
-	11700 3700 10400 3700
+	11700 3500 10400 3500
 Wire Wire Line
 	11700 3800 10400 3800
 Wire Wire Line
-	11700 3900 10400 3900
+	11700 3700 10400 3700
 Wire Wire Line
 	11700 4000 10400 4000
 Wire Wire Line
-	11700 4100 10400 4100
+	11700 3900 10400 3900
 Wire Wire Line
 	11700 4200 10400 4200
 Wire Wire Line
-	11700 4300 10400 4300
+	11700 4100 10400 4100
 Wire Wire Line
 	11700 4400 10400 4400
 Wire Wire Line
-	11700 4500 10400 4500
+	11700 4300 10400 4300
 Wire Wire Line
 	11700 4600 10400 4600
 Wire Wire Line
+	11700 4500 10400 4500
+Wire Wire Line
 	11700 2700 10400 2700
-Text Label 10400 4600 0    60   ~ 0
-IN1N_LADDER
 Text Label 10400 4500 0    60   ~ 0
+IN1N_LADDER
+Text Label 10400 4600 0    60   ~ 0
 IN1P_LADDER
-Text Label 10400 4400 0    60   ~ 0
-IN2N_LADDER
 Text Label 10400 4300 0    60   ~ 0
+IN2N_LADDER
+Text Label 10400 4400 0    60   ~ 0
 IN2P_LADDER
-Text Label 10400 4200 0    60   ~ 0
-IN3N_LADDER
 Text Label 10400 4100 0    60   ~ 0
+IN3N_LADDER
+Text Label 10400 4200 0    60   ~ 0
 IN3P_LADDER
-Text Label 10400 4000 0    60   ~ 0
-IN4N_LADDER
 Text Label 10400 3900 0    60   ~ 0
+IN4N_LADDER
+Text Label 10400 4000 0    60   ~ 0
 IN4P_LADDER
-Text Label 10400 3800 0    60   ~ 0
-IN5N_LADDER
 Text Label 10400 3700 0    60   ~ 0
+IN5N_LADDER
+Text Label 10400 3800 0    60   ~ 0
 IN5P_LADDER
-Text Label 10400 3600 0    60   ~ 0
-IN6N_LADDER
 Text Label 10400 3500 0    60   ~ 0
+IN6N_LADDER
+Text Label 10400 3600 0    60   ~ 0
 IN6P_LADDER
-Text Label 10400 3400 0    60   ~ 0
-IN7N_LADDER
 Text Label 10400 3300 0    60   ~ 0
+IN7N_LADDER
+Text Label 10400 3400 0    60   ~ 0
 IN7P_LADDER
-Text Label 10400 3200 0    60   ~ 0
-IN8N_LADDER
 Text Label 10400 3100 0    60   ~ 0
+IN8N_LADDER
+Text Label 10400 3200 0    60   ~ 0
 IN8P_LADDER
 Text Label 10400 2900 0    60   ~ 0
 SIGNAL_A_LADDER
@@ -3326,68 +3326,68 @@ Wire Wire Line
 Wire Wire Line
 	12500 3000 13800 3000
 Wire Wire Line
-	12500 3100 13800 3100
-Wire Wire Line
 	12500 3200 13800 3200
 Wire Wire Line
-	12500 3300 13800 3300
+	12500 3100 13800 3100
 Wire Wire Line
 	12500 3400 13800 3400
 Wire Wire Line
-	12500 3500 13800 3500
+	12500 3300 13800 3300
 Wire Wire Line
 	12500 3600 13800 3600
 Wire Wire Line
-	12500 3700 13800 3700
+	12500 3500 13800 3500
 Wire Wire Line
 	12500 3800 13800 3800
 Wire Wire Line
-	12500 3900 13800 3900
+	12500 3700 13800 3700
 Wire Wire Line
 	12500 4000 13800 4000
 Wire Wire Line
-	12500 4100 13800 4100
+	12500 3900 13800 3900
 Wire Wire Line
 	12500 4200 13800 4200
 Wire Wire Line
-	12500 4300 13800 4300
+	12500 4100 13800 4100
 Wire Wire Line
 	12500 4400 13800 4400
 Wire Wire Line
-	12500 4500 13800 4500
+	12500 4300 13800 4300
 Wire Wire Line
 	12500 4600 13800 4600
-Text Label 13800 4600 2    60   ~ 0
-IN1N
+Wire Wire Line
+	12500 4500 13800 4500
 Text Label 13800 4500 2    60   ~ 0
+IN1N
+Text Label 13800 4600 2    60   ~ 0
 IN1P
-Text Label 13800 4400 2    60   ~ 0
-IN2N
 Text Label 13800 4300 2    60   ~ 0
+IN2N
+Text Label 13800 4400 2    60   ~ 0
 IN2P
-Text Label 13800 4200 2    60   ~ 0
-IN3N
 Text Label 13800 4100 2    60   ~ 0
+IN3N
+Text Label 13800 4200 2    60   ~ 0
 IN3P
-Text Label 13800 4000 2    60   ~ 0
-IN4N
 Text Label 13800 3900 2    60   ~ 0
+IN4N
+Text Label 13800 4000 2    60   ~ 0
 IN4P
-Text Label 13800 3800 2    60   ~ 0
-IN5N
 Text Label 13800 3700 2    60   ~ 0
+IN5N
+Text Label 13800 3800 2    60   ~ 0
 IN5P
-Text Label 13800 3600 2    60   ~ 0
-IN6N
 Text Label 13800 3500 2    60   ~ 0
+IN6N
+Text Label 13800 3600 2    60   ~ 0
 IN6P
-Text Label 13800 3400 2    60   ~ 0
-IN7N
 Text Label 13800 3300 2    60   ~ 0
+IN7N
+Text Label 13800 3400 2    60   ~ 0
 IN7P
-Text Label 13800 3200 2    60   ~ 0
-IN8N
 Text Label 13800 3100 2    60   ~ 0
+IN8N
+Text Label 13800 3200 2    60   ~ 0
 IN8P
 Text Label 13800 3000 2    60   ~ 0
 SIGNAL_B_BOGUS_ISO

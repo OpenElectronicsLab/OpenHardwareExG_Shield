@@ -1,4 +1,4 @@
-update=Sun 09 Nov 2014 07:59:33 AM CET
+update=Sat 07 Mar 2015 04:04:39 PM CET
 last_client=pcbnew
 [eeschema]
 version=1
@@ -49,12 +49,12 @@ NetIExt=net
 EquName1=devcms
 [pcbnew]
 version=1
-LastNetListRead=
+LastNetListRead=OpenHardwareExG_Shield_Test_Board.net
 UseCmpFile=1
-PadDrill="    0.600000"
-PadDrillOvalY="    0.600000"
-PadSizeH="    1.500000"
-PadSizeV="    1.500000"
+PadDrill="    3.175000"
+PadDrillOvalY="    3.175000"
+PadSizeH="    3.797300"
+PadSizeV="    3.797300"
 PcbTextSizeV="    1.500000"
 PcbTextSizeH="    1.500000"
 PcbTextThickness="    0.300000"
@@ -63,7 +63,7 @@ ModuleTextSizeH="    1.000000"
 ModuleTextSizeThickness="    0.150000"
 SolderMaskClearance="    0.000000"
 SolderMaskMinWidth="    0.000000"
-DrawSegmentWidth="    0.200000"
+DrawSegmentWidth="    0.150000"
 BoardOutlineThickness="    0.100000"
 ModuleOutlineThickness="    0.150000"
 [pcbnew/libraries]
@@ -88,3 +88,4 @@ LibName17=arduino-shield
 LibName18=connectors
 LibName19=smt-tactile-button
 LibName20=testing
+LibName21=Hole_M3
