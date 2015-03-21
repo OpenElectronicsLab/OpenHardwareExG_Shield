@@ -39,7 +39,7 @@ $Descr A1 33110 23386
 encoding utf-8
 Sheet 1 1
 Title ""
-Date "14 mar 2015"
+Date "21 mar 2015"
 Rev ""
 Comp ""
 Comment1 ""
@@ -323,14 +323,8 @@ Text Label 10250 7700 2    60   ~ 0
 ADS129x_~DRDY~_BOGUS_ISO
 Text Label 10250 7600 2    60   ~ 0
 ADS129x_CLK_BOGUS_ISO
-Text Label 17350 20200 2    60   ~ 0
-3.3V_BOGUS_ISO
-Text Label 10250 6100 2    60   ~ 0
-3.3V_BOGUS_ISO
 Text Label 10250 6200 2    60   ~ 0
 SHIFT_EXT_CARRY_BOGUS_ISO
-Text Label 10250 7500 2    60   ~ 0
-3.3V_BOGUS_ISO
 $Comp
 L R R17
 U 1 1 5442A5FD
@@ -1743,17 +1737,6 @@ F 3 "~" H 15150 20600 30  0000 C CNN
 	1    15150 20600
 	1    0    0    -1  
 $EndComp
-$Comp
-L GND #PWR022
-U 1 1 544BD63D
-P 15150 21000
-F 0 "#PWR022" H 15150 21000 30  0001 C CNN
-F 1 "GND" H 15150 20930 30  0001 C CNN
-F 2 "" H 15150 21000 60  0000 C CNN
-F 3 "" H 15150 21000 60  0000 C CNN
-	1    15150 21000
-	1    0    0    -1  
-$EndComp
 NoConn ~ 20600 14400
 Text Label 3150 18050 2    60   ~ 0
 ARDUINO_3.3V
@@ -1807,8 +1790,6 @@ Text Label 13750 20200 0    60   ~ 0
 GO_BUTTON
 Text Label 17550 18500 2    60   ~ 0
 ARDUINO_VCC
-Text Label 10250 5800 2    60   ~ 0
-3.3V_BOGUS_ISO
 Text Label 10250 5700 2    60   ~ 0
 GND_BOGUS_ISO
 Text Label 10250 7400 2    60   ~ 0
@@ -2040,7 +2021,7 @@ Wire Wire Line
 Wire Wire Line
 	6400 7300 6900 7300
 Wire Wire Line
-	6400 7500 10250 7500
+	10850 7500 6400 7500
 Wire Wire Line
 	6400 7600 10250 7600
 Wire Wire Line
@@ -2056,7 +2037,7 @@ Wire Wire Line
 Wire Wire Line
 	6400 6000 10250 6000
 Wire Wire Line
-	6400 6100 10250 6100
+	10850 6100 6400 6100
 Wire Wire Line
 	6400 6200 10250 6200
 Wire Wire Line
@@ -2538,7 +2519,7 @@ Wire Wire Line
 Wire Wire Line
 	15000 18900 13800 18900
 Wire Wire Line
-	6400 5800 10250 5800
+	6400 5800 10850 5800
 Wire Wire Line
 	6400 5700 10250 5700
 Wire Wire Line
@@ -3149,4 +3130,31 @@ Text Label 20000 18700 0    60   ~ 0
 ARDUINO_VCC
 Text Label 20000 19200 0    60   ~ 0
 ARDUINO_GND
+Text Label 17350 20200 2    60   ~ 0
+ARDUINO_VCC
+Wire Wire Line
+	10850 5450 10850 7500
+Connection ~ 10850 5800
+$Comp
+L VCC #PWR029
+U 1 1 550D64DE
+P 10850 5450
+F 0 "#PWR029" H 10850 5550 30  0001 C CNN
+F 1 "VCC" H 10850 5550 30  0000 C CNN
+F 2 "" H 10850 5450 60  0000 C CNN
+F 3 "" H 10850 5450 60  0000 C CNN
+	1    10850 5450
+	1    0    0    -1  
+$EndComp
+Connection ~ 10850 6100
+Text Label 10250 5800 2    60   ~ 0
+UNUSED
+Text Label 10250 7500 2    60   ~ 0
+UNUSED
+Text Label 10250 6100 2    60   ~ 0
+UNUSED
+Text Label 17350 21000 2    60   ~ 0
+ARDUINO_GND
+Wire Wire Line
+	15150 21000 17350 21000
 $EndSCHEMATC
