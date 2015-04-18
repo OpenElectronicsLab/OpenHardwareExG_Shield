@@ -41,7 +41,7 @@ $Descr A1 33110 23386
 encoding utf-8
 Sheet 1 1
 Title ""
-Date "21 feb 2015"
+Date "18 apr 2015"
 Rev ""
 Comp ""
 Comment1 ""
@@ -3551,8 +3551,8 @@ F 3 "" H 3100 5350 60  0000 C CNN
 	1    3100 5350
 	1    0    0    -1  
 $EndComp
-Text Notes 16500 5800 0    47   ~ 0
-For 3.3V (optional for ADS1298 and below):\nInstall: \n     R43 (0 Ohm resistor) \n     R45 (0 Ohm resistor) \nUninstall: \n     U4 (873-AAT3220IGY-33T1)\n     C52 (10 microFarad)\n     C56 (10 microFarad)\n     R43 (0 Ohm) \nReplace: \n     R42 (8.45k resistor) with 19.6k resistor
+Text Notes 16350 5750 0    47   ~ 0
+For 3.3V AVDD (optional for ADS1298 and below):\nInstall: \n     R44 (0 Ohm resistor) \n     R45 (0 Ohm resistor) \nUninstall: \n     U4 (873-AAT3220IGY-33T1)\n     C52 (10 microFarad)\n     C56 (10 microFarad)\n     R43 (0 Ohm) \nReplace: \n     R42 (8.45k resistor) with 19.6k resistor
 $Comp
 L ADUM6000 U5
 U 1 1 5401FB81
