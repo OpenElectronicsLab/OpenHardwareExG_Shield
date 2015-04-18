@@ -1,0 +1,33 @@
+Drill report for /home/eric/src/OpenHardwareExG_Shield/kicad-files/OpenHardwareExG_Shield.kicad_pcb
+Created on Sat 18 Apr 2015 02:04:42 PM CEST
+Drill report for plated through holes :
+T1  0.64mm  0.025"  (140 holes)
+T2  1.00mm  0.039"  (38 holes)
+T3  1.02mm  0.040"  (25 holes)
+
+Total plated holes count 203
+
+
+Drill report for buried and blind vias :
+
+Drill report for holes from layer B.Cu to layer Inner1.Cu :
+
+Total plated holes count 0
+
+
+Drill report for holes from layer Inner1.Cu to layer Inner2.Cu :
+
+Total plated holes count 0
+
+
+Drill report for holes from layer Inner2.Cu to layer F.Cu :
+
+Total plated holes count 0
+
+
+Drill report for unplated through holes :
+T1  3.17mm  0.125"  (6 holes)
+
+Total unplated holes count 6
+
+
