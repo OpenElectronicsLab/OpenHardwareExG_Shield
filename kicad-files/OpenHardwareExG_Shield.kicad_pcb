@@ -778,7 +778,7 @@
     (fp_text reference U2 (at -3.175 -4.445 180) (layer F.SilkS)
       (effects (font (size 0.6 0.6) (thickness 0.127)))
     )
-    (fp_text value BT1308W-600D (at 0 0.762 180) (layer F.SilkS) hide
+    (fp_text value Z0109MNT1G (at 0 0.762 180) (layer F.SilkS) hide
       (effects (font (size 1.016 1.016) (thickness 0.2032)))
     )
     (fp_line (start -3.556 1.524) (end -3.556 4.572) (layer F.SilkS) (width 0.2032))

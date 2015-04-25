@@ -59,7 +59,7 @@
       (sheetpath (names /) (tstamps /))
       (tstamp 51BBCCA1))
     (comp (ref U2)
-      (value BT1308W-600D)
+      (value Z0109MNT1G)
       (footprint SOT223)
       (libsource (lib device) (part TRIAC))
       (sheetpath (names /) (tstamps /))

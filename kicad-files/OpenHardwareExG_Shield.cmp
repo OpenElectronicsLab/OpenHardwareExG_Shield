@@ -1270,7 +1270,7 @@ EndCmp
 BeginCmp
 TimeStamp = /51BBCCA0;
 Reference = U2;
-ValeurCmp = BT1308W-600D;
+ValeurCmp = Z0109MNT1G;
 IdModule  = SOT223;
 EndCmp
 
