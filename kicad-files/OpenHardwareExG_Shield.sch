@@ -41,7 +41,7 @@ $Descr A1 33110 23386
 encoding utf-8
 Sheet 1 1
 Title ""
-Date "18 apr 2015"
+Date "23 may 2015"
 Rev ""
 Comp ""
 Comment1 ""
@@ -4994,4 +4994,6 @@ Wire Wire Line
 Text Label 24000 5550 2    60   ~ 0
 3.3V_ISO
 NoConn ~ 5700 20150
+Text Notes 9650 7900 0    120  ~ 0
+VCAP capacitor values do not match datasheet.\n(but seem to work fine for us.)
 $EndSCHEMATC
