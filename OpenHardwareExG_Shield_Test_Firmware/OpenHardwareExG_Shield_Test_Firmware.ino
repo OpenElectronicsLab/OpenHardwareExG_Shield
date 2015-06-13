@@ -133,23 +133,31 @@ void setup() {
     // initialize digital pin 13 as an output.
     pinMode(13, OUTPUT);
 
+    pinMode(PIN_SHIFT_IN, INPUT); // un-needed? analog input is default?
+    digitalWrite(PIN_SHIFT_IN, HIGH); // enable pull-up resistor
+
+    pinMode(PIN_DIV_VIN_ISO, INPUT); // un-needed?
+    pinMode(PIN_DIV_3V3_ISO, INPUT); // un-needed?
+    pinMode(PIN_DIV_GND_ISO, INPUT); // un-needed?
+    pinMode(PIN_RESIST_GND_ISO, OUTPUT);
+
+    pinMode(PIN_BIASOUT_FILT, INPUT);
+
+    pinMode(IPIN_MASTER_DRDY, INPUT);
+    digitalWrite(PIN_SHIFT_IN, HIGH); // enable pull-up resistor
+
     // set up the pins for the output shift registers
     pinMode(PIN_SHIFT_OUT_RCLK, OUTPUT);
     pinMode(PIN_SHIFT_OUT_SRCLK, OUTPUT);
     pinMode(PIN_SHIFT_OUT, OUTPUT);
     pinMode(IPIN_SHIFT_OUT_SRCLR, OUTPUT);
 
-    digitalWrite(PIN_SHIFT_OUT_RCLK, LOW);
-    digitalWrite(PIN_SHIFT_OUT_SRCLK, LOW);
-    digitalWrite(PIN_SHIFT_OUT, LOW);
+    pinMode(IPIN_SHIELD_SHORTED, INPUT);
 
-    // toggle the clear pins to clear the registers
-    digitalWrite(IPIN_SHIFT_OUT_SRCLR, LOW);
-    delay(shiftOutClockDelay);
-    digitalWrite(PIN_SHIFT_OUT_RCLK, HIGH);
-    delay(shiftOutClockDelay);
+    pinMode(PIN_SHIFT_CLK, OUTPUT);
+    pinMode(IPIN_SHIFT_SH_LD, OUTPUT);
+
     digitalWrite(IPIN_SHIFT_OUT_SRCLR, HIGH);
-    digitalWrite(PIN_SHIFT_OUT_RCLK, LOW);
 }
 
 // the loop function runs over and over again forever
