@@ -1,16 +1,5 @@
 /*
-  Blink
-  Turns on an LED on for one second, then off for one second, repeatedly.
-
-  Most Arduinos have an on-board LED you can control. On the Uno and
-  Leonardo, it is attached to digital pin 13. If you're unsure what
-  pin the on-board LED is connected to on your Arduino model, check
-  the documentation at http://arduino.cc
-
-  This example code is in the public domain.
-
-  modified 8 May 2014
-  by Scott Fitzgerald
+  OpenHardwareExG_Shield_Test_Firmware
  */
 
 struct ShiftOutputs {
@@ -36,10 +25,79 @@ struct ShiftOutputs {
 };
 
 enum Pins {
-    PIN_SHIFT_OUT_RCLK = 5,
-    PIN_SHIFT_OUT_SRCLK = 4,
+    PIN_SHIFT_IN = A0,
+    PIN_DIV_VIN_ISO = A1,
+    PIN_DIV_3V3_ISO = A2,
+    PIN_DIV_GND_ISO = A3,
+    PIN_RESIST_GND_ISO = A4,
+    PIN_BIASOUT_FILT = A5,
+
+    IPIN_MASTER_DRDY = 2,
     IPIN_SHIFT_OUT_SRCLR = 3,
-    PIN_SHIFT_OUT = 6
+    PIN_SHIFT_OUT_SRCLK = 4,
+    PIN_SHIFT_OUT_RCLK = 5,
+    PIN_SHIFT_OUT = 6,
+    IPIN_SHIELD_SHORTED = 7,
+    PIN_SHIFT_CLK = 8,
+    IPIN_SHIFT_SH_LD = 9,
+};
+
+enum Pogos {
+    P1_IN8N = 1, // P1 == 1 for easier debug
+    P2_IN7N,
+    P3_IN6N,
+    P4_IN5N,
+    P5_IN4N,
+    P6_IN3N,
+    P7_IN2N,
+    P8_IN1N,
+    P9_BIASOUT_FILT, // A5
+    P10, // not present
+    P11_IN8P,
+    P12_IN7P,
+    P13_IN6P,
+    P14_IN5P,
+    P15_IN4P,
+    P16_IN3P,
+    P17_IN2P,
+    P18_IN1P,
+    P19, // not present
+    P20, // not present
+    P21, // not present
+    P22, // not present
+    P23_MOSI_ISO, // U2 input E
+    P24_SCLK_ISO, // U2 input F
+    P25_INV_CS_ISO, // U2 input G
+    P26_MASTER_ISO, // U2 input H
+    P27_DOUT_ISO, // U2 input A
+    P28_INV_DRDY_ISO, // U2 input B
+    P29_VIN_ISO, // A1 via voltage divider
+    P30_3V3_ISO, // A2 via voltage divider
+    P31_GND_ISO, // A3 via voltage divider, A4 via resistor
+    P32_GPIO1_ISO, // U1 input E
+    P33_GPIO2_ISO, // U1 input F
+    P34_GPIO3_ISO, // U1 input G
+    P35_GPIO4_ISO, // U1 input H
+    P36_DAISY_IN_ISO, // U1 input C
+    P37_BIASINV, // U1 input B
+    P38_CLK_ISO, // U2 input C
+    P39_SLAVE_AND_SLAVE_CS, // U4 input E
+    P40_MASTER_AND_MASTER_CS, // U4 input F
+    P41_INV_MASTER, // U4 input G
+    P42_INV_CS, // U4 input D
+    P43_MASTER, // U4 input C
+    P44_DOUT, // U4 input B
+    P45_INV_DRDY, // U4 input A
+    P46_SHIELD_VCC, // toggled on U6 by ENABLE_SHIELD (U3 output H)
+    P47_SHIELD_3V3, // toggled on U6 by ENABLE_SHIELD (U3 output H)
+    P48_SHIELD_5V, // toggled on U6 by ENABLE_SHIELD (U3 output H)
+    P49_ARDUINO_GND, // toggled on U6 by ENABLE_SHIELD (U3 output H)
+    P50_MASTER_INV_CS, // U3 input B
+    P51_SLAVE_INV_CS, // U3 input C
+    P52_MASTER_INV_DRDY, // PIN2
+    P53_MISO, // MISO
+    P54_MOSI, // MOSI
+    P55_SCLK // SCLK
 };
 
 enum Delays {
