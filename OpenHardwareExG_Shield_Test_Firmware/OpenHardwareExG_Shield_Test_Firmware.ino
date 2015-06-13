@@ -3,7 +3,7 @@
  */
 
 struct ShiftOutputs {
-    unsigned sendToGround : 1;
+    unsigned simulateBoardBelow : 1;
     unsigned masterCS : 1;
     unsigned slaveCS : 1;
     unsigned signalA : 1;
@@ -13,7 +13,7 @@ struct ShiftOutputs {
     unsigned enableShield : 1;
 
     ShiftOutputs() {
-        sendToGround = 0;
+        simulateBoardBelow = 0;
         masterCS = 0;
         slaveCS = 0;
         signalA = 0;
@@ -121,7 +121,7 @@ void setShiftOut(const struct ShiftOutputs& output) {
     shiftOut(output.signalB);
     shiftOut(output.slaveCS);
     shiftOut(output.masterCS);
-    shiftOut(output.sendToGround);
+    shiftOut(output.simulateBoardBelow);
 
     digitalWrite(PIN_SHIFT_OUT_RCLK, HIGH);
     delay(shiftOutClockDelay);
@@ -158,32 +158,31 @@ void setup() {
     pinMode(IPIN_SHIFT_SH_LD, OUTPUT);
 
     digitalWrite(IPIN_SHIFT_OUT_SRCLR, HIGH);
+
+    ShiftOutputs output;
+    setShiftOut(output);
+
+    // initialize the USB Serial connection
+    Serial.begin(115200);
 }
 
+bool oddLoop = false;
 // the loop function runs over and over again forever
 void loop() {
     ShiftOutputs output;
 
-    output.sendToGround = 1;
-    output.masterCS = 0;
-    output.slaveCS = 1;
-    output.signalA = 0;
-    output.signalB = 1;
-    output.successLED = 0;
-    output.faultLED = 1;
-    output.enableShield = 0;
+    oddLoop = !oddLoop;
+
+    output.simulateBoardBelow = oddLoop;
+    output.masterCS = !oddLoop;
+    output.slaveCS = oddLoop;
+    output.signalA = !oddLoop;
+    output.signalB = oddLoop;
+    output.successLED = !oddLoop;
+    output.faultLED = oddLoop;
+    output.enableShield = !oddLoop;
     setShiftOut(output);
-    digitalWrite(13, HIGH);   // turn the LED on (HIGH is the voltage level)
-    delay(1000);              // wait for a second
-    output.sendToGround = 0;
-    output.masterCS = 1;
-    output.slaveCS = 0;
-    output.signalA = 1;
-    output.signalB = 0;
-    output.successLED = 1;
-    output.faultLED = 0;
-    output.enableShield = 1;
-    setShiftOut(output);
-    digitalWrite(13, LOW);    // turn the LED off by making the voltage LOW
+    digitalWrite(13, oddLoop ? HIGH : LOW );
+    Serial.println(oddLoop ? "red" : "green");
     delay(1000);              // wait for a second
 }
