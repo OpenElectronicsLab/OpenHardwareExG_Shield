@@ -1,3 +1,12 @@
-assemble boards
-shake fist at sky
+FIX two errors on board.
+
+ * crowbar circuit needs fixing
+   Desoldering U2 temporarily addresses the crowbar.
+
+
+ * ADS pins 35 and 36 (ADS129x_~PWDN~_ISO and ADS129x_~RESET~_ISO)
+   were tied LOW in prototype but should have been tied HIGH.
+    - We were able to desolder these two pins on the ADS chip and bend them up,
+      then we soldered a jumper wire to the power at U4
+
 drink champagne
