@@ -41,7 +41,7 @@ $Descr A1 33110 23386
 encoding utf-8
 Sheet 1 1
 Title ""
-Date "26 jul 2015"
+Date "1 aug 2015"
 Rev ""
 Comp ""
 Comment1 ""
@@ -5302,5 +5302,5 @@ Wire Wire Line
 	20800 8600 20800 8500
 Connection ~ 20800 8500
 Text Label 21250 8500 2    60   ~ 0
-VIN_ISO
+3.3V_ISO
 $EndSCHEMATC
