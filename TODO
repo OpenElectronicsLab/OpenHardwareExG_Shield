@@ -1,6 +1,5 @@
-C43 for prototype has footprint SM0805 -- we should make that SM0603 like all
-of the other 100nF capacitors.
 
+* review VCAP capacitor values
 
 #DONE (rev 0.1): FIX two errors on board:
 #
