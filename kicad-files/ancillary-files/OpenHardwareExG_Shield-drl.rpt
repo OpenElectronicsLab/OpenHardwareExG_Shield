@@ -1,11 +1,11 @@
 Drill report for /home/eric/src/OpenHardwareExG_Shield/kicad-files/OpenHardwareExG_Shield.kicad_pcb
-Created on Sat 18 Apr 2015 02:04:42 PM CEST
+Created on Sun Aug 30 14:21:17 2015
 Drill report for plated through holes :
-T1  0.64mm  0.025"  (140 holes)
+T1  0.64mm  0.025"  (144 holes)
 T2  1.00mm  0.039"  (38 holes)
 T3  1.02mm  0.040"  (25 holes)
 
-Total plated holes count 203
+Total plated holes count 207
 
 
 Drill report for buried and blind vias :
