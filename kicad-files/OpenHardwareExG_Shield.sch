@@ -41,7 +41,7 @@ $Descr A1 33110 23386
 encoding utf-8
 Sheet 1 1
 Title ""
-Date "14 aug 2015"
+Date "30 aug 2015"
 Rev ""
 Comp ""
 Comment1 ""
@@ -5005,7 +5005,7 @@ U 1 1 55BCF621
 P 20700 1750
 F 0 "C73" H 20750 1850 40  0000 L CNN
 F 1 "330uF" H 20750 1650 40  0000 L CNN
-F 2 "c_tant_E" H 20800 1600 30  0001 C CNN
+F 2 "c_tant_D" H 20800 1600 30  0001 C CNN
 F 3 "~" H 20700 1750 300 0000 C CNN
 	1    20700 1750
 	1    0    0    -1  
