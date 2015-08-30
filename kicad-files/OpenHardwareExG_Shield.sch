@@ -5016,4 +5016,6 @@ Connection ~ 20700 1500
 Wire Wire Line
 	20700 1950 20700 3000
 Connection ~ 20700 3000
+Text Notes 18850 10600 0    60   ~ 0
+We recommend female right angle header for P22\nto distinguish from the male header which connects\nto subject
 $EndSCHEMATC
