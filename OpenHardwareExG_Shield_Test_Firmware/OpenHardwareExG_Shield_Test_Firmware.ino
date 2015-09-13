@@ -193,8 +193,8 @@ void loop() {
 
     char buf[1024];
 
-    sprintf(buf, "%s. Vin: %d, 3v3: %d, Gnd: %d, BiasOut: %d",
-        oddLoop ? "red" : "green", a_vin, a_3v3, a_gnd, a_bia);
+    sprintf(buf, "[%s] Vin: %5d, 3v3: %5d, Gnd: %5d, BiasOut: %5d",
+        oddLoop ? " red " : "green", a_vin, a_3v3, a_gnd, a_bia);
 
     Serial.println(buf);
 
