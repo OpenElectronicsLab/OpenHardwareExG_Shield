@@ -52,7 +52,7 @@ enum Pogos {
     P7_IN2N,
     P8_IN1N,
     P9_BIASOUT_FILT, // A5
-    P10, // not present
+    P10, // not present (removed during design phase)
     P11_IN8P,
     P12_IN7P,
     P13_IN6P,
@@ -61,10 +61,10 @@ enum Pogos {
     P16_IN3P,
     P17_IN2P,
     P18_IN1P,
-    P19, // not present
-    P20, // not present
-    P21, // not present
-    P22, // not present
+    P19, // not present (removed during design phase)
+    P20, // not present (removed during design phase)
+    P21, // not present (removed during design phase)
+    P22, // not present (removed during design phase)
     P23_MOSI_ISO, // U2 input E
     P24_SCLK_ISO, // U2 input F
     P25_INV_CS_ISO, // U2 input G
@@ -117,11 +117,11 @@ void setShiftOut(const struct ShiftOutputs& output) {
     shiftOut(output.enableShield);
     shiftOut(output.faultLED);
     shiftOut(output.successLED);
-    shiftOut(output.signalA);
     shiftOut(output.signalB);
+    shiftOut(output.signalA);
     shiftOut(output.slaveCS);
     shiftOut(output.masterCS);
-    shiftOut(output.simulateBoardBelow);
+    shiftOut(!output.simulateBoardBelow); // IPIN ~SEND_TO_GND~_MASTER
 
     digitalWrite(PIN_SHIFT_OUT_RCLK, HIGH);
     delay(shiftOutClockDelay);
