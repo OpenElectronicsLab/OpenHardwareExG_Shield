@@ -2,6 +2,8 @@
   OpenHardwareExG_Shield_Test_Firmware
  */
 
+#include <stdio.h>
+
 struct ShiftOutputs {
     unsigned simulateBoardBelow : 1;
     unsigned masterCS : 1;
@@ -183,6 +185,18 @@ void loop() {
     output.enableShield = !oddLoop;
     setShiftOut(output);
     digitalWrite(13, oddLoop ? HIGH : LOW );
-    Serial.println(oddLoop ? "red" : "green");
+
+    int a_vin = analogRead(PIN_DIV_VIN_ISO);
+    int a_3v3 = analogRead(PIN_DIV_3V3_ISO);
+    int a_gnd = analogRead(PIN_DIV_GND_ISO);
+    int a_bia = analogRead(PIN_BIASOUT_FILT);
+
+    char buf[1024];
+
+    sprintf(buf, "%s. Vin: %d, 3v3: %d, Gnd: %d, BiasOut: %d",
+        oddLoop ? "red" : "green", a_vin, a_3v3, a_gnd, a_bia);
+
+    Serial.println(buf);
+
     delay(1000);              // wait for a second
 }
