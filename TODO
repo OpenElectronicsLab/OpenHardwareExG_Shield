@@ -1,4 +1,10 @@
+=Test Harness=
+ * firmware should read the digital inputs,
+   we'll need to drive various states with wires and read with SHIFT_IN
+ * we'll read the ladder with a multi-meter
+ * then we can solder together the stack with the pogopins
 
+=Sheild=
 * review VCAP capacitor values
 
 #DONE (rev 0.1): FIX two errors on board:
