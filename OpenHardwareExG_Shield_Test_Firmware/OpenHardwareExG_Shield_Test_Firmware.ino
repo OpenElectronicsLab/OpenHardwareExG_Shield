@@ -185,6 +185,7 @@ void loop() {
     output.enableShield = !oddLoop;
     setShiftOut(output);
     digitalWrite(13, oddLoop ? HIGH : LOW );
+    digitalWrite(PIN_RESIST_GND_ISO, oddLoop ? HIGH : LOW );
 
     int a_vin = analogRead(PIN_DIV_VIN_ISO);
     int a_3v3 = analogRead(PIN_DIV_3V3_ISO);
