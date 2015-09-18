@@ -36,13 +36,6 @@ struct ShiftInputs {
     unsigned DOUT : 1;
     unsigned iDRDY : 1;
 
-    unsigned GPIO1 : 1;
-    unsigned GPIO2 : 1;
-    unsigned GPIO3 : 1;
-    unsigned GPIO4 : 1;
-    unsigned DAISYIN : 1;
-    unsigned BIASINV : 1;
-
     unsigned MOSIiso : 1;
     unsigned SCLKiso : 1;
     unsigned iCSiso : 1;
@@ -50,6 +43,16 @@ struct ShiftInputs {
     unsigned clk_iso : 1;
     unsigned i_drdy_iso : 1;
     unsigned dout_iso : 1;
+    unsigned unused1 : 1;
+
+    unsigned GPIO1 : 1;
+    unsigned GPIO2 : 1;
+    unsigned GPIO3 : 1;
+    unsigned GPIO4 : 1;
+    unsigned DAISYIN : 1;
+    unsigned BIASINV : 1;
+    unsigned unused2 : 1;
+    unsigned unused3 : 1;
 };
 
 enum Pins {
@@ -167,7 +170,6 @@ unsigned shiftIn() {
 struct ShiftInputs readShiftIn()
 {
     struct ShiftInputs input;
-    unsigned unused;
 
     digitalWrite(IPIN_SHIFT_SH_LD, LOW);
     delay(shiftClockDelay);
@@ -186,7 +188,7 @@ struct ShiftInputs readShiftIn()
     input.iCSiso = shiftIn();
     input.SCLKiso = shiftIn();
     input.MOSIiso = shiftIn();
-    unused = shiftIn();
+    input.unused1 = shiftIn();
     input.clk_iso = shiftIn();
     input.i_drdy_iso = shiftIn();
     input.dout_iso = shiftIn();
@@ -195,10 +197,10 @@ struct ShiftInputs readShiftIn()
     input.GPIO3 = shiftIn();
     input.GPIO2 = shiftIn();
     input.GPIO1 = shiftIn();
-    unused = shiftIn();
+    input.unused2 = shiftIn();
     input.DAISYIN = shiftIn();
     input.BIASINV = shiftIn();
-    unused = shiftIn();
+    input.unused3 = shiftIn();
 
     return input;
 }
@@ -313,12 +315,18 @@ void loop() {
     Serial.print(input.master);
     Serial.println("");
 
-    Serial.print(", P44: ");
+    Serial.print("P44: ");
     Serial.print(input.DOUT);
     Serial.print(", P45: ");
     Serial.print(input.iDRDY);
-    Serial.print(", Go: ");
+    Serial.print(",  Go: ");
     Serial.print(input.goButton);
+    Serial.print(",  U1: ");
+    Serial.print(input.unused1);
+    Serial.print(",  U2: ");
+    Serial.print(input.unused2);
+    Serial.print(",  U3: ");
+    Serial.print(input.unused3);
     Serial.println(".");
 
     delay(1000);              // wait for a second
