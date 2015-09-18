@@ -26,6 +26,32 @@ struct ShiftOutputs {
     }
 };
 
+struct ShiftInputs {
+    unsigned slaveAndSlaveCS : 1;
+    unsigned masterAndMasterCS : 1;
+    unsigned iMaster : 1;
+    unsigned master : 1;
+    unsigned goButton : 1;
+    unsigned iCS : 1;
+    unsigned DOUT : 1;
+    unsigned iDRDY : 1;
+
+    unsigned GPIO1 : 1;
+    unsigned GPIO2 : 1;
+    unsigned GPIO3 : 1;
+    unsigned GPIO4 : 1;
+    unsigned DAISYIN : 1;
+    unsigned BIASINV : 1;
+
+    unsigned MOSIiso : 1;
+    unsigned SCLKiso : 1;
+    unsigned iCSiso : 1;
+    unsigned master_iso : 1;
+    unsigned clk_iso : 1;
+    unsigned i_drdy_iso : 1;
+    unsigned dout_iso : 1;
+};
+
 enum Pins {
     PIN_SHIFT_IN = A0,
     PIN_DIV_VIN_ISO = A1,
@@ -103,19 +129,19 @@ enum Pogos {
 };
 
 enum Delays {
-    shiftOutClockDelay = 1
+    shiftClockDelay = 1
 };
 
 void shiftOut(bool value) {
     digitalWrite(PIN_SHIFT_OUT_SRCLK, LOW); // should be a NOP
     digitalWrite(PIN_SHIFT_OUT, value ? HIGH : LOW);
-    delay(shiftOutClockDelay);
+    delay(shiftClockDelay);
     digitalWrite(PIN_SHIFT_OUT_SRCLK, HIGH);
-    delay(shiftOutClockDelay);
+    delay(shiftClockDelay);
     digitalWrite(PIN_SHIFT_OUT_SRCLK, LOW);
 }
 
-void setShiftOut(const struct ShiftOutputs& output) {
+void writeShiftOut(const struct ShiftOutputs& output) {
     shiftOut(output.enableShield);
     shiftOut(output.faultLED);
     shiftOut(output.successLED);
@@ -126,27 +152,75 @@ void setShiftOut(const struct ShiftOutputs& output) {
     shiftOut(!output.simulateBoardBelow); // IPIN ~SEND_TO_GND~_MASTER
 
     digitalWrite(PIN_SHIFT_OUT_RCLK, HIGH);
-    delay(shiftOutClockDelay);
+    delay(shiftClockDelay);
     digitalWrite(PIN_SHIFT_OUT_RCLK, LOW);
 }
+
+unsigned shiftIn() {
+    digitalWrite(PIN_SHIFT_CLK, LOW);
+    delay(shiftClockDelay);
+    digitalWrite(PIN_SHIFT_CLK, HIGH);
+    delay(shiftClockDelay);
+    return digitalRead(PIN_SHIFT_IN);
+}
+
+struct ShiftInputs readShiftIn()
+{
+    struct ShiftInputs input;
+    unsigned unused;
+
+    digitalWrite(IPIN_SHIFT_SH_LD, LOW);
+    delay(shiftClockDelay);
+    digitalWrite(IPIN_SHIFT_SH_LD, HIGH);
+
+    input.goButton = shiftIn();
+    input.iMaster = shiftIn();
+    input.masterAndMasterCS = shiftIn();
+    input.slaveAndSlaveCS = shiftIn();
+    input.iCS = shiftIn();
+    input.master = shiftIn();
+    input.DOUT = shiftIn();
+    input.iDRDY = shiftIn();
+
+    input.master_iso = shiftIn();
+    input.iCSiso = shiftIn();
+    input.SCLKiso = shiftIn();
+    input.MOSIiso = shiftIn();
+    unused = shiftIn();
+    input.clk_iso = shiftIn();
+    input.i_drdy_iso = shiftIn();
+    input.dout_iso = shiftIn();
+
+    input.GPIO4 = shiftIn();
+    input.GPIO3 = shiftIn();
+    input.GPIO2 = shiftIn();
+    input.GPIO1 = shiftIn();
+    unused = shiftIn();
+    input.DAISYIN = shiftIn();
+    input.BIASINV = shiftIn();
+    unused = shiftIn();
+
+    return input;
+}
+
 
 // the setup function runs once when you press reset or power the board
 void setup() {
     // initialize digital pin 13 as an output.
     pinMode(13, OUTPUT);
 
-    pinMode(PIN_SHIFT_IN, INPUT); // un-needed? analog input is default?
-    digitalWrite(PIN_SHIFT_IN, HIGH); // enable pull-up resistor
+    pinMode(PIN_SHIFT_IN, INPUT);
+    pinMode(PIN_SHIFT_CLK, OUTPUT);
+    pinMode(IPIN_SHIFT_SH_LD, OUTPUT);
 
     pinMode(PIN_DIV_VIN_ISO, INPUT); // un-needed?
     pinMode(PIN_DIV_3V3_ISO, INPUT); // un-needed?
     pinMode(PIN_DIV_GND_ISO, INPUT); // un-needed?
     pinMode(PIN_RESIST_GND_ISO, OUTPUT);
+    pinMode(IPIN_SHIELD_SHORTED, INPUT);
 
     pinMode(PIN_BIASOUT_FILT, INPUT);
-
     pinMode(IPIN_MASTER_DRDY, INPUT);
-    digitalWrite(PIN_SHIFT_IN, HIGH); // enable pull-up resistor
 
     // set up the pins for the output shift registers
     pinMode(PIN_SHIFT_OUT_RCLK, OUTPUT);
@@ -154,15 +228,10 @@ void setup() {
     pinMode(PIN_SHIFT_OUT, OUTPUT);
     pinMode(IPIN_SHIFT_OUT_SRCLR, OUTPUT);
 
-    pinMode(IPIN_SHIELD_SHORTED, INPUT);
-
-    pinMode(PIN_SHIFT_CLK, OUTPUT);
-    pinMode(IPIN_SHIFT_SH_LD, OUTPUT);
-
     digitalWrite(IPIN_SHIFT_OUT_SRCLR, HIGH);
 
     ShiftOutputs output;
-    setShiftOut(output);
+    writeShiftOut(output);
 
     // initialize the USB Serial connection
     Serial.begin(115200);
@@ -183,7 +252,7 @@ void loop() {
     output.successLED = !oddLoop;
     output.faultLED = oddLoop;
     output.enableShield = !oddLoop;
-    setShiftOut(output);
+    writeShiftOut(output);
     digitalWrite(13, oddLoop ? HIGH : LOW );
     digitalWrite(PIN_RESIST_GND_ISO, oddLoop ? HIGH : LOW );
 
