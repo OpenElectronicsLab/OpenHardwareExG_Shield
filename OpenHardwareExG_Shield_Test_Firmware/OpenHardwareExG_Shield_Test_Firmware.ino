@@ -241,6 +241,7 @@ bool oddLoop = false;
 // the loop function runs over and over again forever
 void loop() {
     ShiftOutputs output;
+    ShiftInputs input;
 
     oddLoop = !oddLoop;
 
@@ -267,6 +268,58 @@ void loop() {
         oddLoop ? " red " : "green", a_vin, a_3v3, a_gnd, a_bia);
 
     Serial.println(buf);
+
+    input = readShiftIn();
+
+    Serial.print("P23: ");
+    Serial.print(input.MOSIiso);
+    Serial.print(", P24: ");
+    Serial.print(input.SCLKiso);
+    Serial.print(", P25: ");
+    Serial.print(input.iCSiso);
+    Serial.print(", P26: ");
+    Serial.print(input.master_iso);
+    Serial.print(", P27: ");
+    Serial.print(input.dout_iso);
+    Serial.print(", P28: ");
+    Serial.print(input.i_drdy_iso);
+    Serial.println("");
+
+    Serial.print("P32: ");
+    Serial.print(input.GPIO1);
+    Serial.print(", P33: ");
+    Serial.print(input.GPIO2);
+    Serial.print(", P34: ");
+    Serial.print(input.GPIO3);
+    Serial.print(", P35: ");
+    Serial.print(input.GPIO4);
+    Serial.print(", P36: ");
+    Serial.print(input.DAISYIN);
+    Serial.print(", P37: ");
+    Serial.print(input.BIASINV);
+    Serial.println("");
+
+    Serial.print("P38: ");
+    Serial.print(input.clk_iso);
+    Serial.print(", P39: ");
+    Serial.print(input.slaveAndSlaveCS);
+    Serial.print(", P40: ");
+    Serial.print(input.masterAndMasterCS);
+    Serial.print(", P41: ");
+    Serial.print(input.iMaster);
+    Serial.print(", P42: ");
+    Serial.print(input.iCS);
+    Serial.print(", P43: ");
+    Serial.print(input.master);
+    Serial.println("");
+
+    Serial.print(", P44: ");
+    Serial.print(input.DOUT);
+    Serial.print(", P45: ");
+    Serial.print(input.iDRDY);
+    Serial.print(", Go: ");
+    Serial.print(input.goButton);
+    Serial.println(".");
 
     delay(1000);              // wait for a second
 }
