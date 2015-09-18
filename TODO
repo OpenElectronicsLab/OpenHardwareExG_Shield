@@ -1,5 +1,16 @@
 =Test Harness=
- * firmware should read the digital inputs,
+ * firmware reads the digital inputs, but strange data
+   let's start by checking if the reported 1s are make sense
+
+   then maybe a digital analyzer
+
+   we may have a shift-in order issue, since we see the inputs
+   cross-mapped:
+28 -> 38
+44 -> 43
+42 -> 39
+43 -> 40 + 42
+
    we'll need to drive various states with wires and read with SHIFT_IN
  * we'll read the ladder with a multi-meter
  * then we can solder together the stack with the pogopins
