@@ -1,22 +1,15 @@
 =Test Harness=
- * firmware reads the digital inputs, but strange data
-   let's start by checking if the reported 1s are make sense
-
-   then maybe a digital analyzer
-
-   we may have a shift-in order issue, since we see the inputs
-   cross-mapped:
-28 -> 38
-44 -> 43
-42 -> 39
-43 -> 40 + 42
-
-   we'll need to drive various states with wires and read with SHIFT_IN
  * we'll read the ladder with a multi-meter
- * then we can solder together the stack with the pogopins
+ * new capacitor sits under tab of test harness
+ * left angle bracket intersects the screws on the test harness
+ * board fits too tight in test harness
+    (adding a second top "C" bracket seems to address this)
+    (may need a bit more space around the edges)
+ * look at the location of screws wrt arduino for the test harness
 
 =Sheild=
-* review VCAP capacitor values
+ * exclude test points in solder mask (solder lumps push pins to side)
+ * review VCAP capacitor values
 
 #DONE (rev 0.1): FIX two errors on board:
 #
