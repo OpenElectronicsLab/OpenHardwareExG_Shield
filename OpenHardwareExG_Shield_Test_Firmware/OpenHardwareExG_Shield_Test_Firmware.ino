@@ -160,11 +160,12 @@ void writeShiftOut(const struct ShiftOutputs& output) {
 }
 
 unsigned shiftIn() {
-    digitalWrite(PIN_SHIFT_CLK, LOW);
-    delay(shiftClockDelay);
+    unsigned d = digitalRead(PIN_SHIFT_IN);
     digitalWrite(PIN_SHIFT_CLK, HIGH);
     delay(shiftClockDelay);
-    return digitalRead(PIN_SHIFT_IN);
+    digitalWrite(PIN_SHIFT_CLK, LOW);
+    delay(shiftClockDelay);
+    return d;
 }
 
 struct ShiftInputs readShiftIn()
@@ -174,6 +175,7 @@ struct ShiftInputs readShiftIn()
     digitalWrite(IPIN_SHIFT_SH_LD, LOW);
     delay(shiftClockDelay);
     digitalWrite(IPIN_SHIFT_SH_LD, HIGH);
+    delay(shiftClockDelay);
 
     input.goButton = shiftIn();
     input.iMaster = shiftIn();
@@ -232,8 +234,13 @@ void setup() {
 
     digitalWrite(IPIN_SHIFT_OUT_SRCLR, HIGH);
 
+    // zero the shift-out
     ShiftOutputs output;
     writeShiftOut(output);
+
+    // init shift-in pins
+    digitalWrite(IPIN_SHIFT_SH_LD, HIGH);
+    digitalWrite(PIN_SHIFT_CLK, LOW);
 
     // initialize the USB Serial connection
     Serial.begin(115200);
