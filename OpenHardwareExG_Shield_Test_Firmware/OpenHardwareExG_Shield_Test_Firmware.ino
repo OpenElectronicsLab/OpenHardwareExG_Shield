@@ -246,11 +246,20 @@ void setup() {
     Serial.begin(115200);
 }
 
-bool oddLoop = false;
-// the loop function runs over and over again forever
 void loop() {
+    if (false) {
+        harness_hardware_validation();
+    }
+}
+
+// for testing the test boards themselves, this function
+// can be used to verify behavior and pin states using a
+// multi-meter and jumpers
+// (without a shield connected)
+static void harness_hardware_validation() {
     ShiftOutputs output;
     ShiftInputs input;
+    static bool oddLoop = false;
 
     oddLoop = !oddLoop;
 
