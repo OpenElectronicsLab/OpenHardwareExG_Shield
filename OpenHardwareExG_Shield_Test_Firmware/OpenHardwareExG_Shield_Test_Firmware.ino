@@ -234,7 +234,7 @@ void setup() {
 
     digitalWrite(IPIN_SHIFT_OUT_SRCLR, HIGH);
 
-    // zero the shift-out
+    // zero the shift-out (including enable_shield=0)
     ShiftOutputs output;
     writeShiftOut(output);
 
@@ -249,6 +249,18 @@ void setup() {
 void loop() {
     if (false) {
         harness_hardware_validation();
+    }
+
+    ShiftInputs input = readShiftIn();
+    if (input.goButton) {
+        ShiftOutputs output;
+        output.successLED = 1;
+        writeShiftOut(output);
+
+	// in real life we'd loop until detected board removed
+	delay(3000);
+        output.successLED = 0;
+        writeShiftOut(output);
     }
 }
 
