@@ -233,14 +233,15 @@ void setup() {
     pinMode(IPIN_SHIFT_OUT_SRCLR, OUTPUT);
 
     digitalWrite(IPIN_SHIFT_OUT_SRCLR, HIGH);
-
-    // zero the shift-out (including enable_shield=0)
-    ShiftOutputs output;
-    writeShiftOut(output);
+    digitalWrite(PIN_SHIFT_OUT_RCLK, LOW);
 
     // init shift-in pins
     digitalWrite(IPIN_SHIFT_SH_LD, HIGH);
     digitalWrite(PIN_SHIFT_CLK, LOW);
+
+    // zero the shift-out (including enable_shield=0)
+    ShiftOutputs output;
+    writeShiftOut(output);
 
     // initialize the USB Serial connection
     Serial.begin(115200);
