@@ -250,19 +250,24 @@ void setup() {
 void loop() {
     if (false) {
         harness_hardware_validation();
+    } else {
+	ShiftInputs input = readShiftIn();
+	if (input.goButton) {
+	    run_tests();
+	}
     }
+}
 
-    ShiftInputs input = readShiftIn();
-    if (input.goButton) {
-        ShiftOutputs output;
-        output.successLED = 1;
-        writeShiftOut(output);
+void run_tests()
+{
+    ShiftOutputs output;
+    output.successLED = 1;
+    writeShiftOut(output);
 
-	// in real life we'd loop until detected board removed
-	delay(3000);
-        output.successLED = 0;
-        writeShiftOut(output);
-    }
+    // in real life we'd loop until detected board removed
+    delay(3000);
+    output.successLED = 0;
+    writeShiftOut(output);
 }
 
 // for testing the test boards themselves, this function
@@ -358,5 +363,5 @@ static void harness_hardware_validation() {
     Serial.print(input.unused3);
     Serial.println(".");
 
-    delay(1000);              // wait for a second
+    delay(10000);              // wait for 10 seconds
 }
