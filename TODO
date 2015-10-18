@@ -1,11 +1,12 @@
 =Test Harness=
- * we'll read the ladder with a multi-meter
- * new capacitor sits under tab of test harness
- * left angle bracket intersects the screws on the test harness
- * board fits too tight in test harness
-    (adding a second top "C" bracket seems to address this)
-    (may need a bit more space around the edges)
- * look at the location of screws wrt arduino for the test harness
+ * Shortcomings we will ignore
+   * serial output registers start uninitialized and thus in an undefined state
+     - we see (momentarily) a flash where both the success and fault lights are
+       lit -- perhaps the board under test may have a brief flicker of power
+       before it is supposed to
+   * new capacitor sits under tab of test harness
+   * left angle bracket intersects the screws on the test harness
+   * look at the location of screws wrt arduino for the test harness
 
 =Sheild=
  * exclude test points in solder mask (solder lumps push pins to side)
@@ -25,5 +26,10 @@
 #    - Fixed on pcb, commit 72ef22c5d505a4bb687d45671e774ddb12a3666a
 #    - We were able to desolder these two pins on the ADS chip and bend them up,
 #      then we soldered a jumper wire to the power at U4
+#
+# * we'll read the ladder with a multi-meter
+# * board fits too tight in test harness
+#    (adding a second top "C" bracket seems to address this)
+#    (adding a set of washers below the C brackets also works)
 
 drink champagne
