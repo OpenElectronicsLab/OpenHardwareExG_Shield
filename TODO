@@ -9,10 +9,10 @@
    * look at the location of screws wrt arduino for the test harness
 
 =Sheild=
- * exclude test points in solder mask (solder lumps push pins to side)
- * review VCAP capacitor values
 
 #DONE (rev 0.1): FIX two errors on board:
+# * exclude test points in solder mask (solder lumps push pins to side)
+# * review VCAP capacitor values
 #
 # * crowbar circuit needs fixing
 #   - Desoldering U2 temporarily addresses the crowbar.
