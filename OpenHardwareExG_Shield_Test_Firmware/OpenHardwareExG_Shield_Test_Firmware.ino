@@ -2,6 +2,9 @@
   OpenHardwareExG_Shield_Test_Firmware
  */
 
+// some Arduino's use 5.0 ...
+#define ANALOG_REFERENCE_VOLTAGE 3.3
+
 #include <stdio.h>
 
 struct ShiftOutputs {
@@ -274,16 +277,34 @@ bool check_for_short()
     return false;
 }
 
+bool check_3v3_bogus_iso()
+{
+    int val0 = analogRead(PIN_DIV_GND_ISO); // 0 - 1023
+
+    char buf[1024];
+    sprintf(buf, "PIN_DIV_GND_ISO: %d\n", val0);
+    Serial.println(buf);
+
+    int val1 = analogRead(PIN_DIV_3V3_ISO); // 0 - 1023
+    sprintf(buf, "PIN_DIV_3V3_ISO: %d\n", val1);
+    Serial.println(buf);
+
+    /* ANALOG_REFERENCE_VOLTAGE */
+    return 0;
+}
+
 struct error_code {
     unsigned blink_code;
     const char *error_txt;
 };
 
-struct error_code ERROR_BLINK_SHORT = { 0x00000, "Short detected" };
+struct error_code ERROR_BLINK_SHORT   = { 0x00000, "Short detected" };
+struct error_code ERROR_BLINK_3V3_ISO = { 0x00001, "problem with 3v3 iso" };
 
-void blink_error(struct error_code)
+void blink_error(struct error_code err)
 {
-   // TODO: write text to serial console;
+   Serial.println(err.error_txt);
+
    ShiftOutputs errorOutput;
    errorOutput.faultLED = 1;
    writeShiftOut(errorOutput);
@@ -311,13 +332,20 @@ void run_tests()
 	return; // bail early
     }
 
+    if(check_3v3_bogus_iso()) {
+	blink_error(ERROR_BLINK_3V3_ISO);
+	return; // bail early
+    }
+
     output.successLED = 1;
+    writeShiftOut(output);
+
+    delay(10 * 3000); // for debug
+
     output.enableShield=0;
     writeShiftOut(output);
 
     // in real life we'd loop until detected board removed
-
-    // turn off power;
     delay(3000);
     output.successLED = 0;
     output.faultLED = 0;
