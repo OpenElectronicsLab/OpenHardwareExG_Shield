@@ -138,9 +138,9 @@ enum Delays {
 void shiftOut(bool value) {
     digitalWrite(PIN_SHIFT_OUT_SRCLK, LOW); // should be a NOP
     digitalWrite(PIN_SHIFT_OUT, value ? HIGH : LOW);
-    delay(shiftClockDelay);
+    delayMicroseconds(shiftClockDelay);
     digitalWrite(PIN_SHIFT_OUT_SRCLK, HIGH);
-    delay(shiftClockDelay);
+    delayMicroseconds(shiftClockDelay);
     digitalWrite(PIN_SHIFT_OUT_SRCLK, LOW);
 }
 
@@ -155,16 +155,16 @@ void writeShiftOut(const struct ShiftOutputs& output) {
     shiftOut(!output.simulateBoardBelow); // IPIN ~SEND_TO_GND~_MASTER
 
     digitalWrite(PIN_SHIFT_OUT_RCLK, HIGH);
-    delay(shiftClockDelay);
+    delayMicroseconds(shiftClockDelay);
     digitalWrite(PIN_SHIFT_OUT_RCLK, LOW);
 }
 
 unsigned shiftIn() {
     unsigned d = digitalRead(PIN_SHIFT_IN);
     digitalWrite(PIN_SHIFT_CLK, HIGH);
-    delay(shiftClockDelay);
+    delayMicroseconds(shiftClockDelay);
     digitalWrite(PIN_SHIFT_CLK, LOW);
-    delay(shiftClockDelay);
+    delayMicroseconds(shiftClockDelay);
     return d;
 }
 
@@ -173,9 +173,9 @@ struct ShiftInputs readShiftIn()
     struct ShiftInputs input;
 
     digitalWrite(IPIN_SHIFT_SH_LD, LOW);
-    delay(shiftClockDelay);
+    delayMicroseconds(shiftClockDelay);
     digitalWrite(IPIN_SHIFT_SH_LD, HIGH);
-    delay(shiftClockDelay);
+    delayMicroseconds(shiftClockDelay);
 
     input.goButton = shiftIn();
     input.iMaster = shiftIn();
@@ -258,15 +258,69 @@ void loop() {
     }
 }
 
+bool check_for_short()
+{
+    unsigned long timeout_milliseconds = 200;
+    unsigned long start = millis();
+
+    while ((millis()-start) < timeout_milliseconds) {
+        unsigned d = digitalRead(IPIN_SHIELD_SHORTED);
+        if (!d) {
+	    ShiftOutputs errorOutput;
+            writeShiftOut(errorOutput); // disables power to the board
+            return true;
+        }
+    }
+    return false;
+}
+
+struct error_code {
+    unsigned blink_code;
+    const char *error_txt;
+};
+
+struct error_code ERROR_BLINK_SHORT = { 0x00000, "Short detected" };
+
+void blink_error(struct error_code)
+{
+   // TODO: write text to serial console;
+   ShiftOutputs errorOutput;
+   errorOutput.faultLED = 1;
+   writeShiftOut(errorOutput);
+
+   for (int i = 0; i < 10 /* or board removed */; ++i) {
+        // TODO: actually blink this
+	errorOutput.faultLED = 1;
+        writeShiftOut(errorOutput);
+    }
+
+    delay(3000);
+    errorOutput.faultLED = 0;
+    writeShiftOut(errorOutput);
+}
+
 void run_tests()
 {
     ShiftOutputs output;
+
+    output.enableShield=1; // powers test board
+    writeShiftOut(output);
+
+    if(check_for_short()) {
+	blink_error(ERROR_BLINK_SHORT);
+	return; // bail early
+    }
+
     output.successLED = 1;
+    output.enableShield=0;
     writeShiftOut(output);
 
     // in real life we'd loop until detected board removed
+
+    // turn off power;
     delay(3000);
     output.successLED = 0;
+    output.faultLED = 0;
     writeShiftOut(output);
 }
 
