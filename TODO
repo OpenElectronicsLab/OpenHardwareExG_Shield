@@ -1,3 +1,9 @@
+=kicad=
+ * fudicial marks have paste layer
+ * investigate forking/pull-requesting
+    https://github.com/KiCad/kicad-library
+    for our custom modules
+
 =Test Harness=
  * Shortcomings we will ignore
    * serial output registers start uninitialized and thus in an undefined state

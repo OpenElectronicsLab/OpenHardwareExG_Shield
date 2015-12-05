@@ -1,4 +1,5 @@
 EESchema Schematic File Version 2
+LIBS:OpenHardwareExG_Shield-rescue
 LIBS:power
 LIBS:device
 LIBS:transistors
@@ -10,7 +11,6 @@ LIBS:cmos4000
 LIBS:adc-dac
 LIBS:memory
 LIBS:xilinx
-LIBS:special
 LIBS:microcontrollers
 LIBS:dsp
 LIBS:microchip
@@ -35,7 +35,7 @@ LIBS:additional-logic
 LIBS:isolators
 LIBS:additional-connecters
 LIBS:OpenHardwareExG_Shield-cache
-EELAYER 27 0
+EELAYER 25 0
 EELAYER END
 $Descr A1 33110 23386
 encoding utf-8
@@ -72,7 +72,7 @@ F 3 "" H 6250 2150 60  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L C C34
+L C-RESCUE-OpenHardwareExG_Shield C34
 U 1 1 51DB4AD0
 P 6700 2100
 F 0 "C34" H 6750 2200 50  0000 L CNN
@@ -83,7 +83,7 @@ F 3 "" H 6700 2100 60  0001 C CNN
 	0    -1   -1   0   
 $EndComp
 $Comp
-L C C17
+L C-RESCUE-OpenHardwareExG_Shield C17
 U 1 1 51DB4ACF
 P 5850 2100
 F 0 "C17" H 5900 2200 50  0000 L CNN
@@ -94,7 +94,7 @@ F 3 "" H 5850 2100 60  0001 C CNN
 	0    -1   -1   0   
 $EndComp
 $Comp
-L R R34
+L R-RESCUE-OpenHardwareExG_Shield R34
 U 1 1 51DB4ACE
 P 6150 1900
 F 0 "R34" V 6230 1900 50  0000 C CNN
@@ -105,7 +105,7 @@ F 3 "" H 6150 1900 60  0001 C CNN
 	0    -1   -1   0   
 $EndComp
 $Comp
-L R R17
+L R-RESCUE-OpenHardwareExG_Shield R17
 U 1 1 51DB4ACD
 P 5200 1900
 F 0 "R17" V 5280 1900 50  0000 C CNN
@@ -141,7 +141,7 @@ F 3 "" H 15600 6800 60  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L R R41
+L R-RESCUE-OpenHardwareExG_Shield R41
 U 1 1 51BBCCA4
 P 16100 6450
 F 0 "R41" V 16180 6450 50  0000 C CNN
@@ -152,7 +152,7 @@ F 3 "" H 16100 6450 60  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L R R42
+L R-RESCUE-OpenHardwareExG_Shield R42
 U 1 1 51BBCCA3
 P 16100 7150
 F 0 "R42" V 16180 7150 50  0000 C CNN
@@ -163,7 +163,7 @@ F 3 "" H 16100 7150 60  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L R R39
+L R-RESCUE-OpenHardwareExG_Shield R39
 U 1 1 51BBCCA2
 P 15600 5850
 F 0 "R39" V 15680 5850 50  0000 C CNN
@@ -174,7 +174,7 @@ F 3 "" H 15600 5850 60  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L C C43
+L C-RESCUE-OpenHardwareExG_Shield C43
 U 1 1 51BBCCA1
 P 15200 6800
 F 0 "C43" H 15250 6900 50  0000 L CNN
@@ -228,7 +228,7 @@ MISO
 Text Label 6300 20250 2    60   ~ 0
 MOSI
 $Comp
-L GND #PWR05
+L GND-RESCUE-OpenHardwareExG_Shield #PWR05
 U 1 1 51B33A70
 P 5800 20450
 F 0 "#PWR05" H 5800 20450 30  0001 C CNN
@@ -239,7 +239,7 @@ F 3 "" H 5800 20450 60  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L GND #PWR06
+L GND-RESCUE-OpenHardwareExG_Shield #PWR06
 U 1 1 51B339FC
 P 7300 18150
 F 0 "#PWR06" H 7300 18150 30  0001 C CNN
@@ -250,7 +250,7 @@ F 3 "" H 7300 18150 60  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L GND #PWR07
+L GND-RESCUE-OpenHardwareExG_Shield #PWR07
 U 1 1 51B33726
 P 2300 19000
 F 0 "#PWR07" H 2300 19000 30  0001 C CNN
@@ -261,7 +261,7 @@ F 3 "" H 2300 19000 60  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L +3.3V #PWR08
+L +3.3V-RESCUE-OpenHardwareExG_Shield #PWR08
 U 1 1 51B33644
 P 2450 17600
 F 0 "#PWR08" H 2450 17560 30  0001 C CNN
@@ -302,7 +302,7 @@ Reinforced isolation
 Text Label 27000 6550 2    60   ~ 0
 ADS129x_DOUT
 $Comp
-L GND #PWR010
+L GND-RESCUE-OpenHardwareExG_Shield #PWR010
 U 1 1 51AD3E81
 P 9850 22150
 F 0 "#PWR010" H 9850 22150 30  0001 C CNN
@@ -324,7 +324,7 @@ F 3 "" H 20050 3500 60  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L C C54
+L C-RESCUE-OpenHardwareExG_Shield C54
 U 1 1 51AD280E
 P 19100 3850
 F 0 "C54" H 19150 3950 50  0000 L CNN
@@ -352,7 +352,7 @@ PIN\n50
 Text Notes 19650 3350 2    60   ~ 0
 DVDD decoupling capacitors for ADS1299
 $Comp
-L C C53
+L C-RESCUE-OpenHardwareExG_Shield C53
 U 1 1 51AD27B7
 P 18750 3850
 F 0 "C53" H 18800 3950 50  0000 L CNN
@@ -363,7 +363,7 @@ F 3 "" H 18750 3850 60  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L C C55
+L C-RESCUE-OpenHardwareExG_Shield C55
 U 1 1 51AD27B5
 P 19450 3850
 F 0 "C55" H 19500 3950 50  0000 L CNN
@@ -455,7 +455,7 @@ ADS129x_~CS~_ISO
 Text Label 22300 6550 0    60   ~ 0
 ADS129x_DOUT_ISO
 $Comp
-L R R46
+L R-RESCUE-OpenHardwareExG_Shield R46
 U 1 1 51ABF28E
 P 23400 5800
 F 0 "R46" V 23480 5800 50  0000 C CNN
@@ -472,7 +472,7 @@ ADS129x_START_ISO
 Text Label 14250 3850 2    60   ~ 0
 ADS129x_GPIO4_ISO
 $Comp
-L GND #PWR017
+L GND-RESCUE-OpenHardwareExG_Shield #PWR017
 U 1 1 51ABEC76
 P 25500 6950
 F 0 "#PWR017" H 25500 6950 30  0001 C CNN
@@ -516,7 +516,7 @@ F 3 "" H 22200 5450 60  0001 C CNN
 	0    1    -1   0   
 $EndComp
 $Comp
-L C C62
+L C-RESCUE-OpenHardwareExG_Shield C62
 U 1 1 51ABEC55
 P 23100 5750
 F 0 "C62" H 23150 5850 50  0000 L CNN
@@ -527,7 +527,7 @@ F 3 "" H 23100 5750 60  0001 C CNN
 	-1   0    0    -1  
 $EndComp
 $Comp
-L C C61
+L C-RESCUE-OpenHardwareExG_Shield C61
 U 1 1 51ABEC54
 P 22700 5750
 F 0 "C61" H 22750 5850 50  0000 L CNN
@@ -538,7 +538,7 @@ F 3 "" H 22700 5750 60  0001 C CNN
 	-1   0    0    -1  
 $EndComp
 $Comp
-L GND #PWR020
+L GND-RESCUE-OpenHardwareExG_Shield #PWR020
 U 1 1 51ABEC53
 P 27500 6100
 F 0 "#PWR020" H 27500 6100 30  0001 C CNN
@@ -549,7 +549,7 @@ F 3 "" H 27500 6100 60  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L GND #PWR021
+L GND-RESCUE-OpenHardwareExG_Shield #PWR021
 U 1 1 51ABEC52
 P 25500 6950
 F 0 "#PWR021" H 25500 6950 30  0001 C CNN
@@ -571,7 +571,7 @@ F 3 "" H 24200 6950 60  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L C C64
+L C-RESCUE-OpenHardwareExG_Shield C64
 U 1 1 51ABEC4B
 P 26600 5750
 F 0 "C64" H 26650 5850 50  0000 L CNN
@@ -582,7 +582,7 @@ F 3 "" H 26600 5750 60  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L C C63
+L C-RESCUE-OpenHardwareExG_Shield C63
 U 1 1 51ABEC4A
 P 26200 5750
 F 0 "C63" H 26250 5850 50  0000 L CNN
@@ -694,7 +694,7 @@ ADS129x_DOUT_ISO
 Text Label 14250 5050 2    60   ~ 0
 ADS129x_MOSI_ISO
 $Comp
-L R R35
+L R-RESCUE-OpenHardwareExG_Shield R35
 U 1 1 51976086
 P 9850 21800
 F 0 "R35" V 9930 21800 50  0000 C CNN
@@ -705,7 +705,7 @@ F 3 "" H 9850 21800 60  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L LED D1
+L LED-RESCUE-OpenHardwareExG_Shield D1
 U 1 1 51976061
 P 9850 21150
 F 0 "D1" H 9850 21250 50  0000 C CNN
@@ -718,7 +718,7 @@ $EndComp
 Text Notes 24550 5100 0    60   ~ 0
 Data Isolation
 $Comp
-L +3.3V #PWR023
+L +3.3V-RESCUE-OpenHardwareExG_Shield #PWR023
 U 1 1 51695431
 P 9850 20850
 F 0 "#PWR023" H 9850 20810 30  0001 C CNN
@@ -757,7 +757,7 @@ F 3 "" H 15600 3650 60  0001 C CNN
 	0    1    1    0   
 $EndComp
 $Comp
-L C C49
+L C-RESCUE-OpenHardwareExG_Shield C49
 U 1 1 514DD5E0
 P 16600 3900
 F 0 "C49" H 16650 4000 50  0000 L CNN
@@ -779,7 +779,7 @@ F 3 "" H 15950 4250 60  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L C C47
+L C-RESCUE-OpenHardwareExG_Shield C47
 U 1 1 514DD5DE
 P 16250 3900
 F 0 "C47" H 16300 4000 50  0000 L CNN
@@ -794,7 +794,7 @@ AVDD1 decoupling capacitors for ADS1299
 Text Notes 16600 3600 1    45   ~ 0
 PIN\n54
 $Comp
-L C C35
+L C-RESCUE-OpenHardwareExG_Shield C35
 U 1 1 514DCB38
 P 10150 2250
 F 0 "C35" H 10200 2350 50  0000 L CNN
@@ -805,7 +805,7 @@ F 3 "" H 10150 2250 60  0001 C CNN
 	0    -1   -1   0   
 $EndComp
 $Comp
-L R R36
+L R-RESCUE-OpenHardwareExG_Shield R36
 U 1 1 514DCB2E
 P 10100 1900
 F 0 "R36" V 10180 1900 50  0000 C CNN
@@ -816,7 +816,7 @@ F 3 "" H 10100 1900 60  0001 C CNN
 	0    -1   -1   0   
 $EndComp
 $Comp
-L C C39
+L C-RESCUE-OpenHardwareExG_Shield C39
 U 1 1 514DC39B
 P 11450 6550
 F 0 "C39" H 11500 6650 50  0000 L CNN
@@ -838,7 +838,7 @@ F 3 "" H 11800 2400 60  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L C C40
+L C-RESCUE-OpenHardwareExG_Shield C40
 U 1 1 514DC307
 P 11500 2000
 F 0 "C40" H 11550 2100 50  0000 L CNN
@@ -849,7 +849,7 @@ F 3 "" H 11500 2000 60  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L C C38
+L C-RESCUE-OpenHardwareExG_Shield C38
 U 1 1 514DC2FF
 P 11200 2000
 F 0 "C38" H 11250 2100 50  0000 L CNN
@@ -860,7 +860,7 @@ F 3 "" H 11200 2000 60  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L C C42
+L C-RESCUE-OpenHardwareExG_Shield C42
 U 1 1 514DC28A
 P 12100 6550
 F 0 "C42" H 12150 6650 50  0000 L CNN
@@ -871,7 +871,7 @@ F 3 "" H 12100 6550 60  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L CP C41
+L CP-RESCUE-OpenHardwareExG_Shield C41
 U 1 1 514DC237
 P 11800 6550
 F 0 "C41" H 11850 6650 50  0000 L CNN
@@ -882,7 +882,7 @@ F 3 "" H 11800 6550 60  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L C C37
+L C-RESCUE-OpenHardwareExG_Shield C37
 U 1 1 514DBE36
 P 11050 7050
 F 0 "C37" H 11100 7150 50  0000 L CNN
@@ -893,7 +893,7 @@ F 3 "" H 11050 7050 60  0001 C CNN
 	0    1    1    0   
 $EndComp
 $Comp
-L C C36
+L C-RESCUE-OpenHardwareExG_Shield C36
 U 1 1 514DBE2C
 P 11050 6550
 F 0 "C36" H 11100 6650 50  0000 L CNN
@@ -949,7 +949,7 @@ PIN\n59
 Text Notes 16900 1900 2    60   ~ 0
 AVDD decoupling capacitors for ADS1299
 $Comp
-L C C51
+L C-RESCUE-OpenHardwareExG_Shield C51
 U 1 1 514DB8A1
 P 17200 2350
 F 0 "C51" H 17250 2450 50  0000 L CNN
@@ -960,7 +960,7 @@ F 3 "" H 17200 2350 60  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L C C48
+L C-RESCUE-OpenHardwareExG_Shield C48
 U 1 1 514DB893
 P 16500 2350
 F 0 "C48" H 16550 2450 50  0000 L CNN
@@ -971,7 +971,7 @@ F 3 "" H 16500 2350 60  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L C C50
+L C-RESCUE-OpenHardwareExG_Shield C50
 U 1 1 514DB892
 P 16850 2350
 F 0 "C50" H 16900 2450 50  0000 L CNN
@@ -982,7 +982,7 @@ F 3 "" H 16850 2350 60  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L C C46
+L C-RESCUE-OpenHardwareExG_Shield C46
 U 1 1 514DB887
 P 16150 2350
 F 0 "C46" H 16200 2450 50  0000 L CNN
@@ -993,7 +993,7 @@ F 3 "" H 16150 2350 60  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L C C44
+L C-RESCUE-OpenHardwareExG_Shield C44
 U 1 1 514DB775
 P 15450 2350
 F 0 "C44" H 15500 2450 50  0000 L CNN
@@ -1015,7 +1015,7 @@ F 3 "" H 15150 2700 60  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L C C45
+L C-RESCUE-OpenHardwareExG_Shield C45
 U 1 1 514DB710
 P 15800 2350
 F 0 "C45" H 15850 2450 50  0000 L CNN
@@ -1050,7 +1050,7 @@ F 3 "" H 6250 7600 60  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L C C29
+L C-RESCUE-OpenHardwareExG_Shield C29
 U 1 1 513B4D9F
 P 6700 7550
 F 0 "C29" H 6750 7650 50  0000 L CNN
@@ -1061,7 +1061,7 @@ F 3 "" H 6700 7550 60  0001 C CNN
 	0    -1   -1   0   
 $EndComp
 $Comp
-L C C12
+L C-RESCUE-OpenHardwareExG_Shield C12
 U 1 1 513B4D9E
 P 5850 7550
 F 0 "C12" H 5900 7650 50  0000 L CNN
@@ -1072,7 +1072,7 @@ F 3 "" H 5850 7550 60  0001 C CNN
 	0    -1   -1   0   
 $EndComp
 $Comp
-L R R29
+L R-RESCUE-OpenHardwareExG_Shield R29
 U 1 1 513B4D9D
 P 6150 7350
 F 0 "R29" V 6230 7350 50  0000 C CNN
@@ -1083,7 +1083,7 @@ F 3 "" H 6150 7350 60  0001 C CNN
 	0    -1   -1   0   
 $EndComp
 $Comp
-L R R12
+L R-RESCUE-OpenHardwareExG_Shield R12
 U 1 1 513B4D9C
 P 5200 7350
 F 0 "R12" V 5280 7350 50  0000 C CNN
@@ -1094,7 +1094,7 @@ F 3 "" H 5200 7350 60  0001 C CNN
 	0    -1   -1   0   
 $EndComp
 $Comp
-L R R11
+L R-RESCUE-OpenHardwareExG_Shield R11
 U 1 1 513B4D9B
 P 5200 6900
 F 0 "R11" V 5280 6900 50  0000 C CNN
@@ -1105,7 +1105,7 @@ F 3 "" H 5200 6900 60  0001 C CNN
 	0    -1   -1   0   
 $EndComp
 $Comp
-L R R28
+L R-RESCUE-OpenHardwareExG_Shield R28
 U 1 1 513B4D9A
 P 6150 6900
 F 0 "R28" V 6230 6900 50  0000 C CNN
@@ -1116,7 +1116,7 @@ F 3 "" H 6150 6900 60  0001 C CNN
 	0    -1   -1   0   
 $EndComp
 $Comp
-L C C11
+L C-RESCUE-OpenHardwareExG_Shield C11
 U 1 1 513B4D99
 P 5850 7100
 F 0 "C11" H 5900 7200 50  0000 L CNN
@@ -1127,7 +1127,7 @@ F 3 "" H 5850 7100 60  0001 C CNN
 	0    -1   -1   0   
 $EndComp
 $Comp
-L C C28
+L C-RESCUE-OpenHardwareExG_Shield C28
 U 1 1 513B4D98
 P 6700 7100
 F 0 "C28" H 6750 7200 50  0000 L CNN
@@ -1182,7 +1182,7 @@ F 3 "" H 6250 6250 60  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L C C26
+L C-RESCUE-OpenHardwareExG_Shield C26
 U 1 1 513B4D93
 P 6700 6200
 F 0 "C26" H 6750 6300 50  0000 L CNN
@@ -1193,7 +1193,7 @@ F 3 "" H 6700 6200 60  0001 C CNN
 	0    -1   -1   0   
 $EndComp
 $Comp
-L C C9
+L C-RESCUE-OpenHardwareExG_Shield C9
 U 1 1 513B4D92
 P 5850 6200
 F 0 "C9" H 5900 6300 50  0000 L CNN
@@ -1204,7 +1204,7 @@ F 3 "" H 5850 6200 60  0001 C CNN
 	0    -1   -1   0   
 $EndComp
 $Comp
-L R R26
+L R-RESCUE-OpenHardwareExG_Shield R26
 U 1 1 513B4D91
 P 6150 6000
 F 0 "R26" V 6230 6000 50  0000 C CNN
@@ -1215,7 +1215,7 @@ F 3 "" H 6150 6000 60  0001 C CNN
 	0    -1   -1   0   
 $EndComp
 $Comp
-L R R9
+L R-RESCUE-OpenHardwareExG_Shield R9
 U 1 1 513B4D90
 P 5200 6000
 F 0 "R9" V 5280 6000 50  0000 C CNN
@@ -1226,7 +1226,7 @@ F 3 "" H 5200 6000 60  0001 C CNN
 	0    -1   -1   0   
 $EndComp
 $Comp
-L R R10
+L R-RESCUE-OpenHardwareExG_Shield R10
 U 1 1 513B4D8F
 P 5200 6450
 F 0 "R10" V 5280 6450 50  0000 C CNN
@@ -1237,7 +1237,7 @@ F 3 "" H 5200 6450 60  0001 C CNN
 	0    -1   -1   0   
 $EndComp
 $Comp
-L R R27
+L R-RESCUE-OpenHardwareExG_Shield R27
 U 1 1 513B4D8E
 P 6150 6450
 F 0 "R27" V 6230 6450 50  0000 C CNN
@@ -1248,7 +1248,7 @@ F 3 "" H 6150 6450 60  0001 C CNN
 	0    -1   -1   0   
 $EndComp
 $Comp
-L C C10
+L C-RESCUE-OpenHardwareExG_Shield C10
 U 1 1 513B4D8D
 P 5850 6650
 F 0 "C10" H 5900 6750 50  0000 L CNN
@@ -1259,7 +1259,7 @@ F 3 "" H 5850 6650 60  0001 C CNN
 	0    -1   -1   0   
 $EndComp
 $Comp
-L C C27
+L C-RESCUE-OpenHardwareExG_Shield C27
 U 1 1 513B4D8C
 P 6700 6650
 F 0 "C27" H 6750 6750 50  0000 L CNN
@@ -1314,7 +1314,7 @@ F 3 "" H 6250 8500 60  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L C C31
+L C-RESCUE-OpenHardwareExG_Shield C31
 U 1 1 513B4D87
 P 6700 8450
 F 0 "C31" H 6750 8550 50  0000 L CNN
@@ -1325,7 +1325,7 @@ F 3 "" H 6700 8450 60  0001 C CNN
 	0    -1   -1   0   
 $EndComp
 $Comp
-L C C14
+L C-RESCUE-OpenHardwareExG_Shield C14
 U 1 1 513B4D86
 P 5850 8450
 F 0 "C14" H 5900 8550 50  0000 L CNN
@@ -1336,7 +1336,7 @@ F 3 "" H 5850 8450 60  0001 C CNN
 	0    -1   -1   0   
 $EndComp
 $Comp
-L R R31
+L R-RESCUE-OpenHardwareExG_Shield R31
 U 1 1 513B4D85
 P 6150 8250
 F 0 "R31" V 6230 8250 50  0000 C CNN
@@ -1347,7 +1347,7 @@ F 3 "" H 6150 8250 60  0001 C CNN
 	0    -1   -1   0   
 $EndComp
 $Comp
-L R R14
+L R-RESCUE-OpenHardwareExG_Shield R14
 U 1 1 513B4D84
 P 5200 8250
 F 0 "R14" V 5280 8250 50  0000 C CNN
@@ -1358,7 +1358,7 @@ F 3 "" H 5200 8250 60  0001 C CNN
 	0    -1   -1   0   
 $EndComp
 $Comp
-L R R13
+L R-RESCUE-OpenHardwareExG_Shield R13
 U 1 1 513B4D83
 P 5200 7800
 F 0 "R13" V 5280 7800 50  0000 C CNN
@@ -1369,7 +1369,7 @@ F 3 "" H 5200 7800 60  0001 C CNN
 	0    -1   -1   0   
 $EndComp
 $Comp
-L R R30
+L R-RESCUE-OpenHardwareExG_Shield R30
 U 1 1 513B4D82
 P 6150 7800
 F 0 "R30" V 6230 7800 50  0000 C CNN
@@ -1380,7 +1380,7 @@ F 3 "" H 6150 7800 60  0001 C CNN
 	0    -1   -1   0   
 $EndComp
 $Comp
-L C C13
+L C-RESCUE-OpenHardwareExG_Shield C13
 U 1 1 513B4D81
 P 5850 8000
 F 0 "C13" H 5900 8100 50  0000 L CNN
@@ -1391,7 +1391,7 @@ F 3 "" H 5850 8000 60  0001 C CNN
 	0    -1   -1   0   
 $EndComp
 $Comp
-L C C30
+L C-RESCUE-OpenHardwareExG_Shield C30
 U 1 1 513B4D80
 P 6700 8000
 F 0 "C30" H 6750 8100 50  0000 L CNN
@@ -1446,7 +1446,7 @@ F 3 "" H 6250 8950 60  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L C C32
+L C-RESCUE-OpenHardwareExG_Shield C32
 U 1 1 513B4D7B
 P 6700 8900
 F 0 "C32" H 6750 9000 50  0000 L CNN
@@ -1457,7 +1457,7 @@ F 3 "" H 6700 8900 60  0001 C CNN
 	0    -1   -1   0   
 $EndComp
 $Comp
-L C C15
+L C-RESCUE-OpenHardwareExG_Shield C15
 U 1 1 513B4D7A
 P 5850 8900
 F 0 "C15" H 5900 9000 50  0000 L CNN
@@ -1468,7 +1468,7 @@ F 3 "" H 5850 8900 60  0001 C CNN
 	0    -1   -1   0   
 $EndComp
 $Comp
-L R R32
+L R-RESCUE-OpenHardwareExG_Shield R32
 U 1 1 513B4D79
 P 6150 8700
 F 0 "R32" V 6230 8700 50  0000 C CNN
@@ -1479,7 +1479,7 @@ F 3 "" H 6150 8700 60  0001 C CNN
 	0    -1   -1   0   
 $EndComp
 $Comp
-L R R15
+L R-RESCUE-OpenHardwareExG_Shield R15
 U 1 1 513B4D78
 P 5200 8700
 F 0 "R15" V 5280 8700 50  0000 C CNN
@@ -1490,7 +1490,7 @@ F 3 "" H 5200 8700 60  0001 C CNN
 	0    -1   -1   0   
 $EndComp
 $Comp
-L R R16
+L R-RESCUE-OpenHardwareExG_Shield R16
 U 1 1 513B4D77
 P 5200 9150
 F 0 "R16" V 5280 9150 50  0000 C CNN
@@ -1501,7 +1501,7 @@ F 3 "" H 5200 9150 60  0001 C CNN
 	0    -1   -1   0   
 $EndComp
 $Comp
-L R R33
+L R-RESCUE-OpenHardwareExG_Shield R33
 U 1 1 513B4D76
 P 6150 9150
 F 0 "R33" V 6230 9150 50  0000 C CNN
@@ -1512,7 +1512,7 @@ F 3 "" H 6150 9150 60  0001 C CNN
 	0    -1   -1   0   
 $EndComp
 $Comp
-L C C16
+L C-RESCUE-OpenHardwareExG_Shield C16
 U 1 1 513B4D75
 P 5850 9350
 F 0 "C16" H 5900 9450 50  0000 L CNN
@@ -1523,7 +1523,7 @@ F 3 "" H 5850 9350 60  0001 C CNN
 	0    -1   -1   0   
 $EndComp
 $Comp
-L C C33
+L C-RESCUE-OpenHardwareExG_Shield C33
 U 1 1 513B4D74
 P 6700 9350
 F 0 "C33" H 6750 9450 50  0000 L CNN
@@ -1578,7 +1578,7 @@ F 3 "" H 6250 5800 60  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L C C25
+L C-RESCUE-OpenHardwareExG_Shield C25
 U 1 1 513B4D46
 P 6700 5750
 F 0 "C25" H 6750 5850 50  0000 L CNN
@@ -1589,7 +1589,7 @@ F 3 "" H 6700 5750 60  0001 C CNN
 	0    -1   -1   0   
 $EndComp
 $Comp
-L C C8
+L C-RESCUE-OpenHardwareExG_Shield C8
 U 1 1 513B4D45
 P 5850 5750
 F 0 "C8" H 5900 5850 50  0000 L CNN
@@ -1600,7 +1600,7 @@ F 3 "" H 5850 5750 60  0001 C CNN
 	0    -1   -1   0   
 $EndComp
 $Comp
-L R R25
+L R-RESCUE-OpenHardwareExG_Shield R25
 U 1 1 513B4D44
 P 6150 5550
 F 0 "R25" V 6230 5550 50  0000 C CNN
@@ -1611,7 +1611,7 @@ F 3 "" H 6150 5550 60  0001 C CNN
 	0    -1   -1   0   
 $EndComp
 $Comp
-L R R8
+L R-RESCUE-OpenHardwareExG_Shield R8
 U 1 1 513B4D43
 P 5200 5550
 F 0 "R8" V 5280 5550 50  0000 C CNN
@@ -1622,7 +1622,7 @@ F 3 "" H 5200 5550 60  0001 C CNN
 	0    -1   -1   0   
 $EndComp
 $Comp
-L R R7
+L R-RESCUE-OpenHardwareExG_Shield R7
 U 1 1 513B4D42
 P 5200 5100
 F 0 "R7" V 5280 5100 50  0000 C CNN
@@ -1633,7 +1633,7 @@ F 3 "" H 5200 5100 60  0001 C CNN
 	0    -1   -1   0   
 $EndComp
 $Comp
-L R R24
+L R-RESCUE-OpenHardwareExG_Shield R24
 U 1 1 513B4D41
 P 6150 5100
 F 0 "R24" V 6230 5100 50  0000 C CNN
@@ -1644,7 +1644,7 @@ F 3 "" H 6150 5100 60  0001 C CNN
 	0    -1   -1   0   
 $EndComp
 $Comp
-L C C7
+L C-RESCUE-OpenHardwareExG_Shield C7
 U 1 1 513B4D40
 P 5850 5300
 F 0 "C7" H 5900 5400 50  0000 L CNN
@@ -1655,7 +1655,7 @@ F 3 "" H 5850 5300 60  0001 C CNN
 	0    -1   -1   0   
 $EndComp
 $Comp
-L C C24
+L C-RESCUE-OpenHardwareExG_Shield C24
 U 1 1 513B4D3F
 P 6700 5300
 F 0 "C24" H 6750 5400 50  0000 L CNN
@@ -1710,7 +1710,7 @@ F 3 "" H 6250 4450 60  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L C C22
+L C-RESCUE-OpenHardwareExG_Shield C22
 U 1 1 513B4D3A
 P 6700 4400
 F 0 "C22" H 6750 4500 50  0000 L CNN
@@ -1721,7 +1721,7 @@ F 3 "" H 6700 4400 60  0001 C CNN
 	0    -1   -1   0   
 $EndComp
 $Comp
-L C C5
+L C-RESCUE-OpenHardwareExG_Shield C5
 U 1 1 513B4D39
 P 5850 4400
 F 0 "C5" H 5900 4500 50  0000 L CNN
@@ -1732,7 +1732,7 @@ F 3 "" H 5850 4400 60  0001 C CNN
 	0    -1   -1   0   
 $EndComp
 $Comp
-L R R22
+L R-RESCUE-OpenHardwareExG_Shield R22
 U 1 1 513B4D38
 P 6150 4200
 F 0 "R22" V 6230 4200 50  0000 C CNN
@@ -1743,7 +1743,7 @@ F 3 "" H 6150 4200 60  0001 C CNN
 	0    -1   -1   0   
 $EndComp
 $Comp
-L R R5
+L R-RESCUE-OpenHardwareExG_Shield R5
 U 1 1 513B4D37
 P 5200 4200
 F 0 "R5" V 5280 4200 50  0000 C CNN
@@ -1754,7 +1754,7 @@ F 3 "" H 5200 4200 60  0001 C CNN
 	0    -1   -1   0   
 $EndComp
 $Comp
-L R R6
+L R-RESCUE-OpenHardwareExG_Shield R6
 U 1 1 513B4D36
 P 5200 4650
 F 0 "R6" V 5280 4650 50  0000 C CNN
@@ -1765,7 +1765,7 @@ F 3 "" H 5200 4650 60  0001 C CNN
 	0    -1   -1   0   
 $EndComp
 $Comp
-L R R23
+L R-RESCUE-OpenHardwareExG_Shield R23
 U 1 1 513B4D35
 P 6150 4650
 F 0 "R23" V 6230 4650 50  0000 C CNN
@@ -1776,7 +1776,7 @@ F 3 "" H 6150 4650 60  0001 C CNN
 	0    -1   -1   0   
 $EndComp
 $Comp
-L C C6
+L C-RESCUE-OpenHardwareExG_Shield C6
 U 1 1 513B4D34
 P 5850 4850
 F 0 "C6" H 5900 4950 50  0000 L CNN
@@ -1787,7 +1787,7 @@ F 3 "" H 5850 4850 60  0001 C CNN
 	0    -1   -1   0   
 $EndComp
 $Comp
-L C C23
+L C-RESCUE-OpenHardwareExG_Shield C23
 U 1 1 513B4D33
 P 6700 4850
 F 0 "C23" H 6750 4950 50  0000 L CNN
@@ -1842,7 +1842,7 @@ F 3 "" H 6250 3100 60  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L C C19
+L C-RESCUE-OpenHardwareExG_Shield C19
 U 1 1 513B4D1B
 P 6700 3050
 F 0 "C19" H 6750 3150 50  0000 L CNN
@@ -1853,7 +1853,7 @@ F 3 "" H 6700 3050 60  0001 C CNN
 	0    -1   -1   0   
 $EndComp
 $Comp
-L C C2
+L C-RESCUE-OpenHardwareExG_Shield C2
 U 1 1 513B4D1A
 P 5850 3050
 F 0 "C2" H 5900 3150 50  0000 L CNN
@@ -1864,7 +1864,7 @@ F 3 "" H 5850 3050 60  0001 C CNN
 	0    -1   -1   0   
 $EndComp
 $Comp
-L R R19
+L R-RESCUE-OpenHardwareExG_Shield R19
 U 1 1 513B4D19
 P 6150 2850
 F 0 "R19" V 6230 2850 50  0000 C CNN
@@ -1875,7 +1875,7 @@ F 3 "" H 6150 2850 60  0001 C CNN
 	0    -1   -1   0   
 $EndComp
 $Comp
-L R R2
+L R-RESCUE-OpenHardwareExG_Shield R2
 U 1 1 513B4D18
 P 5200 2850
 F 0 "R2" V 5280 2850 50  0000 C CNN
@@ -1886,7 +1886,7 @@ F 3 "" H 5200 2850 60  0001 C CNN
 	0    -1   -1   0   
 $EndComp
 $Comp
-L R R1
+L R-RESCUE-OpenHardwareExG_Shield R1
 U 1 1 513B4D17
 P 5200 2400
 F 0 "R1" V 5280 2400 50  0000 C CNN
@@ -1897,7 +1897,7 @@ F 3 "" H 5200 2400 60  0001 C CNN
 	0    -1   -1   0   
 $EndComp
 $Comp
-L R R18
+L R-RESCUE-OpenHardwareExG_Shield R18
 U 1 1 513B4D16
 P 6150 2400
 F 0 "R18" V 6230 2400 50  0000 C CNN
@@ -1908,7 +1908,7 @@ F 3 "" H 6150 2400 60  0001 C CNN
 	0    -1   -1   0   
 $EndComp
 $Comp
-L C C1
+L C-RESCUE-OpenHardwareExG_Shield C1
 U 1 1 513B4D15
 P 5850 2600
 F 0 "C1" H 5900 2700 50  0000 L CNN
@@ -1919,7 +1919,7 @@ F 3 "" H 5850 2600 60  0001 C CNN
 	0    -1   -1   0   
 $EndComp
 $Comp
-L C C18
+L C-RESCUE-OpenHardwareExG_Shield C18
 U 1 1 513B4D14
 P 6700 2600
 F 0 "C18" H 6750 2700 50  0000 L CNN
@@ -1974,7 +1974,7 @@ F 3 "" H 6250 3550 60  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L C C20
+L C-RESCUE-OpenHardwareExG_Shield C20
 U 1 1 513B4CBA
 P 6700 3500
 F 0 "C20" H 6750 3600 50  0000 L CNN
@@ -1985,7 +1985,7 @@ F 3 "" H 6700 3500 60  0001 C CNN
 	0    -1   -1   0   
 $EndComp
 $Comp
-L C C3
+L C-RESCUE-OpenHardwareExG_Shield C3
 U 1 1 513B4CB9
 P 5850 3500
 F 0 "C3" H 5900 3600 50  0000 L CNN
@@ -1996,7 +1996,7 @@ F 3 "" H 5850 3500 60  0001 C CNN
 	0    -1   -1   0   
 $EndComp
 $Comp
-L R R20
+L R-RESCUE-OpenHardwareExG_Shield R20
 U 1 1 513B4CB8
 P 6150 3300
 F 0 "R20" V 6230 3300 50  0000 C CNN
@@ -2007,7 +2007,7 @@ F 3 "" H 6150 3300 60  0001 C CNN
 	0    -1   -1   0   
 $EndComp
 $Comp
-L R R3
+L R-RESCUE-OpenHardwareExG_Shield R3
 U 1 1 513B4CB7
 P 5200 3300
 F 0 "R3" V 5280 3300 50  0000 C CNN
@@ -2018,7 +2018,7 @@ F 3 "" H 5200 3300 60  0001 C CNN
 	0    -1   -1   0   
 $EndComp
 $Comp
-L R R4
+L R-RESCUE-OpenHardwareExG_Shield R4
 U 1 1 513B4BD9
 P 5200 3750
 F 0 "R4" V 5280 3750 50  0000 C CNN
@@ -2029,7 +2029,7 @@ F 3 "" H 5200 3750 60  0001 C CNN
 	0    -1   -1   0   
 $EndComp
 $Comp
-L R R21
+L R-RESCUE-OpenHardwareExG_Shield R21
 U 1 1 513B4BD8
 P 6150 3750
 F 0 "R21" V 6230 3750 50  0000 C CNN
@@ -2040,7 +2040,7 @@ F 3 "" H 6150 3750 60  0001 C CNN
 	0    -1   -1   0   
 $EndComp
 $Comp
-L C C4
+L C-RESCUE-OpenHardwareExG_Shield C4
 U 1 1 513B4BD7
 P 5850 3950
 F 0 "C4" H 5900 4050 50  0000 L CNN
@@ -2051,7 +2051,7 @@ F 3 "" H 5850 3950 60  0001 C CNN
 	0    -1   -1   0   
 $EndComp
 $Comp
-L C C21
+L C-RESCUE-OpenHardwareExG_Shield C21
 U 1 1 513B4BD6
 P 6700 3950
 F 0 "C21" H 6750 4050 50  0000 L CNN
@@ -2117,7 +2117,7 @@ F 3 "" H 19050 6550 60  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L C C52
+L C-RESCUE-OpenHardwareExG_Shield C52
 U 1 1 5402235A
 P 18500 6700
 F 0 "C52" H 18500 6800 40  0000 L CNN
@@ -2139,7 +2139,7 @@ F 3 "" H 19750 7200 60  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L C C56
+L C-RESCUE-OpenHardwareExG_Shield C56
 U 1 1 540234B1
 P 19600 6700
 F 0 "C56" H 19600 6800 40  0000 L CNN
@@ -2150,7 +2150,7 @@ F 3 "~" H 19600 6700 60  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L R R45
+L R-RESCUE-OpenHardwareExG_Shield R45
 U 1 1 54023C59
 P 19050 5800
 F 0 "R45" V 19130 5800 40  0000 C CNN
@@ -2192,7 +2192,7 @@ F 3 "" H 20800 8800 60  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L SI8663 U6
+L Si8663 U6
 U 1 1 5426DAF1
 P 24850 6500
 F 0 "U6" H 24850 6000 60  0000 C CNN
@@ -2246,7 +2246,7 @@ F 3 "" H 15700 9250 60  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L R R40
+L R-RESCUE-OpenHardwareExG_Shield R40
 U 1 1 54271524
 P 16050 9900
 F 0 "R40" V 16130 9900 40  0000 C CNN
@@ -2517,7 +2517,7 @@ Buffer
 Text Notes 29850 3150 2    60   ~ 0
 capacitors for logic chips
 $Comp
-L C C72
+L C-RESCUE-OpenHardwareExG_Shield C72
 U 1 1 54424FFE
 P 29700 3750
 F 0 "C72" H 29750 3850 50  0000 L CNN
@@ -2528,7 +2528,7 @@ F 3 "" H 29700 3750 60  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L C C71
+L C-RESCUE-OpenHardwareExG_Shield C71
 U 1 1 5442500A
 P 29350 3750
 F 0 "C71" H 29400 3850 50  0000 L CNN
@@ -2539,7 +2539,7 @@ F 3 "" H 29350 3750 60  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L C C69
+L C-RESCUE-OpenHardwareExG_Shield C69
 U 1 1 54425010
 P 28650 3750
 F 0 "C69" H 28700 3850 50  0000 L CNN
@@ -2550,7 +2550,7 @@ F 3 "" H 28650 3750 60  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L C C70
+L C-RESCUE-OpenHardwareExG_Shield C70
 U 1 1 5442501C
 P 29000 3750
 F 0 "C70" H 29050 3850 50  0000 L CNN
@@ -2561,7 +2561,7 @@ F 3 "" H 29000 3750 60  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L GND #PWR072
+L GND-RESCUE-OpenHardwareExG_Shield #PWR072
 U 1 1 5442502D
 P 28350 4100
 F 0 "#PWR072" H 28350 4100 30  0001 C CNN
@@ -2606,7 +2606,7 @@ F 3 "" H 23650 2250 60  0000 C CNN
 	1    23650 2250
 	1    0    0    -1  
 $EndComp
-Text Notes 23300 2650 0    39   ~ 0
+Text Notes 23300 2700 0    39   ~ 0
 Note that bypass capacitors should be\nvery close to the chip and the grounds\nconnectted together with a very low\nimpedence connection\n(wide traces, large vias)
 Text Label 20050 1500 0    60   ~ 0
 VIN_ISO
@@ -2633,7 +2633,7 @@ F 3 "" H 21150 1500 60  0001 C CNN
 	0    1    1    0   
 $EndComp
 $Comp
-L C C59
+L C-RESCUE-OpenHardwareExG_Shield C59
 U 1 1 544260BE
 P 22150 1750
 F 0 "C59" H 22200 1850 50  0000 L CNN
@@ -2644,7 +2644,7 @@ F 3 "" H 22150 1750 60  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L C C57
+L C-RESCUE-OpenHardwareExG_Shield C57
 U 1 1 544260CA
 P 21800 1750
 F 0 "C57" H 21850 1850 50  0000 L CNN
@@ -2657,7 +2657,7 @@ $EndComp
 Text Notes 22450 2200 2    60   ~ 0
 bypass capacitors
 $Comp
-L C C60
+L C-RESCUE-OpenHardwareExG_Shield C60
 U 1 1 544260ED
 P 22150 2750
 F 0 "C60" H 22200 2850 50  0000 L CNN
@@ -2668,7 +2668,7 @@ F 3 "" H 22150 2750 60  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L C C58
+L C-RESCUE-OpenHardwareExG_Shield C58
 U 1 1 544260F9
 P 21800 2750
 F 0 "C58" H 21850 2850 50  0000 L CNN
@@ -2712,7 +2712,7 @@ F 3 "" H 28550 1500 60  0001 C CNN
 	0    -1   1    0   
 $EndComp
 $Comp
-L C C65
+L C-RESCUE-OpenHardwareExG_Shield C65
 U 1 1 54427C5B
 P 27550 1750
 F 0 "C65" H 27600 1850 50  0000 L CNN
@@ -2723,7 +2723,7 @@ F 3 "" H 27550 1750 60  0001 C CNN
 	-1   0    0    -1  
 $EndComp
 $Comp
-L C C67
+L C-RESCUE-OpenHardwareExG_Shield C67
 U 1 1 54427C61
 P 27900 1750
 F 0 "C67" H 27950 1850 50  0000 L CNN
@@ -2736,7 +2736,7 @@ $EndComp
 Text Notes 27250 2200 0    60   ~ 0
 bypass capacitors
 $Comp
-L C C66
+L C-RESCUE-OpenHardwareExG_Shield C66
 U 1 1 54427C6E
 P 27550 2750
 F 0 "C66" H 27600 2850 50  0000 L CNN
@@ -2747,7 +2747,7 @@ F 3 "" H 27550 2750 60  0001 C CNN
 	-1   0    0    -1  
 $EndComp
 $Comp
-L C C68
+L C-RESCUE-OpenHardwareExG_Shield C68
 U 1 1 54427C74
 P 27900 2750
 F 0 "C68" H 27950 2850 50  0000 L CNN
@@ -2771,7 +2771,7 @@ F 3 "" H 18350 8050 60  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L R R44
+L R-RESCUE-OpenHardwareExG_Shield R44
 U 1 1 54428518
 P 19000 7900
 F 0 "R44" V 19080 7900 40  0000 C CNN
@@ -2782,7 +2782,7 @@ F 3 "~" H 19000 7900 30  0000 C CNN
 	0    -1   -1   0   
 $EndComp
 $Comp
-L R R43
+L R-RESCUE-OpenHardwareExG_Shield R43
 U 1 1 54428527
 P 19000 7700
 F 0 "R43" V 19080 7700 40  0000 C CNN
@@ -2998,7 +2998,7 @@ NoConn ~ 6000 19500
 NoConn ~ 6000 19600
 NoConn ~ 3700 20350
 $Comp
-L GND #PWR081
+L GND-RESCUE-OpenHardwareExG_Shield #PWR081
 U 1 1 5442B5E1
 P 26050 1650
 F 0 "#PWR081" H 26050 1650 30  0001 C CNN
@@ -3009,7 +3009,7 @@ F 3 "" H 26050 1650 60  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L GND #PWR082
+L GND-RESCUE-OpenHardwareExG_Shield #PWR082
 U 1 1 5442B5F0
 P 26050 2250
 F 0 "#PWR082" H 26050 2250 30  0001 C CNN
@@ -3022,12 +3022,12 @@ $EndComp
 $Comp
 L PWR_FLAG #FLG083
 U 1 1 5442BBC9
-P 20000 2950
-F 0 "#FLG083" H 20000 3045 30  0001 C CNN
-F 1 "PWR_FLAG" H 20000 3130 30  0000 C CNN
-F 2 "" H 20000 2950 60  0000 C CNN
-F 3 "" H 20000 2950 60  0000 C CNN
-	1    20000 2950
+P 20550 2850
+F 0 "#FLG083" H 20550 2945 30  0001 C CNN
+F 1 "PWR_FLAG" H 20550 3030 30  0000 C CNN
+F 2 "" H 20550 2850 60  0000 C CNN
+F 3 "" H 20550 2850 60  0000 C CNN
+	1    20550 2850
 	1    0    0    -1  
 $EndComp
 Text Label 3150 18000 2    60   ~ 0
@@ -3551,10 +3551,10 @@ F 3 "" H 3100 5350 60  0000 C CNN
 	1    3100 5350
 	1    0    0    -1  
 $EndComp
-Text Notes 16350 5750 0    47   ~ 0
+Text Notes 16350 6450 0    47   ~ 0
 For 3.3V AVDD (optional for ADS1298 and below):\nInstall: \n     R44 (0 Ohm resistor) \n     R45 (0 Ohm resistor) \nUninstall: \n     U4 (873-AAT3220IGY-33T1)\n     C52 (10 microFarad)\n     C56 (10 microFarad)\n     R43 (0 Ohm) \nReplace: \n     R42 (8.45k resistor) with 19.6k resistor
 $Comp
-L ADUM6000 U5
+L ADuM6000 U5
 U 1 1 5401FB81
 P 24850 1850
 F 0 "U5" H 24850 1350 60  0000 C CNN
@@ -4740,7 +4740,7 @@ Connection ~ 22150 2500
 Wire Wire Line
 	22150 2500 22150 2550
 Wire Wire Line
-	21800 2950 21800 3000
+	21800 3000 21800 2950
 Wire Wire Line
 	21800 2550 21800 2500
 Connection ~ 21800 2500
@@ -4876,8 +4876,6 @@ Wire Wire Line
 	19950 10350 18850 10350
 Wire Wire Line
 	13700 10400 13700 10500
-Wire Wire Line
-	20000 3000 20000 2950
 Connection ~ 21800 3000
 Wire Wire Line
 	2450 18000 3150 18000
@@ -4961,8 +4959,6 @@ Wire Wire Line
 	25400 9200 26250 9200
 Wire Wire Line
 	29650 1500 29650 1400
-Wire Wire Line
-	17750 7050 19750 7050
 Connection ~ 18500 7050
 Connection ~ 19050 7050
 Connection ~ 19600 7050
@@ -4988,7 +4984,7 @@ Wire Wire Line
 Text Label 24000 5550 2    60   ~ 0
 3.3V_ISO
 NoConn ~ 5700 20150
-Text Notes 9650 7900 0    120  ~ 0
+Text Notes 9650 8050 0    120  ~ 0
 VCAP capacitor values do not match datasheet.\n(but seem to work fine for us.)
 Wire Wire Line
 	19350 8600 20800 8600
@@ -5000,7 +4996,7 @@ Connection ~ 20800 8500
 Text Label 21250 8500 2    60   ~ 0
 3.3V_ISO
 $Comp
-L CP C73
+L CP-RESCUE-OpenHardwareExG_Shield C73
 U 1 1 55BCF621
 P 20700 1750
 F 0 "C73" H 20750 1850 40  0000 L CNN
@@ -5016,6 +5012,13 @@ Connection ~ 20700 1500
 Wire Wire Line
 	20700 1950 20700 3000
 Connection ~ 20700 3000
-Text Notes 18850 10600 0    60   ~ 0
+Text Notes 18850 10800 0    60   ~ 0
 We recommend female right angle header for P22\nto distinguish from the male header which connects\nto subject
+Wire Wire Line
+	20550 2850 20550 3000
+Connection ~ 20550 3000
+Text Label 20000 3000 0    60   ~ 0
+DGND_ISO
+Wire Wire Line
+	17750 7050 19750 7050
 $EndSCHEMATC
