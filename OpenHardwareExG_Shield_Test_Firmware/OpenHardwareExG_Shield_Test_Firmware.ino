@@ -5,6 +5,9 @@
 // some Arduino's use 5.0 ...
 #define ANALOG_REFERENCE_VOLTAGE 3.3
 
+// wait this long before attempting to test a short
+#define STARTUP_CAPACITOR_CHARGE_DELAY_MILLIS 25
+
 #include <stdio.h>
 
 struct ShiftOutputs {
@@ -253,8 +256,11 @@ void setup() {
 bool check_for_short()
 {
     unsigned long timeout_milliseconds = 200;
-    unsigned long start = millis();
+    unsigned long start;
 
+    delay(STARTUP_CAPACITOR_CHARGE_DELAY_MILLIS);
+
+    start = millis();
     while ((millis()-start) < timeout_milliseconds) {
         unsigned d = digitalRead(IPIN_SHIELD_SHORTED);
         if (!d) {
