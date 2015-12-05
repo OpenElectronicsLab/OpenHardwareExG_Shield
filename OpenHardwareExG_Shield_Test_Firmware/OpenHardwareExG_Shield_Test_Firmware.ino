@@ -250,17 +250,6 @@ void setup() {
     Serial.begin(115200);
 }
 
-void loop() {
-    if (false) {
-        harness_hardware_validation();
-    } else {
-	ShiftInputs input = readShiftIn();
-	if (input.goButton) {
-	    run_tests();
-	}
-    }
-}
-
 bool check_for_short()
 {
     unsigned long timeout_milliseconds = 200;
@@ -446,4 +435,15 @@ static void harness_hardware_validation() {
     Serial.println(".");
 
     delay(10000);              // wait for 10 seconds
+}
+
+void loop() {
+    if (false) {
+        harness_hardware_validation();
+    } else {
+	ShiftInputs input = readShiftIn();
+	if (input.goButton) {
+	    run_tests();
+	}
+    }
 }
