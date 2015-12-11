@@ -273,6 +273,40 @@ bool check_for_short()
     return false;
 }
 
+bool check_div_gnd_high_fault()
+{
+    int gnd = analogRead(PIN_DIV_GND_ISO); // 0 - 1023
+    char buf[1024];
+    sprintf(buf, "PIN_DIV_GND_ISO: %d", gnd);
+    Serial.println(buf);
+
+    if (gnd < 65) {
+        Serial.println("PIN_DIV_GND_ISO too low");
+        return true;
+    }
+    if (gnd > 100) {
+        Serial.println("PIN_DIV_GND_ISO too high");
+        return true;
+    }
+
+    return false;
+}
+
+bool check_div_gnd_low_fault()
+{
+    int gnd = analogRead(PIN_DIV_GND_ISO); // 0 - 1023
+    char buf[1024];
+    sprintf(buf, "PIN_DIV_GND_ISO: %d", gnd);
+    Serial.println(buf);
+
+    if (gnd > 10) {
+        Serial.println("PIN_DIV_GND_ISO too high, should be zero");
+        return true;
+    }
+
+    return false;
+}
+
 bool check_3v3_bogus_iso_fault()
 {
     int val0 = analogRead(PIN_DIV_GND_ISO); // 0 - 1023
@@ -342,8 +376,10 @@ struct error_code {
 };
 
 struct error_code ERROR_BLINK_SHORT   = { 0x00000, "Short detected" };
-struct error_code ERROR_BLINK_3V3_ISO = { 0x00001, "problem with 3v3 iso" };
-struct error_code ERROR_BLINK_VIN_ISO = { 0x00002, "problem with VIN iso" };
+struct error_code ERROR_BLINK_GND_HI  = { 0x00001, "problem with GND iso" };
+struct error_code ERROR_BLINK_3V3_ISO = { 0x00002, "problem with 3v3 iso" };
+struct error_code ERROR_BLINK_VIN_ISO = { 0x00003, "problem with VIN iso" };
+struct error_code ERROR_BLINK_GND_LOW = { 0x00004, "problem with GND iso" };
 
 void blink_error(struct error_code err)
 {
@@ -378,7 +414,12 @@ void run_tests()
 	return; // bail early
     }
 
+    digitalWrite(PIN_RESIST_GND_ISO, HIGH);
     delay(STARTUP_ADDITIONAL_CAPACITOR_CHARGE_DELAY_MILLIS);
+    if(check_div_gnd_high_fault()) {
+	blink_error(ERROR_BLINK_GND_HI);
+	return; // bail early
+    }
 
     if(check_3v3_bogus_iso_fault()) {
 	blink_error(ERROR_BLINK_3V3_ISO);
@@ -390,6 +431,12 @@ void run_tests()
 	return; // bail early
     }
 
+    digitalWrite(PIN_RESIST_GND_ISO, LOW);
+    delay(STARTUP_ADDITIONAL_CAPACITOR_CHARGE_DELAY_MILLIS);
+    if(check_div_gnd_low_fault()) {
+	blink_error(ERROR_BLINK_GND_LOW);
+	return; // bail early
+    }
 
     output.successLED = 1;
     writeShiftOut(output);
