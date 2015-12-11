@@ -272,20 +272,38 @@ bool check_for_short()
     return false;
 }
 
-bool check_3v3_bogus_iso()
+bool check_3v3_bogus_iso_fault()
 {
     int val0 = analogRead(PIN_DIV_GND_ISO); // 0 - 1023
 
+    // bc <<<"scale=3; 11* ((93 * 3.3)/1023) "
+    // 3.300
+
     char buf[1024];
-    sprintf(buf, "PIN_DIV_GND_ISO: %d\n", val0);
+    sprintf(buf, "PIN_DIV_GND_ISO: %d", val0);
     Serial.println(buf);
 
     int val1 = analogRead(PIN_DIV_3V3_ISO); // 0 - 1023
-    sprintf(buf, "PIN_DIV_3V3_ISO: %d\n", val1);
+    sprintf(buf, "PIN_DIV_3V3_ISO: %d", val1);
     Serial.println(buf);
 
     /* ANALOG_REFERENCE_VOLTAGE */
-    return 0;
+    float voltage = 11.0 * (((val1-val0)*3.3)/1023.0);
+
+    sprintf(buf, "3V3_ISO approx: %5.3f\n", voltage);
+    Serial.println(buf);
+
+    if (voltage < 2.75) {
+        Serial.println("3V3_ISO below 2.75 (too low for u6)");
+        return true;
+    }
+
+    if (voltage > 3.5) {
+        Serial.println("3V3_ISO above 3.5 (too high for ADS)");
+        return true;
+    }
+
+    return false;
 }
 
 struct error_code {
@@ -327,7 +345,7 @@ void run_tests()
 	return; // bail early
     }
 
-    if(check_3v3_bogus_iso()) {
+    if(check_3v3_bogus_iso_fault()) {
 	blink_error(ERROR_BLINK_3V3_ISO);
 	return; // bail early
     }
@@ -335,7 +353,7 @@ void run_tests()
     output.successLED = 1;
     writeShiftOut(output);
 
-    delay(10 * 3000); // for debug
+    delay(3000);
 
     output.enableShield=0;
     writeShiftOut(output);
