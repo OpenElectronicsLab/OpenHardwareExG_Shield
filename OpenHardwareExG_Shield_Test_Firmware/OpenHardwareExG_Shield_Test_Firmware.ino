@@ -306,6 +306,35 @@ bool check_3v3_bogus_iso_fault()
     return false;
 }
 
+bool check_5v_bogus_iso_fault()
+{
+    int val0 = analogRead(PIN_DIV_GND_ISO); // 0 - 1023
+
+    char buf[1024];
+    sprintf(buf, "PIN_DIV_GND_ISO: %d", val0);
+    Serial.println(buf);
+
+    int val1 = analogRead(PIN_DIV_VIN_ISO); // 0 - 1023
+    sprintf(buf, "PIN_DIV_VIN_ISO: %d", val1);
+    Serial.println(buf);
+
+    float voltage = 11.0 * (((val1-val0)*3.3)/1023.0);
+
+    sprintf(buf, "VIN_ISO approx: %5.3f\n", voltage);
+    Serial.println(buf);
+
+    if (voltage < 4.85) {
+        Serial.println("VIN_ISO below 4.85 (too low for ADS)");
+        return true;
+    }
+
+    if (voltage > 5.15) {
+        Serial.println("VIN_ISO above 5.15 (too high for ADS)");
+        return true;
+    }
+
+    return false;
+}
 struct error_code {
     unsigned blink_code;
     const char *error_txt;
@@ -313,6 +342,7 @@ struct error_code {
 
 struct error_code ERROR_BLINK_SHORT   = { 0x00000, "Short detected" };
 struct error_code ERROR_BLINK_3V3_ISO = { 0x00001, "problem with 3v3 iso" };
+struct error_code ERROR_BLINK_VIN_ISO = { 0x00002, "problem with VIN iso" };
 
 void blink_error(struct error_code err)
 {
@@ -349,6 +379,12 @@ void run_tests()
 	blink_error(ERROR_BLINK_3V3_ISO);
 	return; // bail early
     }
+
+    if(check_5v_bogus_iso_fault()) {
+	blink_error(ERROR_BLINK_VIN_ISO);
+	return; // bail early
+    }
+
 
     output.successLED = 1;
     writeShiftOut(output);
