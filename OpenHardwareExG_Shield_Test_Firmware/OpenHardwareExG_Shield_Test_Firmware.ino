@@ -8,6 +8,9 @@
 // wait this long before attempting to test a short
 #define STARTUP_CAPACITOR_CHARGE_DELAY_MILLIS 25
 
+// wait additional time before testing other board features
+#define STARTUP_ADDITIONAL_CAPACITOR_CHARGE_DELAY_MILLIS 25
+
 #include <stdio.h>
 
 struct ShiftOutputs {
@@ -258,8 +261,6 @@ bool check_for_short()
     unsigned long timeout_milliseconds = 200;
     unsigned long start;
 
-    delay(STARTUP_CAPACITOR_CHARGE_DELAY_MILLIS);
-
     start = millis();
     while ((millis()-start) < timeout_milliseconds) {
         unsigned d = digitalRead(IPIN_SHIELD_SHORTED);
@@ -370,10 +371,14 @@ void run_tests()
     output.enableShield=1; // powers test board
     writeShiftOut(output);
 
+    delay(STARTUP_CAPACITOR_CHARGE_DELAY_MILLIS);
+
     if(check_for_short()) {
 	blink_error(ERROR_BLINK_SHORT);
 	return; // bail early
     }
+
+    delay(STARTUP_ADDITIONAL_CAPACITOR_CHARGE_DELAY_MILLIS);
 
     if(check_3v3_bogus_iso_fault()) {
 	blink_error(ERROR_BLINK_3V3_ISO);
