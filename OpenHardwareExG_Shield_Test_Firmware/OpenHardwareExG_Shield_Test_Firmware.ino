@@ -11,12 +11,15 @@
 // wait additional time before testing other board features
 #define STARTUP_ADDITIONAL_CAPACITOR_CHARGE_DELAY_MILLIS 25
 
+// time to wait between testing state changes
+# define DIGITAL_STATE_CHANGE_DELAY_MICROS 2
+
 #include <stdio.h>
 
 struct ShiftOutputs {
     unsigned simulateBoardBelow : 1;
-    unsigned masterCS : 1;
-    unsigned slaveCS : 1;
+    unsigned master_ics : 1;
+    unsigned slave_ics : 1;
     unsigned signalA : 1;
     unsigned signalB : 1;
     unsigned successLED : 1;
@@ -25,8 +28,8 @@ struct ShiftOutputs {
 
     ShiftOutputs() {
         simulateBoardBelow = 0;
-        masterCS = 0;
-        slaveCS = 0;
+        master_ics = 0;
+        slave_ics = 0;
         signalA = 0;
         signalB = 0;
         successLED = 0;
@@ -159,8 +162,8 @@ void writeShiftOut(const struct ShiftOutputs& output) {
     shiftOut(output.successLED);
     shiftOut(output.signalB);
     shiftOut(output.signalA);
-    shiftOut(output.slaveCS);
-    shiftOut(output.masterCS);
+    shiftOut(output.slave_ics);
+    shiftOut(output.master_ics);
     shiftOut(!output.simulateBoardBelow); // IPIN ~SEND_TO_GND~_MASTER
 
     digitalWrite(PIN_SHIFT_OUT_RCLK, HIGH);
@@ -381,6 +384,7 @@ struct error_code ERROR_BLINK_3V3_ISO = { 0x00002, "problem with 3v3 iso" };
 struct error_code ERROR_BLINK_VIN_ISO = { 0x00003, "problem with VIN iso" };
 struct error_code ERROR_BLINK_GND_LOW = { 0x00004, "problem with GND iso" };
 struct error_code ERROR_BLINK_FIRST_SHIFT_IN = { 0x00005, "first read" };
+struct error_code ERROR_BLINK_CS_SHIFT_IN = { 0x00006, "CS read" };
 
 void blink_error(struct error_code err)
 {
@@ -401,7 +405,11 @@ void blink_error(struct error_code err)
     writeShiftOut(errorOutput);
 }
 
-unsigned long shift_in_mismatch(struct ShiftInputs *expected, struct ShiftInputs *actual)
+/* the ADS1299 datasheet
+   (page 38 of SBAS499A - JULY 2012 - REVISED AUGUST 2012)
+   shows that DOUT is undefined at some times, set compare_dout to false
+   if comparing during an undefined time */
+unsigned long shift_in_mismatch(struct ShiftInputs *expected, struct ShiftInputs *actual, bool compare_dout = true)
 {
     unsigned long i=0;
     unsigned long errors=0;
@@ -436,7 +444,7 @@ unsigned long shift_in_mismatch(struct ShiftInputs *expected, struct ShiftInputs
         Serial.println("mismatch comparing iCS");
     }
     ++i;
-    if(expected->DOUT != actual->DOUT) {
+    if(compare_dout && expected->DOUT != actual->DOUT) {
         errors + (1L<<i);
         Serial.println("mismatch comparing DOUT");
     }
@@ -477,7 +485,7 @@ unsigned long shift_in_mismatch(struct ShiftInputs *expected, struct ShiftInputs
         Serial.println("mismatch comparing i_drdy_iso");
     }
     ++i;
-    if(expected->dout_iso != actual->dout_iso) {
+    if(compare_dout && expected->dout_iso != actual->dout_iso) {
         errors + (1L<<i);
         Serial.println("mismatch comparing dout_iso");
     }
@@ -529,15 +537,45 @@ unsigned long shift_in_mismatch(struct ShiftInputs *expected, struct ShiftInputs
     }
     ++i;
 
+    if(actual->master == actual->iMaster) {
+        errors + (1L<<i);
+        Serial.println("inconsistent master, iMaster");
+    };
+    ++i;
+
+    if(actual->master != actual->master_iso) {
+        errors + (1L<<i);
+        Serial.println("inconsistent master, master_iso");
+    };
+    ++i;
+
+    if(actual->DOUT != actual->dout_iso) {
+        errors + (1L<<i);
+        Serial.println("inconsistent dout, dout_iso");
+    };
+    ++i;
+
+    if(actual->iCS != actual->iCSiso) {
+        errors + (1L<<i);
+        Serial.println("inconsistent iCS, iCSiso");
+    };
+    ++i;
+
+    if(actual->iDRDY != actual->i_drdy_iso) {
+        errors + (1L<<i);
+        Serial.println("inconsistent iDRDY, i_drdy_iso");
+    };
+    ++i;
+
     return errors;
 }
 
 void run_tests()
 {
-    ShiftOutputs output;
+    ShiftOutputs default_output;
 
-    output.enableShield=1; // powers test board
-    writeShiftOut(output);
+    default_output.enableShield=1; // powers test board
+    writeShiftOut(default_output);
 
     delay(STARTUP_CAPACITOR_CHARGE_DELAY_MILLIS);
 
@@ -597,25 +635,52 @@ void run_tests()
     undriven_expected.BIASINV = 0;
     undriven_expected.unused2 = 0;
 
+    // TODO: compare both shift inputs and SPI inputs
+    bool compare_dout = false;
     ShiftInputs actual = readShiftIn();
-    if(shift_in_mismatch(&undriven_expected, &actual)) {
+    if(shift_in_mismatch(&undriven_expected, &actual, compare_dout)) {
        blink_error(ERROR_BLINK_FIRST_SHIFT_IN);
        return;
     }
 
-    output.successLED = 1;
-    writeShiftOut(output);
+    {
+        ShiftOutputs output = default_output;
+        output.master_ics=1;
+        writeShiftOut(output);
 
-    delay(3000);
+        delayMicroseconds(DIGITAL_STATE_CHANGE_DELAY_MICROS);
+        ShiftInputs expected = undriven_expected;
+        expected.masterAndMasterCS = 0;
+        expected.DOUT = 1;
+        expected.dout_iso = 1;
+        expected.iCS = 1;
+        expected.iCSiso = 1;
 
-    output.enableShield=0;
-    writeShiftOut(output);
+        actual = readShiftIn();
+        if(shift_in_mismatch(&expected, &actual, compare_dout)) {
+           blink_error(ERROR_BLINK_CS_SHIFT_IN);
+           return;
+        }
+    }
 
-    // in real life we'd loop until detected board removed
-    delay(3000);
-    output.successLED = 0;
-    output.faultLED = 0;
-    writeShiftOut(output);
+
+    // SUCCESS BLOCK!
+    {
+        ShiftOutputs output = default_output;
+        output.successLED = 1;
+        writeShiftOut(output);
+
+        delay(3000);
+
+        output.enableShield=0;
+        writeShiftOut(output);
+
+        // in real life we'd loop until detected board removed
+        delay(3000);
+        output.successLED = 0;
+        output.faultLED = 0;
+        writeShiftOut(output);
+    }
 }
 
 // for testing the test boards themselves, this function
@@ -630,8 +695,8 @@ static void harness_hardware_validation() {
     oddLoop = !oddLoop;
 
     output.simulateBoardBelow = oddLoop;
-    output.masterCS = !oddLoop;
-    output.slaveCS = oddLoop;
+    output.master_ics = !oddLoop;
+    output.slave_ics = oddLoop;
     output.signalA = !oddLoop;
     output.signalB = oddLoop;
     output.successLED = !oddLoop;
