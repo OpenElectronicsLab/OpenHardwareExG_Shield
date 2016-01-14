@@ -164,7 +164,7 @@ void writeShiftOut(const struct ShiftOutputs& output) {
     shiftOut(output.signalA);
     shiftOut(output.slave_ics);
     shiftOut(output.master_ics);
-    shiftOut(!output.simulateBoardBelow); // IPIN ~SEND_TO_GND~_MASTER
+    shiftOut(output.simulateBoardBelow ? 0 : 1); // IPIN ~SEND_TO_GND~_MASTER
 
     digitalWrite(PIN_SHIFT_OUT_RCLK, HIGH);
     delayMicroseconds(shiftClockDelay);
@@ -387,6 +387,7 @@ struct error_code ERROR_BLINK_FIRST_SHIFT_IN = { 0x00005, "first read" };
 struct error_code ERROR_BLINK_MCS_SHIFT_IN = { 0x00006, "MCS read" };
 struct error_code ERROR_BLINK_SCS_SHIFT_IN = { 0x00007, "SCS read" };
 struct error_code ERROR_BLINK_MSCS_SHIFT_IN = { 0x00008, "MSCS read" };
+struct error_code ERROR_BLINK_SLAVE_SHIFT_IN = { 0x00008, "SLAVE" };
 
 void blink_error(struct error_code err)
 {
@@ -707,6 +708,79 @@ void run_tests()
         }
     }
 
+    {
+        ShiftOutputs output = default_output;
+        output.simulateBoardBelow=1;
+        writeShiftOut(output);
+
+        delayMicroseconds(DIGITAL_STATE_CHANGE_DELAY_MICROS);
+        ShiftInputs expected = undriven_expected;
+        expected.slaveAndSlaveCS = 1;
+        expected.masterAndMasterCS = 0;
+        expected.iMaster = 1;
+        expected.master = 0;
+        expected.master_iso = 0;
+
+        actual = readShiftIn();
+        if(shift_in_mismatch(&expected, &actual, compare_dout)) {
+           blink_error(ERROR_BLINK_SLAVE_SHIFT_IN);
+           return;
+        }
+    }
+/*
+    {
+        ShiftOutputs output = default_output;
+        output.simulateBoardBelow=1;
+        output.master_ics=1;
+        writeShiftOut(output);
+
+        delayMicroseconds(DIGITAL_STATE_CHANGE_DELAY_MICROS);
+        ShiftInputs expected = undriven_expected;
+        expected.masterAndMasterCS = 0;
+
+        actual = readShiftIn();
+        if(shift_in_mismatch(&expected, &actual, compare_dout)) {
+           blink_error(ERROR_BLINK_MCS_SHIFT_IN);
+           return;
+        }
+    }
+
+    {
+        ShiftOutputs output = default_output;
+        output.slave_ics=1;
+        writeShiftOut(output);
+
+        delayMicroseconds(DIGITAL_STATE_CHANGE_DELAY_MICROS);
+        ShiftInputs expected = undriven_expected;
+
+        actual = readShiftIn();
+        if(shift_in_mismatch(&expected, &actual, compare_dout)) {
+           blink_error(ERROR_BLINK_SCS_SHIFT_IN);
+           return;
+        }
+    }
+
+    {
+        ShiftOutputs output = default_output;
+        output.master_ics=1;
+        output.slave_ics=1;
+        writeShiftOut(output);
+
+        delayMicroseconds(DIGITAL_STATE_CHANGE_DELAY_MICROS);
+        ShiftInputs expected = undriven_expected;
+        expected.masterAndMasterCS = 0;
+        expected.DOUT = 1;
+        expected.dout_iso = 1;
+        expected.iCS = 1;
+        expected.iCSiso = 1;
+
+        actual = readShiftIn();
+        if(shift_in_mismatch(&expected, &actual, compare_dout)) {
+           blink_error(ERROR_BLINK_MSCS_SHIFT_IN);
+           return;
+        }
+    }
+*/
     // SUCCESS BLOCK!
     {
         ShiftOutputs output = default_output;
