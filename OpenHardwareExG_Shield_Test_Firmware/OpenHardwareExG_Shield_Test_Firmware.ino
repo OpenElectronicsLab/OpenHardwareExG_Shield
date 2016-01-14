@@ -384,7 +384,9 @@ struct error_code ERROR_BLINK_3V3_ISO = { 0x00002, "problem with 3v3 iso" };
 struct error_code ERROR_BLINK_VIN_ISO = { 0x00003, "problem with VIN iso" };
 struct error_code ERROR_BLINK_GND_LOW = { 0x00004, "problem with GND iso" };
 struct error_code ERROR_BLINK_FIRST_SHIFT_IN = { 0x00005, "first read" };
-struct error_code ERROR_BLINK_CS_SHIFT_IN = { 0x00006, "CS read" };
+struct error_code ERROR_BLINK_MCS_SHIFT_IN = { 0x00006, "MCS read" };
+struct error_code ERROR_BLINK_SCS_SHIFT_IN = { 0x00007, "SCS read" };
+struct error_code ERROR_BLINK_MSCS_SHIFT_IN = { 0x00008, "MSCS read" };
 
 void blink_error(struct error_code err)
 {
@@ -415,157 +417,163 @@ unsigned long shift_in_mismatch(struct ShiftInputs *expected, struct ShiftInputs
     unsigned long errors=0;
 
     if(expected->slaveAndSlaveCS != actual->slaveAndSlaveCS) {
-        errors + (1L<<i);
+        errors |= (1L<<i);
         Serial.println("mismatch comparing slaveAndSlaveCS");
     }
     ++i;
     if(expected->masterAndMasterCS != actual->masterAndMasterCS) {
-        errors + (1L<<i);
+        errors |= (1L<<i);
         Serial.println("mismatch comparing masterAndMasterCS");
     }
     ++i;
     if(expected->iMaster != actual->iMaster) {
-        errors + (1L<<i);
+        errors |= (1L<<i);
         Serial.println("mismatch comparing iMaster");
     }
     ++i;
     if(expected->master != actual->master) {
-        errors + (1L<<i);
+        errors |= (1L<<i);
         Serial.println("mismatch comparing master");
     }
     ++i;
     if( 0 && expected->goButton != actual->goButton) {
-        errors + (1L<<i);
+        errors |= (1L<<i);
         Serial.println("mismatch comparing goButton");
     }
     ++i;
     if(expected->iCS != actual->iCS) {
-        errors + (1L<<i);
+        errors |= (1L<<i);
         Serial.println("mismatch comparing iCS");
     }
     ++i;
     if(compare_dout && expected->DOUT != actual->DOUT) {
-        errors + (1L<<i);
+        errors |= (1L<<i);
         Serial.println("mismatch comparing DOUT");
     }
     ++i;
     if(expected->iDRDY != actual->iDRDY) {
-        errors + (1L<<i);
+        errors |= (1L<<i);
         Serial.println("mismatch comparing iDRDY");
     }
     ++i;
 
     if(expected->MOSIiso != actual->MOSIiso) {
-        errors + (1L<<i);
+        errors |= (1L<<i);
         Serial.println("mismatch comparing MOSIiso");
     }
     ++i;
     if(expected->SCLKiso != actual->SCLKiso) {
-        errors + (1L<<i);
+        errors |= (1L<<i);
         Serial.println("mismatch comparing SCLKiso");
     }
     ++i;
     if(expected->iCSiso != actual->iCSiso) {
-        errors + (1L<<i);
+        errors |= (1L<<i);
         Serial.println("mismatch comparing iCSiso");
     }
     ++i;
     if(expected->master_iso != actual->master_iso) {
-        errors + (1L<<i);
+        errors |= (1L<<i);
         Serial.println("mismatch comparing master_iso");
     }
     ++i;
     if(expected->clk_iso != actual->clk_iso) {
-        errors + (1L<<i);
+        errors |= (1L<<i);
         Serial.println("mismatch comparing clk_iso");
     }
     ++i;
     if(expected->i_drdy_iso != actual->i_drdy_iso) {
-        errors + (1L<<i);
+        errors |= (1L<<i);
         Serial.println("mismatch comparing i_drdy_iso");
     }
     ++i;
     if(compare_dout && expected->dout_iso != actual->dout_iso) {
-        errors + (1L<<i);
+        errors |= (1L<<i);
         Serial.println("mismatch comparing dout_iso");
     }
     ++i;
     if(0 && expected->unused1 != actual->unused1) {
-        errors + (1L<<i);
+        errors |= (1L<<i);
         Serial.println("mismatch comparing unused1");
     }
     ++i;
 
     if(expected->GPIO1 != actual->GPIO1) {
-        errors + (1L<<i);
+        errors |= (1L<<i);
         Serial.println("mismatch comparing GPIO1");
     }
     ++i;
     if(expected->GPIO2 != actual->GPIO2) {
-        errors + (1L<<i);
+        errors |= (1L<<i);
         Serial.println("mismatch comparing GPIO2");
     }
     ++i;
     if(expected->GPIO3 != actual->GPIO3) {
-        errors + (1L<<i);
+        errors |= (1L<<i);
         Serial.println("mismatch comparing GPIO3");
     }
     ++i;
     if(expected->GPIO4 != actual->GPIO4) {
-        // errors + (1L<<i); // FIXME: Eric's board is solder-bridged to DRDY
+        // errors |= (1L<<i); // FIXME: Eric's board is solder-bridged to DRDY
         Serial.println("mismatch comparing GPIO4 (Supressed)");
     }
     ++i;
     if(expected->DAISYIN != actual->DAISYIN) {
-        errors + (1L<<i);
+        errors |= (1L<<i);
         Serial.println("mismatch comparing DAISYIN");
     }
     ++i;
     if(expected->BIASINV != actual->BIASINV) {
-        errors + (1L<<i);
+        errors |= (1L<<i);
         Serial.println("mismatch comparing BIASINV");
     }
     ++i;
     if(0 && expected->unused2 != actual->unused2) {
-        errors + (1L<<i);
+        errors |= (1L<<i);
         Serial.println("mismatch comparing unused2");
     }
     ++i;
     if(0 && expected->unused3 != actual->unused3) {
-        errors + (1L<<i);
+        errors |= (1L<<i);
         Serial.println("mismatch comparing unused3");
     }
     ++i;
 
     if(actual->master == actual->iMaster) {
-        errors + (1L<<i);
+        errors |= (1L<<i);
         Serial.println("inconsistent master, iMaster");
     };
     ++i;
 
     if(actual->master != actual->master_iso) {
-        errors + (1L<<i);
+        errors |= (1L<<i);
         Serial.println("inconsistent master, master_iso");
     };
     ++i;
 
     if(actual->DOUT != actual->dout_iso) {
-        errors + (1L<<i);
+        errors |= (1L<<i);
         Serial.println("inconsistent dout, dout_iso");
     };
     ++i;
 
     if(actual->iCS != actual->iCSiso) {
-        errors + (1L<<i);
+        errors |= (1L<<i);
         Serial.println("inconsistent iCS, iCSiso");
     };
     ++i;
 
     if(actual->iDRDY != actual->i_drdy_iso) {
-        errors + (1L<<i);
+        errors |= (1L<<i);
         Serial.println("inconsistent iDRDY, i_drdy_iso");
     };
     ++i;
+
+    if (errors) {
+        char buf[80];
+        sprintf(buf, "(errors: 0x%8lx)", errors);
+        Serial.println(buf);
+    }
 
     return errors;
 }
@@ -658,11 +666,46 @@ void run_tests()
 
         actual = readShiftIn();
         if(shift_in_mismatch(&expected, &actual, compare_dout)) {
-           blink_error(ERROR_BLINK_CS_SHIFT_IN);
+           blink_error(ERROR_BLINK_MCS_SHIFT_IN);
            return;
         }
     }
 
+    {
+        ShiftOutputs output = default_output;
+        output.slave_ics=1;
+        writeShiftOut(output);
+
+        delayMicroseconds(DIGITAL_STATE_CHANGE_DELAY_MICROS);
+        ShiftInputs expected = undriven_expected;
+
+        actual = readShiftIn();
+        if(shift_in_mismatch(&expected, &actual, compare_dout)) {
+           blink_error(ERROR_BLINK_SCS_SHIFT_IN);
+           return;
+        }
+    }
+
+    {
+        ShiftOutputs output = default_output;
+        output.master_ics=1;
+        output.slave_ics=1;
+        writeShiftOut(output);
+
+        delayMicroseconds(DIGITAL_STATE_CHANGE_DELAY_MICROS);
+        ShiftInputs expected = undriven_expected;
+        expected.masterAndMasterCS = 0;
+        expected.DOUT = 1;
+        expected.dout_iso = 1;
+        expected.iCS = 1;
+        expected.iCSiso = 1;
+
+        actual = readShiftIn();
+        if(shift_in_mismatch(&expected, &actual, compare_dout)) {
+           blink_error(ERROR_BLINK_MSCS_SHIFT_IN);
+           return;
+        }
+    }
 
     // SUCCESS BLOCK!
     {
