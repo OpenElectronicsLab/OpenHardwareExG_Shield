@@ -807,27 +807,28 @@ struct error_code run_tests()
         }
     }
 
-/*
     {
         ShiftOutputs output;
-        output.master_ics=1;
-        output.slave_ics=1;
+        output.simulateBoardBelow=1;
+        output.master_ics=0;
+        output.slave_ics=0;
         writeShiftOut(output);
 
         delayMicroseconds(DIGITAL_STATE_CHANGE_DELAY_MICROS);
         ShiftInputs expected = default_expected;
-        expected.masterAndMasterCS = 0;
-        expected.DOUT = 1;
-        expected.dout_iso = 1;
-        expected.iCS = 1;
-        expected.iCSiso = 1;
+        expected.slaveAndSlaveCS = 1;
+        expected.iMaster = 1;
+        expected.master = 0;
+        expected.master_iso = 0;
+        expected.iCS = 0;
+        expected.iCSiso = 0;
 
         ShiftInputs actual = readShiftIn();
         if(shift_in_mismatch(&expected, &actual, compare_dout)) {
            return ERROR_BLINK_SLAVE_BOTH_CS_SHIFT_IN;
         }
     }
-*/
+
     return ERROR_BLINK_SUCCESS;
 }
 
