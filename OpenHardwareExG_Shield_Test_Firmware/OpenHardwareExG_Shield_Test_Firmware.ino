@@ -407,16 +407,19 @@ void blink_error(struct error_code err)
 	Serial.println(err.error_txt);
 
 	ShiftOutputs errorOutput = ShiftOutputs::power_off();
-	errorOutput.faultLED = 1;
-	writeShiftOut(errorOutput);
 
 	for (int i = 0; i < 10 /* or board removed */; ++i) {
-		// TODO: actually blink this
-		errorOutput.faultLED = 1;
-		writeShiftOut(errorOutput);
+		for(unsigned j = 0; j < err.blink_code; ++j) {
+		    errorOutput.faultLED = 0;
+		    writeShiftOut(errorOutput);
+		    delay(200);
+		    errorOutput.faultLED = 1;
+		    writeShiftOut(errorOutput);
+		    delay(300);
+		}
+                delay(2000);
 	}
 
-	delay(3000);
 	errorOutput.faultLED = 0;
 	writeShiftOut(errorOutput);
 }
