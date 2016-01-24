@@ -1,5 +1,4 @@
 =kicad=
- * fudicial marks have paste layer
  * investigate forking/pull-requesting
     https://github.com/KiCad/kicad-library
     for our custom modules
