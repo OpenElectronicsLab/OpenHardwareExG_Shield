@@ -402,6 +402,19 @@ struct error_code ERROR_BLINK_SLAVE_MCS_SHIFT_IN = { 0x0000B, "SLAVE MCS" };
 struct error_code ERROR_BLINK_SLAVE_SCS_SHIFT_IN = { 0x0000C, "SLAVE SCS" };
 struct error_code ERROR_BLINK_SLAVE_BOTH_CS_SHIFT_IN = { 0x0000D, "SLAVE BOTH CS" };
 
+bool delay_or_go_button(unsigned delay_millis)
+{
+    unsigned long start = millis();
+
+    while(millis() - start < delay_millis) {
+	    ShiftInputs input = readShiftIn();
+	    if (input.goButton) {
+                return true;
+            }
+    }
+    return false;
+}
+
 void blink_error(struct error_code err)
 {
 	Serial.println(err.error_txt);
@@ -412,14 +425,21 @@ void blink_error(struct error_code err)
 		for(unsigned j = 0; j < err.blink_code; ++j) {
 		    errorOutput.faultLED = 0;
 		    writeShiftOut(errorOutput);
-		    delay(200);
+		    if(delay_or_go_button(200)) {
+			goto EXIT_BLINK_ERROR;
+		    }
 		    errorOutput.faultLED = 1;
 		    writeShiftOut(errorOutput);
-		    delay(300);
+		    if(delay_or_go_button(300)) {
+			goto EXIT_BLINK_ERROR;
+		    }
 		}
-                delay(2000);
+		if(delay_or_go_button(2000)) {
+		    goto EXIT_BLINK_ERROR;
+		}
 	}
 
+      EXIT_BLINK_ERROR:
 	errorOutput.faultLED = 0;
 	writeShiftOut(errorOutput);
 }
