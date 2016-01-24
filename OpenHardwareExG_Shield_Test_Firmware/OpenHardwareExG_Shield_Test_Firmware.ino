@@ -378,16 +378,17 @@ struct error_code {
     const char *error_txt;
 };
 
-struct error_code ERROR_BLINK_SHORT   = { 0x00000, "Short detected" };
-struct error_code ERROR_BLINK_GND_HI  = { 0x00001, "problem with GND iso" };
-struct error_code ERROR_BLINK_3V3_ISO = { 0x00002, "problem with 3v3 iso" };
-struct error_code ERROR_BLINK_VIN_ISO = { 0x00003, "problem with VIN iso" };
-struct error_code ERROR_BLINK_GND_LOW = { 0x00004, "problem with GND iso" };
-struct error_code ERROR_BLINK_FIRST_SHIFT_IN = { 0x00005, "first read" };
-struct error_code ERROR_BLINK_MCS_SHIFT_IN = { 0x00006, "MCS read" };
-struct error_code ERROR_BLINK_SCS_SHIFT_IN = { 0x00007, "SCS read" };
-struct error_code ERROR_BLINK_MSCS_SHIFT_IN = { 0x00008, "MSCS read" };
-struct error_code ERROR_BLINK_SLAVE_SHIFT_IN = { 0x00008, "SLAVE" };
+struct error_code ERROR_BLINK_SUCCESS = { 0x00000, "Success (no errors)" };
+struct error_code ERROR_BLINK_SHORT   = { 0x00001, "Short detected" };
+struct error_code ERROR_BLINK_GND_HI  = { 0x00002, "problem with GND iso" };
+struct error_code ERROR_BLINK_3V3_ISO = { 0x00003, "problem with 3v3 iso" };
+struct error_code ERROR_BLINK_VIN_ISO = { 0x00004, "problem with VIN iso" };
+struct error_code ERROR_BLINK_GND_LOW = { 0x00005, "problem with GND iso" };
+struct error_code ERROR_BLINK_FIRST_SHIFT_IN = { 0x00006, "first read" };
+struct error_code ERROR_BLINK_MCS_SHIFT_IN = { 0x00007, "MCS read" };
+struct error_code ERROR_BLINK_SCS_SHIFT_IN = { 0x00008, "SCS read" };
+struct error_code ERROR_BLINK_MSCS_SHIFT_IN = { 0x00009, "MSCS read" };
+struct error_code ERROR_BLINK_SLAVE_SHIFT_IN = { 0x0000A, "SLAVE" };
 
 void blink_error(struct error_code err)
 {
@@ -579,7 +580,7 @@ unsigned long shift_in_mismatch(struct ShiftInputs *expected, struct ShiftInputs
     return errors;
 }
 
-void run_tests()
+struct error_code run_tests()
 {
     ShiftOutputs default_output;
 
@@ -589,32 +590,27 @@ void run_tests()
     delay(STARTUP_CAPACITOR_CHARGE_DELAY_MILLIS);
 
     if(check_for_short()) {
-	blink_error(ERROR_BLINK_SHORT);
-	return; // bail early
+	return ERROR_BLINK_SHORT;
     }
 
     digitalWrite(PIN_RESIST_GND_ISO, HIGH);
     delay(STARTUP_ADDITIONAL_CAPACITOR_CHARGE_DELAY_MILLIS);
     if(check_div_gnd_high_fault()) {
-	blink_error(ERROR_BLINK_GND_HI);
-	return; // bail early
+	return ERROR_BLINK_GND_HI; // bail early
     }
 
     if(check_3v3_bogus_iso_fault()) {
-	blink_error(ERROR_BLINK_3V3_ISO);
-	return; // bail early
+	return ERROR_BLINK_3V3_ISO; // bail early
     }
 
     if(check_5v_bogus_iso_fault()) {
-	blink_error(ERROR_BLINK_VIN_ISO);
-	return; // bail early
+	return ERROR_BLINK_VIN_ISO; // bail early
     }
 
     digitalWrite(PIN_RESIST_GND_ISO, LOW);
     delay(STARTUP_ADDITIONAL_CAPACITOR_CHARGE_DELAY_MILLIS);
     if(check_div_gnd_low_fault()) {
-	blink_error(ERROR_BLINK_GND_LOW);
-	return; // bail early
+	return ERROR_BLINK_GND_LOW; // bail early
     }
 
     ShiftInputs undriven_expected;
@@ -648,8 +644,7 @@ void run_tests()
     bool compare_dout = false;
     ShiftInputs actual = readShiftIn();
     if(shift_in_mismatch(&undriven_expected, &actual, compare_dout)) {
-       blink_error(ERROR_BLINK_FIRST_SHIFT_IN);
-       return;
+       return ERROR_BLINK_FIRST_SHIFT_IN;
     }
 
     {
@@ -667,8 +662,7 @@ void run_tests()
 
         actual = readShiftIn();
         if(shift_in_mismatch(&expected, &actual, compare_dout)) {
-           blink_error(ERROR_BLINK_MCS_SHIFT_IN);
-           return;
+           return ERROR_BLINK_MCS_SHIFT_IN;
         }
     }
 
@@ -682,8 +676,7 @@ void run_tests()
 
         actual = readShiftIn();
         if(shift_in_mismatch(&expected, &actual, compare_dout)) {
-           blink_error(ERROR_BLINK_SCS_SHIFT_IN);
-           return;
+           return ERROR_BLINK_SCS_SHIFT_IN;
         }
     }
 
@@ -703,8 +696,7 @@ void run_tests()
 
         actual = readShiftIn();
         if(shift_in_mismatch(&expected, &actual, compare_dout)) {
-           blink_error(ERROR_BLINK_MSCS_SHIFT_IN);
-           return;
+           return ERROR_BLINK_MSCS_SHIFT_IN;
         }
     }
 
@@ -723,8 +715,7 @@ void run_tests()
 
         actual = readShiftIn();
         if(shift_in_mismatch(&expected, &actual, compare_dout)) {
-           blink_error(ERROR_BLINK_SLAVE_SHIFT_IN);
-           return;
+           return ERROR_BLINK_SLAVE_SHIFT_IN;
         }
     }
 /*
@@ -740,8 +731,7 @@ void run_tests()
 
         actual = readShiftIn();
         if(shift_in_mismatch(&expected, &actual, compare_dout)) {
-           blink_error(ERROR_BLINK_MCS_SHIFT_IN);
-           return;
+           return ERROR_BLINK_MCS_SHIFT_IN;
         }
     }
 
@@ -755,8 +745,7 @@ void run_tests()
 
         actual = readShiftIn();
         if(shift_in_mismatch(&expected, &actual, compare_dout)) {
-           blink_error(ERROR_BLINK_SCS_SHIFT_IN);
-           return;
+           return ERROR_BLINK_SCS_SHIFT_IN;
         }
     }
 
@@ -776,28 +765,11 @@ void run_tests()
 
         actual = readShiftIn();
         if(shift_in_mismatch(&expected, &actual, compare_dout)) {
-           blink_error(ERROR_BLINK_MSCS_SHIFT_IN);
-           return;
+           return ERROR_BLINK_MSCS_SHIFT_IN;
         }
     }
 */
-    // SUCCESS BLOCK!
-    {
-        ShiftOutputs output = default_output;
-        output.successLED = 1;
-        writeShiftOut(output);
-
-        delay(3000);
-
-        output.enableShield=0;
-        writeShiftOut(output);
-
-        // in real life we'd loop until detected board removed
-        delay(3000);
-        output.successLED = 0;
-        output.faultLED = 0;
-        writeShiftOut(output);
-    }
+    return ERROR_BLINK_SUCCESS;
 }
 
 // for testing the test boards themselves, this function
@@ -902,7 +874,34 @@ void loop() {
     } else {
 	ShiftInputs input = readShiftIn();
 	if (input.goButton) {
-	    run_tests();
+	    struct error_code error = run_tests();
+	    if(error.blink_code != ERROR_BLINK_SUCCESS.blink_code){
+		char buf[80];
+		sprintf(buf, "Error %u: %s",
+                        error.blink_code, error.error_txt);
+		Serial.println(buf);
+		blink_error(error);
+	    } else {
+		Serial.println("SUCCESS!");
+                ShiftOutputs output;
+                output.successLED = 1;
+
+                // leave shield enabled for multimeter
+                output.enableShield=1;
+
+                writeShiftOut(output);
+
+                delay(3000);
+
+                output.enableShield=0;
+                writeShiftOut(output);
+
+                // in real life we'd loop until detected board removed
+                delay(3000);
+                output.successLED = 0;
+                output.faultLED = 0;
+                writeShiftOut(output);
+	    }
 	}
     }
 }
