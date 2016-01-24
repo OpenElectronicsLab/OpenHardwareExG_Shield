@@ -4,6 +4,7 @@
     for our custom modules
 
 =Test Harness=
+ * DOUT checking rigor (we mostly set check_dout to false)
  * Shortcomings we will ignore
    * serial output registers start uninitialized and thus in an undefined state
      - we see (momentarily) a flash where both the success and fault lights are

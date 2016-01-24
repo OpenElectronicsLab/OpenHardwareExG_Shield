@@ -24,17 +24,26 @@ struct ShiftOutputs {
     unsigned signalB : 1;
     unsigned successLED : 1;
     unsigned faultLED : 1;
-    unsigned enableShield : 1;
+    unsigned enable_shield : 1;
 
     ShiftOutputs() {
         simulateBoardBelow = 0;
-        master_ics = 0;
-        slave_ics = 0;
+        master_ics = 1;
+        slave_ics = 1;
         signalA = 0;
         signalB = 0;
         successLED = 0;
         faultLED = 0;
-        enableShield = 0;
+        enable_shield = 1;
+    }
+
+    static ShiftOutputs power_off() {
+        ShiftOutputs result;
+	result.master_ics = 0;
+        result.slave_ics = 0;
+        result.enable_shield = 0;
+
+	return result;
     }
 };
 
@@ -157,7 +166,7 @@ void shiftOut(bool value) {
 }
 
 void writeShiftOut(const struct ShiftOutputs& output) {
-    shiftOut(output.enableShield);
+    shiftOut(output.enable_shield);
     shiftOut(output.faultLED);
     shiftOut(output.successLED);
     shiftOut(output.signalB);
@@ -252,7 +261,7 @@ void setup() {
     digitalWrite(PIN_SHIFT_CLK, LOW);
 
     // zero the shift-out (including enable_shield=0)
-    ShiftOutputs output;
+    ShiftOutputs output = ShiftOutputs::power_off();
     writeShiftOut(output);
 
     // initialize the USB Serial connection
@@ -268,8 +277,8 @@ bool check_for_short()
     while ((millis()-start) < timeout_milliseconds) {
         unsigned d = digitalRead(IPIN_SHIELD_SHORTED);
         if (!d) {
-	    ShiftOutputs errorOutput;
-            writeShiftOut(errorOutput); // disables power to the board
+	    ShiftOutputs output = ShiftOutputs::power_off();
+            writeShiftOut(output); // disables power to the board
             return true;
         }
     }
@@ -387,26 +396,29 @@ struct error_code ERROR_BLINK_GND_LOW = { 0x00005, "problem with GND iso" };
 struct error_code ERROR_BLINK_FIRST_SHIFT_IN = { 0x00006, "first read" };
 struct error_code ERROR_BLINK_MCS_SHIFT_IN = { 0x00007, "MCS read" };
 struct error_code ERROR_BLINK_SCS_SHIFT_IN = { 0x00008, "SCS read" };
-struct error_code ERROR_BLINK_MSCS_SHIFT_IN = { 0x00009, "MSCS read" };
+struct error_code ERROR_BLINK_BOTH_CS_SHIFT_IN = { 0x00009, "BOTH CS read" };
 struct error_code ERROR_BLINK_SLAVE_SHIFT_IN = { 0x0000A, "SLAVE" };
+struct error_code ERROR_BLINK_SLAVE_MCS_SHIFT_IN = { 0x0000B, "SLAVE MCS" };
+struct error_code ERROR_BLINK_SLAVE_SCS_SHIFT_IN = { 0x0000C, "SLAVE SCS" };
+struct error_code ERROR_BLINK_SLAVE_BOTH_CS_SHIFT_IN = { 0x0000D, "SLAVE BOTH CS" };
 
 void blink_error(struct error_code err)
 {
-   Serial.println(err.error_txt);
+	Serial.println(err.error_txt);
 
-   ShiftOutputs errorOutput;
-   errorOutput.faultLED = 1;
-   writeShiftOut(errorOutput);
-
-   for (int i = 0; i < 10 /* or board removed */; ++i) {
-        // TODO: actually blink this
+	ShiftOutputs errorOutput = ShiftOutputs::power_off();
 	errorOutput.faultLED = 1;
-        writeShiftOut(errorOutput);
-    }
+	writeShiftOut(errorOutput);
 
-    delay(3000);
-    errorOutput.faultLED = 0;
-    writeShiftOut(errorOutput);
+	for (int i = 0; i < 10 /* or board removed */; ++i) {
+		// TODO: actually blink this
+		errorOutput.faultLED = 1;
+		writeShiftOut(errorOutput);
+	}
+
+	delay(3000);
+	errorOutput.faultLED = 0;
+	writeShiftOut(errorOutput);
 }
 
 /* the ADS1299 datasheet
@@ -417,102 +429,123 @@ unsigned long shift_in_mismatch(struct ShiftInputs *expected, struct ShiftInputs
 {
     unsigned long i=0;
     unsigned long errors=0;
+    bool match;
+    char buf[255];
 
     if(expected->slaveAndSlaveCS != actual->slaveAndSlaveCS) {
         errors |= (1L<<i);
-        Serial.println("mismatch comparing slaveAndSlaveCS");
+        sprintf(buf, "mismatch comparing slaveAndSlaveCS. Expected %u but was %u", expected->slaveAndSlaveCS, actual->slaveAndSlaveCS);
+        Serial.println(buf);
     }
     ++i;
     if(expected->masterAndMasterCS != actual->masterAndMasterCS) {
         errors |= (1L<<i);
-        Serial.println("mismatch comparing masterAndMasterCS");
+        sprintf(buf, "mismatch comparing masterAndMasterCS. Expected %u but was %u", expected->masterAndMasterCS, actual->masterAndMasterCS);
+        Serial.println(buf);
     }
     ++i;
     if(expected->iMaster != actual->iMaster) {
         errors |= (1L<<i);
-        Serial.println("mismatch comparing iMaster");
+        sprintf(buf, "mismatch comparing iMaster. Expected %u but was %u", expected->iMaster, actual->iMaster);
+        Serial.println(buf);
     }
     ++i;
     if(expected->master != actual->master) {
         errors |= (1L<<i);
-        Serial.println("mismatch comparing master");
+        sprintf(buf, "mismatch comparing master. Expected %u but was %u", expected->master, actual->master);
+        Serial.println(buf);
     }
     ++i;
     if( 0 && expected->goButton != actual->goButton) {
         errors |= (1L<<i);
-        Serial.println("mismatch comparing goButton");
+        sprintf(buf, "mismatch comparing goButton. Expected %u but was %u", expected->goButton, actual->goButton);
+        Serial.println(buf);
     }
     ++i;
     if(expected->iCS != actual->iCS) {
         errors |= (1L<<i);
-        Serial.println("mismatch comparing iCS");
+        sprintf(buf, "mismatch comparing iCS. Expected %u but was %u", expected->iCS, actual->iCS);
+        Serial.println(buf);
     }
     ++i;
     if(compare_dout && expected->DOUT != actual->DOUT) {
         errors |= (1L<<i);
-        Serial.println("mismatch comparing DOUT");
+        sprintf(buf, "mismatch comparing DOUT. Expected %u but was %u", expected->DOUT, actual->DOUT);
+        Serial.println(buf);
     }
     ++i;
     if(expected->iDRDY != actual->iDRDY) {
         errors |= (1L<<i);
-        Serial.println("mismatch comparing iDRDY");
+        sprintf(buf, "mismatch comparing iDRDY. Expected %u but was %u", expected->iDRDY, actual->iDRDY);
+        Serial.println(buf);
     }
     ++i;
 
     if(expected->MOSIiso != actual->MOSIiso) {
         errors |= (1L<<i);
-        Serial.println("mismatch comparing MOSIiso");
+        sprintf(buf, "mismatch comparing MOSIiso. Expected %u but was %u", expected->MOSIiso, actual->MOSIiso);
+        Serial.println(buf);
     }
     ++i;
     if(expected->SCLKiso != actual->SCLKiso) {
         errors |= (1L<<i);
-        Serial.println("mismatch comparing SCLKiso");
+        sprintf(buf, "mismatch comparing SCLKiso. Expected %u but was %u", expected->SCLKiso, actual->SCLKiso);
+        Serial.println(buf);
     }
     ++i;
     if(expected->iCSiso != actual->iCSiso) {
         errors |= (1L<<i);
-        Serial.println("mismatch comparing iCSiso");
+        sprintf(buf, "mismatch comparing iCSiso. Expected %u but was %u", expected->iCSiso, actual->iCSiso);
+        Serial.println(buf);
     }
     ++i;
     if(expected->master_iso != actual->master_iso) {
         errors |= (1L<<i);
-        Serial.println("mismatch comparing master_iso");
+        sprintf(buf, "mismatch comparing master_iso. Expected %u but was %u", expected->master_iso, actual->master_iso);
+        Serial.println(buf);
     }
     ++i;
     if(expected->clk_iso != actual->clk_iso) {
         errors |= (1L<<i);
-        Serial.println("mismatch comparing clk_iso");
+        sprintf(buf, "mismatch comparing clk_iso. Expected %u but was %u", expected->clk_iso, actual->clk_iso);
+        Serial.println(buf);
     }
     ++i;
     if(expected->i_drdy_iso != actual->i_drdy_iso) {
         errors |= (1L<<i);
-        Serial.println("mismatch comparing i_drdy_iso");
+        sprintf(buf, "mismatch comparing i_drdy_iso. Expected %u but was %u", expected->i_drdy_iso, actual->i_drdy_iso);
+        Serial.println(buf);
     }
     ++i;
     if(compare_dout && expected->dout_iso != actual->dout_iso) {
         errors |= (1L<<i);
-        Serial.println("mismatch comparing dout_iso");
+        sprintf(buf, "mismatch comparing dout_iso. Expected %u but was %u", expected->dout_iso, actual->dout_iso);
+        Serial.println(buf);
     }
     ++i;
     if(0 && expected->unused1 != actual->unused1) {
         errors |= (1L<<i);
-        Serial.println("mismatch comparing unused1");
+        sprintf(buf, "mismatch comparing unused1. Expected %u but was %u", expected->unused1, actual->unused1);
+        Serial.println(buf);
     }
     ++i;
 
     if(expected->GPIO1 != actual->GPIO1) {
         errors |= (1L<<i);
-        Serial.println("mismatch comparing GPIO1");
+        sprintf(buf, "mismatch comparing GPIO1. Expected %u but was %u", expected->GPIO1, actual->GPIO1);
+        Serial.println(buf);
     }
     ++i;
     if(expected->GPIO2 != actual->GPIO2) {
         errors |= (1L<<i);
-        Serial.println("mismatch comparing GPIO2");
+        sprintf(buf, "mismatch comparing GPIO2. Expected %u but was %u", expected->GPIO2, actual->GPIO2);
+        Serial.println(buf);
     }
     ++i;
     if(expected->GPIO3 != actual->GPIO3) {
         errors |= (1L<<i);
-        Serial.println("mismatch comparing GPIO3");
+        sprintf(buf, "mismatch comparing GPIO3. Expected %u but was %u", expected->GPIO3, actual->GPIO3);
+        Serial.println(buf);
     }
     ++i;
     if(expected->GPIO4 != actual->GPIO4) {
@@ -522,22 +555,26 @@ unsigned long shift_in_mismatch(struct ShiftInputs *expected, struct ShiftInputs
     ++i;
     if(expected->DAISYIN != actual->DAISYIN) {
         errors |= (1L<<i);
-        Serial.println("mismatch comparing DAISYIN");
+        sprintf(buf, "mismatch comparing DAISYIN. Expected %u but was %u", expected->DAISYIN, actual->DAISYIN);
+        Serial.println(buf);
     }
     ++i;
     if(expected->BIASINV != actual->BIASINV) {
         errors |= (1L<<i);
-        Serial.println("mismatch comparing BIASINV");
+        sprintf(buf, "mismatch comparing BIASINV. Expected %u but was %u", expected->BIASINV, actual->BIASINV);
+        Serial.println(buf);
     }
     ++i;
     if(0 && expected->unused2 != actual->unused2) {
         errors |= (1L<<i);
-        Serial.println("mismatch comparing unused2");
+        sprintf(buf, "mismatch comparing unused2. Expected %u but was %u", expected->unused2, actual->unused2);
+        Serial.println(buf);
     }
     ++i;
     if(0 && expected->unused3 != actual->unused3) {
         errors |= (1L<<i);
-        Serial.println("mismatch comparing unused3");
+        sprintf(buf, "mismatch comparing unused3. Expected %u but was %u", expected->unused3, actual->unused3);
+        Serial.println(buf);
     }
     ++i;
 
@@ -582,10 +619,12 @@ unsigned long shift_in_mismatch(struct ShiftInputs *expected, struct ShiftInputs
 
 struct error_code run_tests()
 {
-    ShiftOutputs default_output;
 
-    default_output.enableShield=1; // powers test board
-    writeShiftOut(default_output);
+    {
+	ShiftOutputs output = ShiftOutputs::power_off();
+        output.enable_shield = 1;
+        writeShiftOut(output);
+    }
 
     delay(STARTUP_CAPACITOR_CHARGE_DELAY_MILLIS);
 
@@ -613,157 +652,175 @@ struct error_code run_tests()
 	return ERROR_BLINK_GND_LOW; // bail early
     }
 
-    ShiftInputs undriven_expected;
-    undriven_expected.slaveAndSlaveCS = 0;
-    undriven_expected.masterAndMasterCS = 1;
-    undriven_expected.iMaster = 0;
-    undriven_expected.master = 1;
-    undriven_expected.goButton = 0;
-    undriven_expected.iCS = 0;
-    undriven_expected.DOUT = 0;
-    undriven_expected.iDRDY = 1;
+    ShiftInputs default_expected;
+    default_expected.slaveAndSlaveCS = 0;
+    default_expected.masterAndMasterCS = 0;
+    default_expected.iMaster = 0;
+    default_expected.master = 1;
+    default_expected.goButton = 0;
+    default_expected.iCS = 1;
+    default_expected.DOUT = 0;
+    default_expected.iDRDY = 1;
 
-    undriven_expected.MOSIiso = 0;
-    undriven_expected.SCLKiso = 0;
-    undriven_expected.iCSiso = 0;
-    undriven_expected.master_iso = 1;
-    undriven_expected.clk_iso = 0;
-    undriven_expected.i_drdy_iso = 1;
-    undriven_expected.dout_iso = 0;
-    undriven_expected.unused1 = 0;
+    default_expected.MOSIiso = 0;
+    default_expected.SCLKiso = 0;
+    default_expected.iCSiso = 1;
+    default_expected.master_iso = 1;
+    default_expected.clk_iso = 0;
+    default_expected.i_drdy_iso = 1;
+    default_expected.dout_iso = 0;
+    default_expected.unused1 = 0;
 
-    undriven_expected.GPIO1 = 0;
-    undriven_expected.GPIO2 = 0;
-    undriven_expected.GPIO3 = 0;
-    undriven_expected.GPIO4 = 0;
-    undriven_expected.DAISYIN = 0;
-    undriven_expected.BIASINV = 0;
-    undriven_expected.unused2 = 0;
+    default_expected.GPIO1 = 0;
+    default_expected.GPIO2 = 0;
+    default_expected.GPIO3 = 0;
+    default_expected.GPIO4 = 0;
+    default_expected.DAISYIN = 0;
+    default_expected.BIASINV = 0;
+    default_expected.unused2 = 0;
 
     // TODO: compare both shift inputs and SPI inputs
     bool compare_dout = false;
-    ShiftInputs actual = readShiftIn();
-    if(shift_in_mismatch(&undriven_expected, &actual, compare_dout)) {
-       return ERROR_BLINK_FIRST_SHIFT_IN;
+    {
+	ShiftOutputs output;
+        writeShiftOut(output);
+        delayMicroseconds(DIGITAL_STATE_CHANGE_DELAY_MICROS);
+
+        ShiftInputs expected = default_expected;
+        ShiftInputs actual = readShiftIn();
+        if(shift_in_mismatch(&expected, &actual, compare_dout)) {
+           return ERROR_BLINK_FIRST_SHIFT_IN;
+        }
     }
 
     {
-        ShiftOutputs output = default_output;
-        output.master_ics=1;
+        ShiftOutputs output;
+        output.master_ics=0;
         writeShiftOut(output);
 
         delayMicroseconds(DIGITAL_STATE_CHANGE_DELAY_MICROS);
-        ShiftInputs expected = undriven_expected;
-        expected.masterAndMasterCS = 0;
+        ShiftInputs expected = default_expected;
+        expected.masterAndMasterCS = 1;
+        expected.iCS = 0;
+        expected.iCSiso = 0;
         expected.DOUT = 1;
         expected.dout_iso = 1;
-        expected.iCS = 1;
-        expected.iCSiso = 1;
 
-        actual = readShiftIn();
+        ShiftInputs actual = readShiftIn();
         if(shift_in_mismatch(&expected, &actual, compare_dout)) {
            return ERROR_BLINK_MCS_SHIFT_IN;
         }
     }
 
     {
-        ShiftOutputs output = default_output;
-        output.slave_ics=1;
+        ShiftOutputs output;
+        output.slave_ics=0;
         writeShiftOut(output);
 
         delayMicroseconds(DIGITAL_STATE_CHANGE_DELAY_MICROS);
-        ShiftInputs expected = undriven_expected;
+        ShiftInputs expected = default_expected;
 
-        actual = readShiftIn();
+        ShiftInputs actual = readShiftIn();
         if(shift_in_mismatch(&expected, &actual, compare_dout)) {
            return ERROR_BLINK_SCS_SHIFT_IN;
         }
     }
 
     {
-        ShiftOutputs output = default_output;
-        output.master_ics=1;
-        output.slave_ics=1;
+        ShiftOutputs output;
+	output.master_ics=0;
+        output.slave_ics=0;
         writeShiftOut(output);
 
         delayMicroseconds(DIGITAL_STATE_CHANGE_DELAY_MICROS);
-        ShiftInputs expected = undriven_expected;
-        expected.masterAndMasterCS = 0;
+        ShiftInputs expected = default_expected;
+        expected.masterAndMasterCS = 1;
+        expected.iCS = 0;
+        expected.iCSiso = 0;
         expected.DOUT = 1;
         expected.dout_iso = 1;
-        expected.iCS = 1;
-        expected.iCSiso = 1;
 
-        actual = readShiftIn();
+        ShiftInputs actual = readShiftIn();
         if(shift_in_mismatch(&expected, &actual, compare_dout)) {
-           return ERROR_BLINK_MSCS_SHIFT_IN;
+           return ERROR_BLINK_BOTH_CS_SHIFT_IN;
         }
     }
 
     {
-        ShiftOutputs output = default_output;
+        ShiftOutputs output;
+        output.master_ics=0;
+        output.slave_ics=0;
         output.simulateBoardBelow=1;
         writeShiftOut(output);
 
         delayMicroseconds(DIGITAL_STATE_CHANGE_DELAY_MICROS);
-        ShiftInputs expected = undriven_expected;
+        ShiftInputs expected = default_expected;
         expected.slaveAndSlaveCS = 1;
-        expected.masterAndMasterCS = 0;
         expected.iMaster = 1;
         expected.master = 0;
         expected.master_iso = 0;
+        expected.iCS = 0;
+        expected.iCSiso = 0;
 
-        actual = readShiftIn();
+        ShiftInputs actual = readShiftIn();
         if(shift_in_mismatch(&expected, &actual, compare_dout)) {
            return ERROR_BLINK_SLAVE_SHIFT_IN;
         }
     }
-/*
+
     {
-        ShiftOutputs output = default_output;
+        ShiftOutputs output;
         output.simulateBoardBelow=1;
-        output.master_ics=1;
+        output.master_ics=0;
         writeShiftOut(output);
 
         delayMicroseconds(DIGITAL_STATE_CHANGE_DELAY_MICROS);
-        ShiftInputs expected = undriven_expected;
-        expected.masterAndMasterCS = 0;
+        ShiftInputs expected = default_expected;
+        expected.iMaster = 1;
+        expected.master = 0;
+        expected.master_iso = 0;
 
-        actual = readShiftIn();
+        ShiftInputs actual = readShiftIn();
         if(shift_in_mismatch(&expected, &actual, compare_dout)) {
-           return ERROR_BLINK_MCS_SHIFT_IN;
+           return ERROR_BLINK_SLAVE_MCS_SHIFT_IN;
         }
     }
 
+/*
+struct error_code ERROR_BLINK_SLAVE_SHIFT_IN = { 0x0000A, "SLAVE" };
+struct error_code ERROR_BLINK_SLAVE_MCS_SHIFT_IN = { 0x0000B, "SLAVE MCS" };
+struct error_code ERROR_BLINK_SLAVE_SCS_SHIFT_IN = { 0x0000C, "SLAVE SCS" };
+struct error_code ERROR_BLINK_SLAVE_BOTH_CS_SHIFT_IN = { 0x0000D, "SLAVE BOTH CS" };
+
     {
-        ShiftOutputs output = default_output;
+        ShiftOutputs output;
         output.slave_ics=1;
         writeShiftOut(output);
 
         delayMicroseconds(DIGITAL_STATE_CHANGE_DELAY_MICROS);
-        ShiftInputs expected = undriven_expected;
+        ShiftInputs expected = default_expected;
 
-        actual = readShiftIn();
+        ShiftInputs actual = readShiftIn();
         if(shift_in_mismatch(&expected, &actual, compare_dout)) {
            return ERROR_BLINK_SCS_SHIFT_IN;
         }
     }
 
     {
-        ShiftOutputs output = default_output;
+        ShiftOutputs output;
         output.master_ics=1;
         output.slave_ics=1;
         writeShiftOut(output);
 
         delayMicroseconds(DIGITAL_STATE_CHANGE_DELAY_MICROS);
-        ShiftInputs expected = undriven_expected;
+        ShiftInputs expected = default_expected;
         expected.masterAndMasterCS = 0;
         expected.DOUT = 1;
         expected.dout_iso = 1;
         expected.iCS = 1;
         expected.iCSiso = 1;
 
-        actual = readShiftIn();
+        ShiftInputs actual = readShiftIn();
         if(shift_in_mismatch(&expected, &actual, compare_dout)) {
            return ERROR_BLINK_MSCS_SHIFT_IN;
         }
@@ -790,7 +847,7 @@ static void harness_hardware_validation() {
     output.signalB = oddLoop;
     output.successLED = !oddLoop;
     output.faultLED = oddLoop;
-    output.enableShield = !oddLoop;
+    output.enable_shield = !oddLoop;
     writeShiftOut(output);
     digitalWrite(13, oddLoop ? HIGH : LOW );
     digitalWrite(PIN_RESIST_GND_ISO, oddLoop ? HIGH : LOW );
@@ -886,14 +943,11 @@ void loop() {
                 ShiftOutputs output;
                 output.successLED = 1;
 
-                // leave shield enabled for multimeter
-                output.enableShield=1;
-
                 writeShiftOut(output);
 
                 delay(3000);
 
-                output.enableShield=0;
+                output.enable_shield=0;
                 writeShiftOut(output);
 
                 // in real life we'd loop until detected board removed
