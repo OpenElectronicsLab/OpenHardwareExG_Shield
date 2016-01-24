@@ -786,26 +786,28 @@ struct error_code run_tests()
         }
     }
 
-/*
-struct error_code ERROR_BLINK_SLAVE_SHIFT_IN = { 0x0000A, "SLAVE" };
-struct error_code ERROR_BLINK_SLAVE_MCS_SHIFT_IN = { 0x0000B, "SLAVE MCS" };
-struct error_code ERROR_BLINK_SLAVE_SCS_SHIFT_IN = { 0x0000C, "SLAVE SCS" };
-struct error_code ERROR_BLINK_SLAVE_BOTH_CS_SHIFT_IN = { 0x0000D, "SLAVE BOTH CS" };
-
     {
         ShiftOutputs output;
-        output.slave_ics=1;
+        output.simulateBoardBelow=1;
+        output.slave_ics=0;
         writeShiftOut(output);
 
         delayMicroseconds(DIGITAL_STATE_CHANGE_DELAY_MICROS);
         ShiftInputs expected = default_expected;
+        expected.slaveAndSlaveCS = 1;
+        expected.iMaster = 1;
+        expected.master = 0;
+        expected.master_iso = 0;
+        expected.iCS = 0;
+        expected.iCSiso = 0;
 
         ShiftInputs actual = readShiftIn();
         if(shift_in_mismatch(&expected, &actual, compare_dout)) {
-           return ERROR_BLINK_SCS_SHIFT_IN;
+           return ERROR_BLINK_SLAVE_SCS_SHIFT_IN;
         }
     }
 
+/*
     {
         ShiftOutputs output;
         output.master_ics=1;
@@ -822,7 +824,7 @@ struct error_code ERROR_BLINK_SLAVE_BOTH_CS_SHIFT_IN = { 0x0000D, "SLAVE BOTH CS
 
         ShiftInputs actual = readShiftIn();
         if(shift_in_mismatch(&expected, &actual, compare_dout)) {
-           return ERROR_BLINK_MSCS_SHIFT_IN;
+           return ERROR_BLINK_SLAVE_BOTH_CS_SHIFT_IN;
         }
     }
 */
