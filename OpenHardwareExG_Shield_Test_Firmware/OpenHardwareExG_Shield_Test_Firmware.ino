@@ -402,6 +402,7 @@ struct error_code ERROR_BLINK_SLAVE_MCS_SHIFT_IN = { 0x0000B, "SLAVE MCS" };
 struct error_code ERROR_BLINK_SLAVE_SCS_SHIFT_IN = { 0x0000C, "SLAVE SCS" };
 struct error_code ERROR_BLINK_SLAVE_BOTH_CS_SHIFT_IN = { 0x0000D, "SLAVE BOTH CS" };
 struct error_code ERROR_BLINK_MOSI = { 0x0000E, "MOSI" };
+struct error_code ERROR_BLINK_SCLK = { 0x0000F, "SCLK" };
 
 bool delay_or_go_button(unsigned delay_millis)
 {
@@ -859,7 +860,6 @@ struct error_code run_tests()
         }
     }
 
-
     {
 	ShiftOutputs output;
         writeShiftOut(output);
@@ -872,6 +872,21 @@ struct error_code run_tests()
         bool compare_dout = false;
         if(shift_in_mismatch(&expected, &actual, compare_dout)) {
            return ERROR_BLINK_MOSI;
+        }
+    }
+
+    {
+	ShiftOutputs output;
+        writeShiftOut(output);
+        digitalWrite(SCK, HIGH);
+        delayMicroseconds(DIGITAL_STATE_CHANGE_DELAY_MICROS);
+        ShiftInputs expected = default_expected;
+	expected.SCLKiso = 1;
+        ShiftInputs actual = readShiftIn();
+        digitalWrite(SCK, LOW);
+        bool compare_dout = false;
+        if(shift_in_mismatch(&expected, &actual, compare_dout)) {
+           return ERROR_BLINK_SCLK;
         }
     }
 
