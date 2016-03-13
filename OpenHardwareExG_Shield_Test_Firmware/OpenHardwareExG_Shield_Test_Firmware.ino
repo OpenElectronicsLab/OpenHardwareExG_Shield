@@ -401,6 +401,7 @@ struct error_code ERROR_BLINK_SLAVE_SHIFT_IN = { 0x0000A, "SLAVE" };
 struct error_code ERROR_BLINK_SLAVE_MCS_SHIFT_IN = { 0x0000B, "SLAVE MCS" };
 struct error_code ERROR_BLINK_SLAVE_SCS_SHIFT_IN = { 0x0000C, "SLAVE SCS" };
 struct error_code ERROR_BLINK_SLAVE_BOTH_CS_SHIFT_IN = { 0x0000D, "SLAVE BOTH CS" };
+struct error_code ERROR_BLINK_MOSI = { 0x0000E, "MOSI" };
 
 bool delay_or_go_button(unsigned delay_millis)
 {
@@ -642,7 +643,6 @@ unsigned long shift_in_mismatch(struct ShiftInputs *expected, struct ShiftInputs
 
 struct error_code run_tests()
 {
-
     {
 	ShiftOutputs output = ShiftOutputs::power_off();
         output.enable_shield = 1;
@@ -703,7 +703,6 @@ struct error_code run_tests()
     default_expected.unused2 = 0;
 
     // TODO: compare both shift inputs and SPI inputs
-    bool compare_dout = false;
     {
 	ShiftOutputs output;
         writeShiftOut(output);
@@ -711,6 +710,7 @@ struct error_code run_tests()
 
         ShiftInputs expected = default_expected;
         ShiftInputs actual = readShiftIn();
+        bool compare_dout = false;
         if(shift_in_mismatch(&expected, &actual, compare_dout)) {
            return ERROR_BLINK_FIRST_SHIFT_IN;
         }
@@ -730,6 +730,7 @@ struct error_code run_tests()
         expected.dout_iso = 1;
 
         ShiftInputs actual = readShiftIn();
+        bool compare_dout = false;
         if(shift_in_mismatch(&expected, &actual, compare_dout)) {
            return ERROR_BLINK_MCS_SHIFT_IN;
         }
@@ -744,6 +745,7 @@ struct error_code run_tests()
         ShiftInputs expected = default_expected;
 
         ShiftInputs actual = readShiftIn();
+        bool compare_dout = false;
         if(shift_in_mismatch(&expected, &actual, compare_dout)) {
            return ERROR_BLINK_SCS_SHIFT_IN;
         }
@@ -764,6 +766,7 @@ struct error_code run_tests()
         expected.dout_iso = 1;
 
         ShiftInputs actual = readShiftIn();
+        bool compare_dout = false;
         if(shift_in_mismatch(&expected, &actual, compare_dout)) {
            return ERROR_BLINK_BOTH_CS_SHIFT_IN;
         }
@@ -786,6 +789,7 @@ struct error_code run_tests()
         expected.iCSiso = 0;
 
         ShiftInputs actual = readShiftIn();
+        bool compare_dout = false;
         if(shift_in_mismatch(&expected, &actual, compare_dout)) {
            return ERROR_BLINK_SLAVE_SHIFT_IN;
         }
@@ -804,6 +808,7 @@ struct error_code run_tests()
         expected.master_iso = 0;
 
         ShiftInputs actual = readShiftIn();
+        bool compare_dout = false;
         if(shift_in_mismatch(&expected, &actual, compare_dout)) {
            return ERROR_BLINK_SLAVE_MCS_SHIFT_IN;
         }
@@ -825,6 +830,7 @@ struct error_code run_tests()
         expected.iCSiso = 0;
 
         ShiftInputs actual = readShiftIn();
+        bool compare_dout = false;
         if(shift_in_mismatch(&expected, &actual, compare_dout)) {
            return ERROR_BLINK_SLAVE_SCS_SHIFT_IN;
         }
@@ -847,8 +853,25 @@ struct error_code run_tests()
         expected.iCSiso = 0;
 
         ShiftInputs actual = readShiftIn();
+        bool compare_dout = false;
         if(shift_in_mismatch(&expected, &actual, compare_dout)) {
            return ERROR_BLINK_SLAVE_BOTH_CS_SHIFT_IN;
+        }
+    }
+
+
+    {
+	ShiftOutputs output;
+        writeShiftOut(output);
+        digitalWrite(MOSI, HIGH);
+        delayMicroseconds(DIGITAL_STATE_CHANGE_DELAY_MICROS);
+        ShiftInputs expected = default_expected;
+	expected.MOSIiso = 1;
+        ShiftInputs actual = readShiftIn();
+        digitalWrite(MOSI, LOW);
+        bool compare_dout = false;
+        if(shift_in_mismatch(&expected, &actual, compare_dout)) {
+           return ERROR_BLINK_MOSI;
         }
     }
 
