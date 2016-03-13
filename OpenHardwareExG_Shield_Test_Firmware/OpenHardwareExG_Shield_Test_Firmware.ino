@@ -14,7 +14,33 @@
 // time to wait between testing state changes
 # define DIGITAL_STATE_CHANGE_DELAY_MICROS 2
 
+#ifdef  _VARIANT_ARDUINO_DUE_X_
+#define SPI_CLOCK_DIVIDER_VAL 21
+#else
+// #define SPI_CLOCK_DIVIDER_VAL SPI_CLOCK_DIV4
+#define SPI_CLOCK_DIVIDER_VAL SPI_CLOCK_DIV8
+#endif
+
+enum spi_command {
+        // system commands
+        WAKEUP = 0x02,
+        STANDBY = 0x04,
+        RESET = 0x06,
+        START = 0x08,
+        STOP = 0x0a,
+
+        // read commands
+        RDATAC = 0x10,
+        SDATAC = 0x11,
+        RDATA = 0x12,
+
+        // register commands
+        RREG = 0x20,
+        WREG = 0x40
+};
+
 #include <stdio.h>
+#include <SPI.h>
 
 struct ShiftOutputs {
     unsigned simulateBoardBelow : 1;
@@ -403,6 +429,7 @@ struct error_code ERROR_BLINK_SLAVE_SCS_SHIFT_IN = { 0x0000C, "SLAVE SCS" };
 struct error_code ERROR_BLINK_SLAVE_BOTH_CS_SHIFT_IN = { 0x0000D, "SLAVE BOTH CS" };
 struct error_code ERROR_BLINK_MOSI = { 0x0000E, "MOSI" };
 struct error_code ERROR_BLINK_SCLK = { 0x0000F, "SCLK" };
+struct error_code ERROR_BLINK_CHIP_ID = { 0x00010, "CHIP ID" };
 
 bool delay_or_go_button(unsigned delay_millis)
 {
@@ -889,6 +916,53 @@ struct error_code run_tests()
            return ERROR_BLINK_SCLK;
         }
     }
+
+    {
+	ShiftOutputs output;
+        writeShiftOut(output);
+        digitalWrite(SCK, HIGH);
+        delayMicroseconds(DIGITAL_STATE_CHANGE_DELAY_MICROS);
+        ShiftInputs expected = default_expected;
+	expected.SCLKiso = 1;
+        ShiftInputs actual = readShiftIn();
+        digitalWrite(SCK, LOW);
+        bool compare_dout = false;
+        if(shift_in_mismatch(&expected, &actual, compare_dout)) {
+           return ERROR_BLINK_SCLK;
+        }
+    }
+
+    // basic electrical connection seems sane
+    // next start interacting with ADS129x
+
+    SPI.begin();
+
+    SPI.setBitOrder(MSBFIRST);
+    SPI.setClockDivider(SPI_CLOCK_DIVIDER_VAL);
+    SPI.setDataMode(SPI_MODE1);
+    {
+	ShiftOutputs output;
+	output.master_ics = 0;
+        writeShiftOut(output);
+    }
+    SPI.transfer(SDATAC);
+    delayMicroseconds(1);
+    SPI.transfer(RREG | 0x00); // ID is register 0
+    SPI.transfer(0); // number of registers to be read/written
+    byte val = 0x1F & SPI.transfer(0); // Bits[7:5] Not used (Datasheet 40)
+
+    SPI.end();
+    pinMode(MOSI, OUTPUT);
+    digitalWrite(MOSI, LOW);
+    pinMode(SCK, OUTPUT);
+    digitalWrite(SCK, LOW);
+
+    if(val != 0x1E) {
+	char buf[80];
+	snprintf(buf, 80, "Expected ID:%X, but was:%X", 0x1E, val);
+        Serial.println(buf);
+	return ERROR_BLINK_CHIP_ID;
+    };
 
     return ERROR_BLINK_SUCCESS;
 }
