@@ -669,6 +669,29 @@ unsigned long shift_in_mismatch(struct ShiftInputs *expected, struct ShiftInputs
     return errors;
 }
 
+void spi_setup()
+{
+    SPI.begin();
+
+    SPI.setBitOrder(MSBFIRST);
+    SPI.setClockDivider(SPI_CLOCK_DIVIDER_VAL);
+    SPI.setDataMode(SPI_MODE1);
+    ShiftOutputs output;
+    output.master_ics = 0;
+    writeShiftOut(output);
+    SPI.transfer(SDATAC);
+    delayMicroseconds(1);
+}
+
+void spi_teardown()
+{
+    SPI.end();
+    pinMode(MOSI, OUTPUT);
+    digitalWrite(MOSI, LOW);
+    pinMode(SCK, OUTPUT);
+    digitalWrite(SCK, LOW);
+}
+
 struct error_code run_tests()
 {
     {
@@ -935,34 +958,24 @@ struct error_code run_tests()
     // basic electrical connection seems sane
     // next start interacting with ADS129x
 
-    SPI.begin();
+    spi_setup();
 
-    SPI.setBitOrder(MSBFIRST);
-    SPI.setClockDivider(SPI_CLOCK_DIVIDER_VAL);
-    SPI.setDataMode(SPI_MODE1);
-    {
-	ShiftOutputs output;
-	output.master_ics = 0;
-        writeShiftOut(output);
-    }
-    SPI.transfer(SDATAC);
-    delayMicroseconds(1);
     SPI.transfer(RREG | 0x00); // ID is register 0
     SPI.transfer(0); // number of registers to be read/written
     byte val = 0x1F & SPI.transfer(0); // Bits[7:5] Not used (Datasheet 40)
-
-    SPI.end();
-    pinMode(MOSI, OUTPUT);
-    digitalWrite(MOSI, LOW);
-    pinMode(SCK, OUTPUT);
-    digitalWrite(SCK, LOW);
-
     if(val != 0x1E) {
+	spi_teardown();
 	char buf[80];
 	snprintf(buf, 80, "Expected ID:%X, but was:%X", 0x1E, val);
         Serial.println(buf);
 	return ERROR_BLINK_CHIP_ID;
-    };
+    }
+
+    // GPIOs, input/ladder, BIAS_OUT
+
+    // slave board clocking and data
+
+    spi_teardown();
 
     return ERROR_BLINK_SUCCESS;
 }
