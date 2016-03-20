@@ -2,6 +2,11 @@
   OpenHardwareExG_Shield_Test_Firmware
  */
 
+#include "ads1298.h"
+using namespace ADS1298;
+#include <stdio.h>
+#include <SPI.h>
+
 // some Arduino's use 5.0 ...
 #define ANALOG_REFERENCE_VOLTAGE 3.3
 
@@ -21,26 +26,75 @@
 #define SPI_CLOCK_DIVIDER_VAL SPI_CLOCK_DIV8
 #endif
 
-enum spi_command {
-        // system commands
-        WAKEUP = 0x02,
-        STANDBY = 0x04,
-        RESET = 0x06,
-        START = 0x08,
-        STOP = 0x0a,
+#define IPIN_DRDY 2
 
-        // read commands
-        RDATAC = 0x10,
-        SDATAC = 0x11,
-        RDATA = 0x12,
+byte adc_rreg(int reg)
+{
+        SPI.transfer(RREG | reg);
+        SPI.transfer(0);        // number of registers to be read/written
+        return SPI.transfer(0);
+}
 
-        // register commands
-        RREG = 0x20,
-        WREG = 0x40
-};
+void adc_wreg(int reg, int val)
+{
+        SPI.transfer(WREG | reg);
+        SPI.transfer(0);        // number of registers to be read/written
+        SPI.transfer(val);
+}
 
-#include <stdio.h>
-#include <SPI.h>
+bool bad_magic(const ADS1298::Data_frame &frame) {
+	return 0xC0 != (frame.data[0] & 0xF0);
+}
+
+void read_data_frame(ADS1298::Data_frame *frame)
+{
+	SPI.transfer(RDATA);
+        for (int i = 0; i < frame->size; ++i) {
+                frame->data[i] = SPI.transfer(0);
+        }
+}
+
+void to_hex(char byte, char *buf)
+{
+        int i;
+        char nibbles[2];
+
+        nibbles[0] = (byte & 0xF0) >> 4;
+        nibbles[1] = (byte & 0x0F);
+
+        for (i = 0; i < 2; i++) {
+                if (nibbles[i] < 10) {
+                        buf[i] = '0' + nibbles[i];
+                } else {
+                        buf[i] = 'A' + nibbles[i] - 10;
+                }
+        }
+        buf[2] = '\0';
+}
+
+void format_data_frame(const ADS1298::Data_frame &frame, char *byte_buf)
+{
+        uint8_t in_byte;
+        unsigned int pos = 0;
+
+        byte_buf[pos++] = '[';
+        byte_buf[pos++] = 'g';
+        byte_buf[pos++] = 'o';
+        byte_buf[pos++] = ']';
+
+        for (int i = 0; i < frame.size; ++i) {
+                in_byte = frame.data[i];
+                to_hex(in_byte, byte_buf + pos);
+                pos += 2;
+        }
+
+        byte_buf[pos++] = '[';
+        byte_buf[pos++] = 'o';
+        byte_buf[pos++] = 'n';
+        byte_buf[pos++] = ']';
+        byte_buf[pos++] = '\n';
+        byte_buf[pos++] = 0;
+}
 
 struct ShiftOutputs {
     unsigned simulateBoardBelow : 1;
@@ -431,6 +485,8 @@ struct error_code ERROR_BLINK_MOSI = { 0x0000E, "MOSI" };
 struct error_code ERROR_BLINK_SCLK = { 0x0000F, "SCLK" };
 struct error_code ERROR_BLINK_CHIP_ID = { 0x00010, "CHIP ID" };
 struct error_code ERROR_BLINK_GPIO = { 0x00011, "GPIO" };
+struct error_code ERROR_BLINK_NO_DRDY_1 = { 0x00012, "NO DRDY 1" };
+struct error_code ERROR_BLINK_BAD_MOJO = { 0x00013, "BAD MAGIC" };
 
 bool delay_or_go_button(unsigned delay_millis)
 {
@@ -482,7 +538,7 @@ unsigned long shift_in_mismatch(struct ShiftInputs *expected, struct ShiftInputs
 {
     unsigned long i=0;
     unsigned long errors=0;
-    bool match;
+    // bool match;
     char buf[255];
 
     if(expected->slaveAndSlaveCS != actual->slaveAndSlaveCS) {
@@ -973,17 +1029,12 @@ struct error_code run_tests()
 	return ERROR_BLINK_CHIP_ID;
     }
 
-    // GPIOs, input/ladder, BIAS_OUT
     for (int i = 0; i < 4; ++i) {
-        SPI.transfer(WREG | 0x14); // ID is register 0
-        SPI.transfer(0); // number of registers to be read/written
         uint8_t data = (1<<(4+i));
         if (1) { // FIXME Eric's GPIO4 is broken
             data |= 0x08; // FIXME set GPIO4 to be an input
         }
-
-        SPI.transfer(data);
-        delayMicroseconds(1);
+	adc_wreg(GPIO, data);
 
 	ShiftInputs expected = default_expected;
 	expected.masterAndMasterCS = 1;
@@ -1003,6 +1054,47 @@ struct error_code run_tests()
            return ERROR_BLINK_GPIO;
         }
     }
+
+    // Power up the internal reference and wait for it to settle
+    adc_wreg(CONFIG1, 0x80 | 0x10 | LOW_POWR_250_SPS);
+    adc_wreg(CONFIG3,
+                 RLDREF_INT | PD_RLD | PD_REFBUF | VREF_4V | CONFIG3_const);
+    adc_wreg(CONFIG4, SINGLE_SHOT);
+    delay(150);
+    for (int i = 1; i <= 8; ++i) {
+        adc_wreg(CHnSET + i, ELECTRODE_INPUT | GAIN_12X);
+    }
+    SPI.transfer(START);
+    delay(1);
+    {
+        unsigned long timeout_milliseconds = 200;
+        unsigned long start;
+
+        start = millis();
+        while (digitalRead(IPIN_DRDY) == HIGH) {
+            if ((millis()-start) > timeout_milliseconds) {
+                return ERROR_BLINK_NO_DRDY_1;
+            }
+        }
+    }
+    {
+        ADS1298::Data_frame frame;
+        read_data_frame(&frame);
+	if (bad_magic(frame)) {
+            char buf[80];
+            format_data_frame(frame, buf);
+            Serial.println(buf);
+	    return ERROR_BLINK_BAD_MOJO;
+	}
+    }
+
+    // input/ladder
+    // A high, b low - read analog data, ensure in approx range
+
+
+    // flip B high, A low - read analog data, ensure in approx range
+
+    // BIAS_OUT
 
     // slave board clocking and data
 
