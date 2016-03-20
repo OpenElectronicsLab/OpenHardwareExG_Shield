@@ -596,19 +596,20 @@ unsigned long shift_in_mismatch(struct ShiftInputs *expected, struct ShiftInputs
     }
     ++i;
     if(expected->GPIO3 != actual->GPIO3) {
-        // errors |= (1L<<i); // FIXME: Eric's board is broken
+        errors |= (1L<<i);
         sprintf(buf, "mismatch comparing GPIO3. Expected %u but was %u", expected->GPIO3, actual->GPIO3);
         Serial.println(buf);
     }
     ++i;
     if(expected->GPIO4 != actual->GPIO4) {
         // errors |= (1L<<i); // FIXME: Eric's board is solder-bridged to DRDY
-        sprintf(buf, "Surpressed: mismatch comparing GPIO3. Expected %u but was %u", expected->GPIO3, actual->GPIO3);
+        sprintf(buf, "Surpressed: mismatch comparing GPIO4. Expected %u but was %u", expected->GPIO4, actual->GPIO4);
+        Serial.println(buf);
     }
     ++i;
     if(expected->DAISYIN != actual->DAISYIN) {
         errors |= (1L<<i);
-        sprintf(buf, "Surpressed: mismatch comparing DAISYIN. Expected %u but was %u", expected->DAISYIN, actual->DAISYIN);
+        sprintf(buf, "mismatch comparing DAISYIN. Expected %u but was %u", expected->DAISYIN, actual->DAISYIN);
         Serial.println(buf);
     }
     ++i;
@@ -979,7 +980,6 @@ struct error_code run_tests()
         uint8_t data = (1<<(4+i));
         if (1) { // FIXME Eric's GPIO4 is broken
             data |= 0x08; // FIXME set GPIO4 to be an input
-            data |= 0x04; // FIXME set GPIO3 to be an input
         }
 
         SPI.transfer(data);
