@@ -46,6 +46,17 @@ bool bad_magic(const ADS1298::Data_frame &frame) {
 	return 0xC0 != (frame.data[0] & 0xF0);
 }
 
+long channel_value(const ADS1298::Data_frame &frame, unsigned num)
+{
+    const uint8_t *data = frame.data;
+    signed long bits_17_24 = (((signed long)((int8_t)data[3+(num*3)]))<< 16);
+    unsigned long bits_9_16 = (((unsigned long)data[4+(num*3)])<< 8);
+    unsigned long bits_0_8 = (((unsigned long)data[5+(num*3)]));
+
+    signed long val = bits_17_24 | bits_9_16 | bits_0_8;
+    return val;
+}
+
 void read_data_frame(ADS1298::Data_frame *frame)
 {
 	SPI.transfer(RDATA);
@@ -83,6 +94,9 @@ void format_data_frame(const ADS1298::Data_frame &frame, char *byte_buf)
         byte_buf[pos++] = ']';
 
         for (int i = 0; i < frame.size; ++i) {
+		if(i>0 && i%3==0) {
+                    byte_buf[pos++] = ' ';
+		}
                 in_byte = frame.data[i];
                 to_hex(in_byte, byte_buf + pos);
                 pos += 2;
@@ -485,8 +499,9 @@ struct error_code ERROR_BLINK_MOSI = { 0x0000E, "MOSI" };
 struct error_code ERROR_BLINK_SCLK = { 0x0000F, "SCLK" };
 struct error_code ERROR_BLINK_CHIP_ID = { 0x00010, "CHIP ID" };
 struct error_code ERROR_BLINK_GPIO = { 0x00011, "GPIO" };
-struct error_code ERROR_BLINK_NO_DRDY_1 = { 0x00012, "NO DRDY 1" };
-struct error_code ERROR_BLINK_BAD_MOJO = { 0x00013, "BAD MAGIC" };
+struct error_code ERROR_BLINK_NO_DRDY_1 = { 0x00012, "No DRDY 1" };
+struct error_code ERROR_BLINK_BAD_MOJO = { 0x00013, "Bad MAGIC" };
+struct error_code ERROR_BLINK_DATA_OOR = { 0x00014, "Data out of range" };
 
 bool delay_or_go_button(unsigned delay_millis)
 {
@@ -1055,6 +1070,14 @@ struct error_code run_tests()
         }
     }
 
+    {
+	ShiftOutputs output;
+        output.master_ics = 0;
+        // input/ladder
+        // A high, b low - read analog data, ensure in approx range
+	output.signalB = 1;
+        writeShiftOut(output);
+    }
     // Power up the internal reference and wait for it to settle
     adc_wreg(CONFIG1, 0x80 | 0x10 | LOW_POWR_250_SPS);
     adc_wreg(CONFIG3,
@@ -1062,7 +1085,7 @@ struct error_code run_tests()
     adc_wreg(CONFIG4, SINGLE_SHOT);
     delay(150);
     for (int i = 1; i <= 8; ++i) {
-        adc_wreg(CHnSET + i, ELECTRODE_INPUT | GAIN_12X);
+        adc_wreg(CHnSET + i, ELECTRODE_INPUT ); // | GAIN_12X);
     }
     SPI.transfer(START);
     delay(1);
@@ -1086,10 +1109,23 @@ struct error_code run_tests()
             Serial.println(buf);
 	    return ERROR_BLINK_BAD_MOJO;
 	}
+        char buf[80];
+        format_data_frame(frame, buf);
+        Serial.println(buf);
+        for (unsigned i=0; i< 8; ++i) {
+	    long val = channel_value(frame, i);
+            sprintf(buf, "chan[%u]: %ld\n", i, val);
+	    Serial.println(buf);
+
+            // return ERROR_BLINK_DATA_OOR;
+        }
+
+	Serial.println("strange values, test with a multi-meter");
+	Serial.println("Pausing for 60 seconds...");
+	delay(1000 * 60);
+	Serial.println("Continuing");
     }
 
-    // input/ladder
-    // A high, b low - read analog data, ensure in approx range
 
 
     // flip B high, A low - read analog data, ensure in approx range
