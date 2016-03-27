@@ -378,8 +378,9 @@ bool check_for_short()
 	while ((millis() - start) < timeout_milliseconds) {
 		unsigned d = digitalRead(IPIN_SHIELD_SHORTED);
 		if (!d) {
+			// disable power to the board
 			ShiftOutputs output = ShiftOutputs::power_off();
-			write_shift_out(output);	// disables power to the board
+			write_shift_out(output);
 			return true;
 		}
 	}
@@ -567,63 +568,63 @@ unsigned long shift_in_mismatch(struct ShiftInputs *expected,
 	// bool match;
 	char buf[255];
 
+	const char *fmt = "Mismatch comparing %s: expected %u but was %u";
+	const char *skip = "Surpressed comparing %s: expected %u but was %u";
+
 	if (expected->slave_and_slave_cs != actual->slave_and_slave_cs) {
 		errors |= (1L << i);
-		sprintf(buf,
-			"mismatch comparing slave_and_slave_cs. Expected %u but was %u",
-			expected->slave_and_slave_cs, actual->slave_and_slave_cs);
+		sprintf(buf, fmt, "slave_and_slave_cs",
+			expected->slave_and_slave_cs,
+			actual->slave_and_slave_cs);
 		Serial.println(buf);
 	}
 	++i;
 	if (expected->master_and_master_cs != actual->master_and_master_cs) {
 		errors |= (1L << i);
-		sprintf(buf,
-			"mismatch comparing master_and_master_cs. Expected %u but was %u",
-			expected->master_and_master_cs, actual->master_and_master_cs);
+		sprintf(buf, fmt, "master_and_master_cs",
+			expected->master_and_master_cs,
+			actual->master_and_master_cs);
 		Serial.println(buf);
 	}
 	++i;
 	if (expected->i_master != actual->i_master) {
 		errors |= (1L << i);
-		sprintf(buf,
-			"mismatch comparing i_master. Expected %u but was %u",
+		sprintf(buf, fmt, "i_master",
 			expected->i_master, actual->i_master);
 		Serial.println(buf);
 	}
 	++i;
 	if (expected->master != actual->master) {
 		errors |= (1L << i);
-		sprintf(buf,
-			"mismatch comparing master. Expected %u but was %u",
+		sprintf(buf, fmt, "master",
 			expected->master, actual->master);
 		Serial.println(buf);
 	}
 	++i;
 	if (0 && expected->go_button != actual->go_button) {
 		errors |= (1L << i);
-		sprintf(buf,
-			"mismatch comparing go_button. Expected %u but was %u",
+		sprintf(buf, fmt, "go_button",
 			expected->go_button, actual->go_button);
 		Serial.println(buf);
 	}
 	++i;
 	if (expected->i_cs != actual->i_cs) {
 		errors |= (1L << i);
-		sprintf(buf, "mismatch comparing i_cs. Expected %u but was %u",
+		sprintf(buf, fmt, "i_cs",
 			expected->i_cs, actual->i_cs);
 		Serial.println(buf);
 	}
 	++i;
 	if (compare_dout && expected->dout != actual->dout) {
 		errors |= (1L << i);
-		sprintf(buf, "mismatch comparing dout. Expected %u but was %u",
+		sprintf(buf, fmt, "dout",
 			expected->dout, actual->dout);
 		Serial.println(buf);
 	}
 	++i;
 	if (expected->i_drdy != actual->i_drdy) {
 		errors |= (1L << i);
-		sprintf(buf, "mismatch comparing i_drdy. Expected %u but was %u",
+		sprintf(buf, fmt, "i_drdy",
 			expected->i_drdy, actual->i_drdy);
 		Serial.println(buf);
 	}
@@ -631,64 +632,56 @@ unsigned long shift_in_mismatch(struct ShiftInputs *expected,
 
 	if (expected->mosi_iso != actual->mosi_iso) {
 		errors |= (1L << i);
-		sprintf(buf,
-			"mismatch comparing mosi_iso. Expected %u but was %u",
+		sprintf(buf, fmt, "mosi_iso",
 			expected->mosi_iso, actual->mosi_iso);
 		Serial.println(buf);
 	}
 	++i;
 	if (expected->SCLKiso != actual->SCLKiso) {
 		errors |= (1L << i);
-		sprintf(buf,
-			"mismatch comparing SCLKiso. Expected %u but was %u",
+		sprintf(buf, fmt, "SCLKiso",
 			expected->SCLKiso, actual->SCLKiso);
 		Serial.println(buf);
 	}
 	++i;
 	if (expected->i_csiso != actual->i_csiso) {
 		errors |= (1L << i);
-		sprintf(buf,
-			"mismatch comparing i_csiso. Expected %u but was %u",
+		sprintf(buf, fmt, "i_csios",
 			expected->i_csiso, actual->i_csiso);
 		Serial.println(buf);
 	}
 	++i;
 	if (expected->master_iso != actual->master_iso) {
 		errors |= (1L << i);
-		sprintf(buf,
-			"mismatch comparing master_iso. Expected %u but was %u",
+		sprintf(buf, fmt, "master_iso",
 			expected->master_iso, actual->master_iso);
 		Serial.println(buf);
 	}
 	++i;
 	if (expected->clk_iso != actual->clk_iso) {
 		errors |= (1L << i);
-		sprintf(buf,
-			"mismatch comparing clk_iso. Expected %u but was %u",
+		sprintf(buf, fmt, "clk_iso",
 			expected->clk_iso, actual->clk_iso);
 		Serial.println(buf);
 	}
 	++i;
 	if (expected->i_drdy_iso != actual->i_drdy_iso) {
 		errors |= (1L << i);
-		sprintf(buf,
-			"mismatch comparing i_drdy_iso. Expected %u but was %u",
+		sprintf(buf, fmt, "i_drdy_iso",
 			expected->i_drdy_iso, actual->i_drdy_iso);
 		Serial.println(buf);
 	}
 	++i;
 	if (compare_dout && expected->dout_iso != actual->dout_iso) {
 		errors |= (1L << i);
-		sprintf(buf,
-			"mismatch comparing dout_iso. Expected %u but was %u",
+		sprintf(buf, fmt, "dout_iso",
 			expected->dout_iso, actual->dout_iso);
 		Serial.println(buf);
 	}
 	++i;
 	if (0 && expected->unused1 != actual->unused1) {
 		errors |= (1L << i);
-		sprintf(buf,
-			"mismatch comparing unused1. Expected %u but was %u",
+		sprintf(buf, fmt, "unused1",
 			expected->unused1, actual->unused1);
 		Serial.println(buf);
 	}
@@ -696,61 +689,56 @@ unsigned long shift_in_mismatch(struct ShiftInputs *expected,
 
 	if (expected->gpio1 != actual->gpio1) {
 		errors |= (1L << i);
-		sprintf(buf, "mismatch comparing gpio1. Expected %u but was %u",
+		sprintf(buf, fmt, "gpio1",
 			expected->gpio1, actual->gpio1);
 		Serial.println(buf);
 	}
 	++i;
 	if (expected->gpio2 != actual->gpio2) {
 		errors |= (1L << i);
-		sprintf(buf, "mismatch comparing gpio2. Expected %u but was %u",
+		sprintf(buf, fmt, "gpio2",
 			expected->gpio2, actual->gpio2);
 		Serial.println(buf);
 	}
 	++i;
 	if (expected->gpio3 != actual->gpio3) {
 		errors |= (1L << i);
-		sprintf(buf, "mismatch comparing gpio3. Expected %u but was %u",
+		sprintf(buf, fmt, "gpio3",
 			expected->gpio3, actual->gpio3);
 		Serial.println(buf);
 	}
 	++i;
 	if (expected->gpio4 != actual->gpio4) {
 		// errors |= (1L<<i); // FIXME: Eric's board is solder-bridged to DRDY
-		sprintf(buf,
-			"Surpressed: mismatch comparing gpio4. Expected %u but was %u",
+		sprintf(buf, skip, "gpio4",
 			expected->gpio4, actual->gpio4);
 		Serial.println(buf);
 	}
 	++i;
 	if (expected->daisyin != actual->daisyin) {
 		errors |= (1L << i);
-		sprintf(buf,
-			"mismatch comparing daisyin. Expected %u but was %u",
+		sprintf(buf, fmt, "daisyin",
 			expected->daisyin, actual->daisyin);
 		Serial.println(buf);
 	}
 	++i;
 	if (expected->biasinv != actual->biasinv) {
 		errors |= (1L << i);
-		sprintf(buf,
-			"mismatch comparing biasinv. Expected %u but was %u",
+		sprintf(buf, fmt, "biasinv",
 			expected->biasinv, actual->biasinv);
 		Serial.println(buf);
 	}
 	++i;
 	if (0 && expected->unused2 != actual->unused2) {
 		errors |= (1L << i);
-		sprintf(buf,
-			"mismatch comparing unused2. Expected %u but was %u",
+		sprintf(buf, fmt, "unused2",
 			expected->unused2, actual->unused2);
 		Serial.println(buf);
 	}
 	++i;
 	if (0 && expected->unused3 != actual->unused3) {
 		errors |= (1L << i);
-		sprintf(buf,
-			"mismatch comparing unused3. Expected %u but was %u",
+		sprintf(buf, fmt, "unused3",
 			expected->unused3, actual->unused3);
 		Serial.println(buf);
 	}
