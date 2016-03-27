@@ -115,8 +115,8 @@ void format_data_frame(const ADS1298::Data_frame &frame, char *byte_buf)
 
 struct ShiftOutputs {
 	unsigned simulate_board_below:1;
-	unsigned master_ics:1;
-	unsigned slave_ics:1;
+	unsigned master_i_cs:1;
+	unsigned slave_i_cs:1;
 	unsigned signal_a:1;
 	unsigned signal_b:1;
 	unsigned success_led:1;
@@ -126,8 +126,8 @@ struct ShiftOutputs {
 	ShiftOutputs()
 	{
 		simulate_board_below = 0;
-		master_ics = 1;
-		slave_ics = 1;
+		master_i_cs = 1;
+		slave_i_cs = 1;
 		signal_a = 0;
 		signal_b = 0;
 		success_led = 0;
@@ -138,8 +138,8 @@ struct ShiftOutputs {
 	static ShiftOutputs power_off()
 	{
 		ShiftOutputs result;
-		result.master_ics = 0;
-		result.slave_ics = 0;
+		result.master_i_cs = 0;
+		result.slave_i_cs = 0;
 		result.enable_shield = 0;
 
 		return result;
@@ -157,8 +157,8 @@ struct ShiftInputs {
 	unsigned i_drdy:1;
 
 	unsigned mosi_iso:1;
-	unsigned SCLKiso:1;
-	unsigned i_csiso:1;
+	unsigned sclk_iso:1;
+	unsigned i_cs_iso:1;
 	unsigned master_iso:1;
 	unsigned clk_iso:1;
 	unsigned i_drdy_iso:1;
@@ -272,8 +272,8 @@ void write_shift_out(const struct ShiftOutputs &output)
 	shift_out(output.success_led);
 	shift_out(output.signal_b);
 	shift_out(output.signal_a);
-	shift_out(output.slave_ics);
-	shift_out(output.master_ics);
+	shift_out(output.slave_i_cs);
+	shift_out(output.master_i_cs);
 	shift_out(output.simulate_board_below ? 0 : 1);	// IPIN ~SEND_TO_GND~_MASTER
 
 	digitalWrite(PIN_SHIFT_OUT_RCLK, HIGH);
@@ -310,8 +310,8 @@ struct ShiftInputs read_shift_in()
 	input.i_drdy = shift_in();
 
 	input.master_iso = shift_in();
-	input.i_csiso = shift_in();
-	input.SCLKiso = shift_in();
+	input.i_cs_iso = shift_in();
+	input.sclk_iso = shift_in();
 	input.mosi_iso = shift_in();
 	input.unused1 = shift_in();
 	input.clk_iso = shift_in();
@@ -597,8 +597,7 @@ unsigned long shift_in_mismatch(struct ShiftInputs *expected,
 	++i;
 	if (expected->master != actual->master) {
 		errors |= (1L << i);
-		sprintf(buf, fmt, "master",
-			expected->master, actual->master);
+		sprintf(buf, fmt, "master", expected->master, actual->master);
 		Serial.println(buf);
 	}
 	++i;
@@ -611,22 +610,19 @@ unsigned long shift_in_mismatch(struct ShiftInputs *expected,
 	++i;
 	if (expected->i_cs != actual->i_cs) {
 		errors |= (1L << i);
-		sprintf(buf, fmt, "i_cs",
-			expected->i_cs, actual->i_cs);
+		sprintf(buf, fmt, "i_cs", expected->i_cs, actual->i_cs);
 		Serial.println(buf);
 	}
 	++i;
 	if (compare_dout && expected->dout != actual->dout) {
 		errors |= (1L << i);
-		sprintf(buf, fmt, "dout",
-			expected->dout, actual->dout);
+		sprintf(buf, fmt, "dout", expected->dout, actual->dout);
 		Serial.println(buf);
 	}
 	++i;
 	if (expected->i_drdy != actual->i_drdy) {
 		errors |= (1L << i);
-		sprintf(buf, fmt, "i_drdy",
-			expected->i_drdy, actual->i_drdy);
+		sprintf(buf, fmt, "i_drdy", expected->i_drdy, actual->i_drdy);
 		Serial.println(buf);
 	}
 	++i;
@@ -638,17 +634,17 @@ unsigned long shift_in_mismatch(struct ShiftInputs *expected,
 		Serial.println(buf);
 	}
 	++i;
-	if (expected->SCLKiso != actual->SCLKiso) {
+	if (expected->sclk_iso != actual->sclk_iso) {
 		errors |= (1L << i);
-		sprintf(buf, fmt, "SCLKiso",
-			expected->SCLKiso, actual->SCLKiso);
+		sprintf(buf, fmt, "sclk_iso",
+			expected->sclk_iso, actual->sclk_iso);
 		Serial.println(buf);
 	}
 	++i;
-	if (expected->i_csiso != actual->i_csiso) {
+	if (expected->i_cs_iso != actual->i_cs_iso) {
 		errors |= (1L << i);
 		sprintf(buf, fmt, "i_csios",
-			expected->i_csiso, actual->i_csiso);
+			expected->i_cs_iso, actual->i_cs_iso);
 		Serial.println(buf);
 	}
 	++i;
@@ -690,29 +686,25 @@ unsigned long shift_in_mismatch(struct ShiftInputs *expected,
 
 	if (expected->gpio1 != actual->gpio1) {
 		errors |= (1L << i);
-		sprintf(buf, fmt, "gpio1",
-			expected->gpio1, actual->gpio1);
+		sprintf(buf, fmt, "gpio1", expected->gpio1, actual->gpio1);
 		Serial.println(buf);
 	}
 	++i;
 	if (expected->gpio2 != actual->gpio2) {
 		errors |= (1L << i);
-		sprintf(buf, fmt, "gpio2",
-			expected->gpio2, actual->gpio2);
+		sprintf(buf, fmt, "gpio2", expected->gpio2, actual->gpio2);
 		Serial.println(buf);
 	}
 	++i;
 	if (expected->gpio3 != actual->gpio3) {
 		errors |= (1L << i);
-		sprintf(buf, fmt, "gpio3",
-			expected->gpio3, actual->gpio3);
+		sprintf(buf, fmt, "gpio3", expected->gpio3, actual->gpio3);
 		Serial.println(buf);
 	}
 	++i;
 	if (expected->gpio4 != actual->gpio4) {
 		// errors |= (1L<<i); // FIXME: Eric's board is solder-bridged to DRDY
-		sprintf(buf, skip, "gpio4",
-			expected->gpio4, actual->gpio4);
+		sprintf(buf, skip, "gpio4", expected->gpio4, actual->gpio4);
 		Serial.println(buf);
 	}
 	++i;
@@ -763,9 +755,9 @@ unsigned long shift_in_mismatch(struct ShiftInputs *expected,
 	};
 	++i;
 
-	if (actual->i_cs != actual->i_csiso) {
+	if (actual->i_cs != actual->i_cs_iso) {
 		errors |= (1L << i);
-		Serial.println("inconsistent i_cs, i_csiso");
+		Serial.println("inconsistent i_cs, i_cs_iso");
 	};
 	++i;
 
@@ -792,7 +784,7 @@ void spi_setup()
 	SPI.setClockDivider(SPI_CLOCK_DIVIDER_VAL);
 	SPI.setDataMode(SPI_MODE1);
 	ShiftOutputs output;
-	output.master_ics = 0;
+	output.master_i_cs = 0;
 	write_shift_out(output);
 	SPI.transfer(SDATAC);
 	delayMicroseconds(1);
@@ -852,8 +844,8 @@ struct error_code run_tests()
 	default_expected.i_drdy = 1;
 
 	default_expected.mosi_iso = 0;
-	default_expected.SCLKiso = 0;
-	default_expected.i_csiso = 1;
+	default_expected.sclk_iso = 0;
+	default_expected.i_cs_iso = 1;
 	default_expected.master_iso = 1;
 	default_expected.clk_iso = 0;
 	default_expected.i_drdy_iso = 1;
@@ -884,14 +876,14 @@ struct error_code run_tests()
 
 	{
 		ShiftOutputs output;
-		output.master_ics = 0;
+		output.master_i_cs = 0;
 		write_shift_out(output);
 
 		delayMicroseconds(DIGITAL_STATE_CHANGE_DELAY_MICROS);
 		ShiftInputs expected = default_expected;
 		expected.master_and_master_cs = 1;
 		expected.i_cs = 0;
-		expected.i_csiso = 0;
+		expected.i_cs_iso = 0;
 		expected.dout = 1;
 		expected.dout_iso = 1;
 
@@ -904,7 +896,7 @@ struct error_code run_tests()
 
 	{
 		ShiftOutputs output;
-		output.slave_ics = 0;
+		output.slave_i_cs = 0;
 		write_shift_out(output);
 
 		delayMicroseconds(DIGITAL_STATE_CHANGE_DELAY_MICROS);
@@ -919,15 +911,15 @@ struct error_code run_tests()
 
 	{
 		ShiftOutputs output;
-		output.master_ics = 0;
-		output.slave_ics = 0;
+		output.master_i_cs = 0;
+		output.slave_i_cs = 0;
 		write_shift_out(output);
 
 		delayMicroseconds(DIGITAL_STATE_CHANGE_DELAY_MICROS);
 		ShiftInputs expected = default_expected;
 		expected.master_and_master_cs = 1;
 		expected.i_cs = 0;
-		expected.i_csiso = 0;
+		expected.i_cs_iso = 0;
 		expected.dout = 1;
 		expected.dout_iso = 1;
 
@@ -940,8 +932,8 @@ struct error_code run_tests()
 
 	{
 		ShiftOutputs output;
-		output.master_ics = 0;
-		output.slave_ics = 0;
+		output.master_i_cs = 0;
+		output.slave_i_cs = 0;
 		output.simulate_board_below = 1;
 		write_shift_out(output);
 
@@ -952,7 +944,7 @@ struct error_code run_tests()
 		expected.master = 0;
 		expected.master_iso = 0;
 		expected.i_cs = 0;
-		expected.i_csiso = 0;
+		expected.i_cs_iso = 0;
 
 		ShiftInputs actual = read_shift_in();
 		bool compare_dout = false;
@@ -964,7 +956,7 @@ struct error_code run_tests()
 	{
 		ShiftOutputs output;
 		output.simulate_board_below = 1;
-		output.master_ics = 0;
+		output.master_i_cs = 0;
 		write_shift_out(output);
 
 		delayMicroseconds(DIGITAL_STATE_CHANGE_DELAY_MICROS);
@@ -983,7 +975,7 @@ struct error_code run_tests()
 	{
 		ShiftOutputs output;
 		output.simulate_board_below = 1;
-		output.slave_ics = 0;
+		output.slave_i_cs = 0;
 		write_shift_out(output);
 
 		delayMicroseconds(DIGITAL_STATE_CHANGE_DELAY_MICROS);
@@ -993,7 +985,7 @@ struct error_code run_tests()
 		expected.master = 0;
 		expected.master_iso = 0;
 		expected.i_cs = 0;
-		expected.i_csiso = 0;
+		expected.i_cs_iso = 0;
 
 		ShiftInputs actual = read_shift_in();
 		bool compare_dout = false;
@@ -1005,8 +997,8 @@ struct error_code run_tests()
 	{
 		ShiftOutputs output;
 		output.simulate_board_below = 1;
-		output.master_ics = 0;
-		output.slave_ics = 0;
+		output.master_i_cs = 0;
+		output.slave_i_cs = 0;
 		write_shift_out(output);
 
 		delayMicroseconds(DIGITAL_STATE_CHANGE_DELAY_MICROS);
@@ -1016,7 +1008,7 @@ struct error_code run_tests()
 		expected.master = 0;
 		expected.master_iso = 0;
 		expected.i_cs = 0;
-		expected.i_csiso = 0;
+		expected.i_cs_iso = 0;
 
 		ShiftInputs actual = read_shift_in();
 		bool compare_dout = false;
@@ -1046,7 +1038,7 @@ struct error_code run_tests()
 		digitalWrite(SCK, HIGH);
 		delayMicroseconds(DIGITAL_STATE_CHANGE_DELAY_MICROS);
 		ShiftInputs expected = default_expected;
-		expected.SCLKiso = 1;
+		expected.sclk_iso = 1;
 		ShiftInputs actual = read_shift_in();
 		digitalWrite(SCK, LOW);
 		bool compare_dout = false;
@@ -1061,7 +1053,7 @@ struct error_code run_tests()
 		digitalWrite(SCK, HIGH);
 		delayMicroseconds(DIGITAL_STATE_CHANGE_DELAY_MICROS);
 		ShiftInputs expected = default_expected;
-		expected.SCLKiso = 1;
+		expected.sclk_iso = 1;
 		ShiftInputs actual = read_shift_in();
 		digitalWrite(SCK, LOW);
 		bool compare_dout = false;
@@ -1096,7 +1088,7 @@ struct error_code run_tests()
 		ShiftInputs expected = default_expected;
 		expected.master_and_master_cs = 1;
 		expected.i_cs = 0;
-		expected.i_csiso = 0;
+		expected.i_cs_iso = 0;
 		expected.mosi_iso = 1;
 		switch (i) {
 		case 0:
@@ -1122,7 +1114,7 @@ struct error_code run_tests()
 
 	{
 		ShiftOutputs output;
-		output.master_ics = 0;
+		output.master_i_cs = 0;
 		// input/ladder
 		// A high, b low - read analog data, ensure in approx range
 		output.signal_b = 1;
@@ -1170,16 +1162,16 @@ struct error_code run_tests()
 		float io_voltage = 3.3;
 		float reference_voltage = 4.5;
 		float rung_delta_voltage = io_voltage *
-			(rung_resistence/(ladder_resistence));
+		    (rung_resistence / (ladder_resistence));
 		unsigned long max_count = 0x7FFFFF;
 		float rung_delta_count = (rung_delta_voltage /
-			reference_voltage) * max_count;
+					  reference_voltage) * max_count;
 		float min_ok = rung_delta_count * .9;
 		float max_ok = rung_delta_count * 1.1;
 		unsigned bad_channels = 0;
 		for (unsigned chan = 1; chan <= 8; ++chan) {
 			long val = channel_value(frame, chan);
-			if(val < min_ok || val > max_ok) {
+			if (val < min_ok || val > max_ok) {
 				++bad_channels;
 			}
 
@@ -1222,8 +1214,8 @@ static void harness_hardware_validation()
 	oddLoop = !oddLoop;
 
 	output.simulate_board_below = oddLoop;
-	output.master_ics = !oddLoop;
-	output.slave_ics = oddLoop;
+	output.master_i_cs = !oddLoop;
+	output.slave_i_cs = oddLoop;
 	output.signal_a = !oddLoop;
 	output.signal_b = oddLoop;
 	output.success_led = !oddLoop;
@@ -1250,9 +1242,9 @@ static void harness_hardware_validation()
 	Serial.print("P23: ");
 	Serial.print(input.mosi_iso);
 	Serial.print(", P24: ");
-	Serial.print(input.SCLKiso);
+	Serial.print(input.sclk_iso);
 	Serial.print(", P25: ");
-	Serial.print(input.i_csiso);
+	Serial.print(input.i_cs_iso);
 	Serial.print(", P26: ");
 	Serial.print(input.master_iso);
 	Serial.print(", P27: ");
