@@ -47,8 +47,9 @@ bool bad_magic(const ADS1298::Data_frame &frame)
 	return 0xC0 != (frame.data[0] & 0xF0);
 }
 
-long channel_value(const ADS1298::Data_frame &frame, unsigned num)
+long channel_value(const ADS1298::Data_frame &frame, unsigned channel)
 {
+	unsigned num = channel - 1;
 	const uint8_t *data = frame.data;
 	signed long bits_17_24 =
 	    (((signed long)((int8_t) data[3 + (num * 3)])) << 16);
@@ -1128,14 +1129,20 @@ struct error_code run_tests()
 		write_shift_out(output);
 	}
 	// Power up the internal reference and wait for it to settle
-	adc_wreg(CONFIG1, 0x80 | 0x10 | LOW_POWR_250_SPS);
-	adc_wreg(CONFIG3,
-		 RLDREF_INT | PD_RLD | PD_REFBUF | VREF_4V | CONFIG3_const);
+	uint8_t reserved7 = (1L << 7);
+	uint8_t reserved4 = (1L << 4);
+	uint8_t sps250 = 0x03;
+	adc_wreg(CONFIG1, reserved7 | reserved4 | sps250);
+	uint8_t reserved6 = (1L << 6);
+	uint8_t reserved5 = (1L << 5);
+	uint8_t pdrefbuf7 = (1L << 7);
+	adc_wreg(CONFIG2, reserved7 | reserved6);
+	adc_wreg(CONFIG3, pdrefbuf7 | reserved6 | reserved5);
 	adc_wreg(CONFIG4, SINGLE_SHOT);
-	delay(150);
 	for (int i = 1; i <= 8; ++i) {
 		adc_wreg(CHnSET + i, ELECTRODE_INPUT);	// | GAIN_12X);
 	}
+	delay(1500);
 	SPI.transfer(START);
 	delay(1);
 	{
@@ -1158,21 +1165,37 @@ struct error_code run_tests()
 			Serial.println(buf);
 			return ERROR_BLINK_BAD_MOJO;
 		}
-		char buf[80];
-		format_data_frame(frame, buf);
-		Serial.println(buf);
-		for (unsigned i = 0; i < 8; ++i) {
-			long val = channel_value(frame, i);
-			sprintf(buf, "chan[%u]: %ld\n", i, val);
-			Serial.println(buf);
+		float ladder_resistence = 31500;
+		float rung_resistence = 100;
+		float io_voltage = 3.3;
+		float reference_voltage = 4.5;
+		float rung_delta_voltage = io_voltage *
+			(rung_resistence/(ladder_resistence));
+		unsigned long max_count = 0x7FFFFF;
+		float rung_delta_count = (rung_delta_voltage /
+			reference_voltage) * max_count;
+		float min_ok = rung_delta_count * .9;
+		float max_ok = rung_delta_count * 1.1;
+		unsigned bad_channels = 0;
+		for (unsigned chan = 1; chan <= 8; ++chan) {
+			long val = channel_value(frame, chan);
+			if(val < min_ok || val > max_ok) {
+				++bad_channels;
+			}
 
-			// return ERROR_BLINK_DATA_OOR;
 		}
-
-		Serial.println("strange values, test with a multi-meter");
-		Serial.println("Pausing for 60 seconds...");
-		delay(1000 * 60);
-		Serial.println("Continuing");
+		if (bad_channels) {
+			char buf[80];
+			format_data_frame(frame, buf);
+			Serial.println(buf);
+			for (unsigned chan = 1; chan <= 8; ++chan) {
+				long val = channel_value(frame, chan);
+				sprintf(buf, "chan[%u]: %ld\n", chan, val);
+				Serial.println(buf);
+			}
+			spi_teardown();
+			return ERROR_BLINK_DATA_OOR;
+		}
 	}
 
 	// flip B high, A low - read analog data, ensure in approx range
