@@ -5021,4 +5021,12 @@ Text Label 20000 3000 0    60   ~ 0
 DGND_ISO
 Wire Wire Line
 	17750 7050 19750 7050
+Text Notes 10500 3150 1    28   ~ 0
+NEXT_REV: add a test point for this
+Text Notes 10300 5700 2    28   ~ 0
+NEXT_REV: add a test point for this
+Text Notes 10400 5800 2    28   ~ 0
+NEXT_REV: add a test point for this
+Text Notes 8800 3300 0    60   ~ 0
+TODO: NEXT REV:\nTesting the signals would be\neasier with test points for\nSRB1, SRB2, and BIASIN
 $EndSCHEMATC
