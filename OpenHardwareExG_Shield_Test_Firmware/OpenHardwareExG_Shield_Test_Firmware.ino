@@ -524,8 +524,11 @@ struct error_code ERROR_BLINK_SCLK = { 0x0000F, "SCLK" };
 struct error_code ERROR_BLINK_CHIP_ID = { 0x00010, "CHIP ID" };
 struct error_code ERROR_BLINK_GPIO = { 0x00011, "GPIO" };
 struct error_code ERROR_BLINK_NO_DRDY_1 = { 0x00012, "No DRDY 1" };
-struct error_code ERROR_BLINK_BAD_MOJO = { 0x00013, "Bad MAGIC" };
-struct error_code ERROR_BLINK_DATA_OOR = { 0x00014, "Data out of range" };
+struct error_code ERROR_BLINK_BAD_MOJO_1 = { 0x00013, "Bad MAGIC 1" };
+struct error_code ERROR_BLINK_DATA_OOR_1 = { 0x00014, "Data out of range 1" };
+struct error_code ERROR_BLINK_NO_DRDY_2 = { 0x00015, "No DRDY 2" };
+struct error_code ERROR_BLINK_BAD_MOJO_2 = { 0x00016, "Bad MAGIC 2" };
+struct error_code ERROR_BLINK_DATA_OOR_2 = { 0x00017, "Data out of range 2" };
 
 bool delay_or_go_button(unsigned delay_millis)
 {
@@ -1172,7 +1175,7 @@ struct error_code run_tests()
 		if (bad_magic(frame)) {
 			format_data_frame(frame, buf);
 			Serial.println(buf);
-			return ERROR_BLINK_BAD_MOJO;
+			return ERROR_BLINK_BAD_MOJO_1;
 		}
 		double ladder_resistence = 31500;
 		double rung_resistence = 100;
@@ -1199,15 +1202,111 @@ struct error_code run_tests()
 			Serial.println(buf);
 			for (unsigned chan = 1; chan <= 8; ++chan) {
 				long val = channel_value(frame, chan);
-				double val_volts = (((double) val) / ((double)max_count)) * reference_voltage;
-				sprintf(buf, "chan[%u]: %ld (expected %.6f volts, but was %.6f)\n",
-					chan, val, rung_delta_voltage, val_volts);
+				double val_volts = (((double) val) /
+					((double)max_count))
+					* reference_voltage;
+				sprintf(buf, "chan[%u]: %ld"
+					" (expected %.6f volts,"
+					" but was %.6f)\n",
+					chan, val, rung_delta_voltage,
+					val_volts);
 				Serial.println(buf);
 			}
 			spi_teardown();
-			return ERROR_BLINK_DATA_OOR;
+			return ERROR_BLINK_DATA_OOR_1;
 		}
 	}
+
+/*
+
+	we want to
+	* loop through each pin pair
+	* connect adjacent pin and far away pin(s) with BIASIN
+		* look into MUX settings
+	* calculate expected value ignoring short
+	* diff actual to expected,
+	* if shorted
+		* for pins near the latter top/bottom we expect 4x difference
+		* for pins near the latter middle we expect .5x difference
+
+
+	SPI.transfer(START);
+	delay(1);
+	{
+		unsigned long timeout_milliseconds = 200;
+		unsigned long start;
+
+		start = millis();
+		while (digitalRead(IPIN_DRDY) == HIGH) {
+			if ((millis() - start) > timeout_milliseconds) {
+				return ERROR_BLINK_NO_DRDY_2;
+			}
+		}
+	}
+	{
+		ADS1298::Data_frame frame;
+		read_data_frame(&frame);
+		if (bad_magic(frame)) {
+			format_data_frame(frame, buf);
+			Serial.println(buf);
+			return ERROR_BLINK_BAD_MOJO_2;
+		}
+		double io_voltage = 3.3;
+		double reference_voltage = 4.5;
+		unsigned long max_count = 0x7FFFFF;
+
+		double rung_resistence = 100;
+		double ladder_resistence = 31500;
+		double rung_delta_voltage = io_voltage *
+		    (rung_resistence / (ladder_resistence));
+		double rung_delta_count = (rung_delta_voltage /
+					  reference_voltage) * max_count;
+
+		double min_ok = rung_delta_count * (1 - V_TOLERANCE);
+		double max_ok = rung_delta_count * (1 + V_TOLERANCE);
+
+		unsigned expecteds[] = { //
+			1.65528, // srb
+			1.58439, // in1p
+			1.60436, // in2p
+			1.62238, // in3p
+			1.63914, // in4p
+			1.65528, // in5p
+			1.67142, // in6p
+			1.68818, // in7p
+			1.7062   // in8p
+		};
+
+		unsigned bad_channels = 0;
+		for (unsigned chan = 1; chan < 8; ++chan) {
+			long val1 = channel_value(frame, chan);
+			long val2 = channel_value(frame, chan + 1);
+			long expected_diff =  100;
+			if ((val1-val2) > expected_diff) {
+				++bad_channels;
+			}
+		}
+		if (bad_channels) {
+			char buf[80];
+			format_data_frame(frame, buf);
+			Serial.println(buf);
+			for (unsigned chan = 1; chan <= 8; ++chan) {
+				long val = channel_value(frame, chan);
+				double val_volts = (((double) val) /
+					((double)max_count))
+					* reference_voltage;
+				sprintf(buf, "chan[%u]: %ld"
+					" (expected %.6f volts,"
+					" but was %.6f)\n",
+					chan, val,
+					rung_delta_voltage, val_volts);
+				Serial.println(buf);
+			}
+			spi_teardown();
+			return ERROR_BLINK_DATA_OOR_2;
+		}
+	}
+*/
 
 	// flip B high, A low - read analog data, ensure in approx range
 
