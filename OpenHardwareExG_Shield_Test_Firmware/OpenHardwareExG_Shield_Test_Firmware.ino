@@ -7,6 +7,11 @@ using namespace ADS1298;
 #include <stdio.h>
 #include <SPI.h>
 
+// this is very generous,
+// should dial this down when we have new boards
+#define V_TOLERANCE 0.15
+#define REF_SETTLE_TIME_MILLIS (6 * 1000)
+
 // some Arduino's use 5.0 ...
 #define ANALOG_REFERENCE_VOLTAGE 3.3
 
@@ -438,7 +443,7 @@ bool check_3v3_bogus_iso_fault()
 	Serial.println(buf);
 
 	/* ANALOG_REFERENCE_VOLTAGE */
-	float voltage = 11.0 * (((val1 - val0) * 3.3) / 1023.0);
+	double voltage = 11.0 * (((val1 - val0) * 3.3) / 1023.0);
 
 	sprintf(buf, "3V3_ISO approx: %5.3f\n", voltage);
 	Serial.println(buf);
@@ -448,6 +453,10 @@ bool check_3v3_bogus_iso_fault()
 		return true;
 	}
 
+	// ADS1299 datasheet, page 5:
+	// SBAS499A - JULY 2012 - REVISED AUGUST 2012
+	// POWER-SUPPLY REQUIREMENTS
+	// DVDD Digital supply MIN: 1.8 TYP: 1.8 MAX: 3.6
 	if (voltage > 3.5) {
 		Serial.println("3V3_ISO above 3.5 (too high for ADS)");
 		return true;
@@ -468,11 +477,15 @@ bool check_5v_bogus_iso_fault()
 	sprintf(buf, "PIN_DIV_VIN_ISO: %d", val1);
 	Serial.println(buf);
 
-	float voltage = 11.0 * (((val1 - val0) * 3.3) / 1023.0);
+	double voltage = 11.0 * (((val1 - val0) * 3.3) / 1023.0);
 
 	sprintf(buf, "VIN_ISO approx: %5.3f\n", voltage);
 	Serial.println(buf);
 
+	// ADS1299 datasheet, page 5:
+	// SBAS499A - JULY 2012 - REVISED AUGUST 2012
+	// POWER-SUPPLY REQUIREMENTS
+	// Analog supply (AVDD - AVSS) MIN:4.75 TYP:5 MAX:5.25
 	if (voltage < 4.85) {
 		Serial.println("VIN_ISO below 4.85 (too low for ADS)");
 		return true;
@@ -1134,7 +1147,12 @@ struct error_code run_tests()
 	for (int i = 1; i <= 8; ++i) {
 		adc_wreg(CHnSET + i, ELECTRODE_INPUT);	// | GAIN_12X);
 	}
-	delay(1500);
+	char buf[80];
+	sprintf(buf, "delay %dms for reference to settle",
+		REF_SETTLE_TIME_MILLIS);
+	Serial.println(buf);
+	delay(REF_SETTLE_TIME_MILLIS);
+	Serial.println("done waiting");
 	SPI.transfer(START);
 	delay(1);
 	{
@@ -1152,22 +1170,21 @@ struct error_code run_tests()
 		ADS1298::Data_frame frame;
 		read_data_frame(&frame);
 		if (bad_magic(frame)) {
-			char buf[80];
 			format_data_frame(frame, buf);
 			Serial.println(buf);
 			return ERROR_BLINK_BAD_MOJO;
 		}
-		float ladder_resistence = 31500;
-		float rung_resistence = 100;
-		float io_voltage = 3.3;
-		float reference_voltage = 4.5;
-		float rung_delta_voltage = io_voltage *
+		double ladder_resistence = 31500;
+		double rung_resistence = 100;
+		double io_voltage = 3.3;
+		double reference_voltage = 4.5;
+		double rung_delta_voltage = io_voltage *
 		    (rung_resistence / (ladder_resistence));
 		unsigned long max_count = 0x7FFFFF;
-		float rung_delta_count = (rung_delta_voltage /
+		double rung_delta_count = (rung_delta_voltage /
 					  reference_voltage) * max_count;
-		float min_ok = rung_delta_count * .9;
-		float max_ok = rung_delta_count * 1.1;
+		double min_ok = rung_delta_count * (1 - V_TOLERANCE);
+		double max_ok = rung_delta_count * (1 + V_TOLERANCE);
 		unsigned bad_channels = 0;
 		for (unsigned chan = 1; chan <= 8; ++chan) {
 			long val = channel_value(frame, chan);
@@ -1182,7 +1199,9 @@ struct error_code run_tests()
 			Serial.println(buf);
 			for (unsigned chan = 1; chan <= 8; ++chan) {
 				long val = channel_value(frame, chan);
-				sprintf(buf, "chan[%u]: %ld\n", chan, val);
+				double val_volts = (((double) val) / ((double)max_count)) * reference_voltage;
+				sprintf(buf, "chan[%u]: %ld (expected %.6f volts, but was %.6f)\n",
+					chan, val, rung_delta_voltage, val_volts);
 				Serial.println(buf);
 			}
 			spi_teardown();
