@@ -529,6 +529,7 @@ struct error_code ERROR_BLINK_DATA_OOR_1 = { 0x00014, "Data out of range 1" };
 struct error_code ERROR_BLINK_NO_DRDY_2 = { 0x00015, "No DRDY 2" };
 struct error_code ERROR_BLINK_BAD_MOJO_2 = { 0x00016, "Bad MAGIC 2" };
 struct error_code ERROR_BLINK_DATA_OOR_2 = { 0x00017, "Data out of range 2" };
+struct error_code ERROR_BLINK_BIASOUT_NOT_ZERO = { 0x00018, "BIASOUT not 0" };
 
 bool delay_or_go_button(unsigned delay_millis)
 {
@@ -1313,6 +1314,16 @@ struct error_code run_tests()
 		adc_wreg(CHnSET + i, ELECTRODE_INPUT);
 	}
 
+	{
+		int biasoutfilt = analogRead(PIN_BIASOUT_FILT);
+		int half_volt = (int) ((1023.0/3.3) * 0.5);
+		if (biasoutfilt > half_volt) {
+			sprintf(buf, "PIN_BIASOUT_FILT: %d", biasoutfilt);
+			Serial.println(buf);
+			spi_teardown();
+			return ERROR_BLINK_BIASOUT_NOT_ZERO;
+		}
+	}
 	// next: BIAS_OUT
 	// see if we can connect BIAS_OUT to a known signal
 	// measure what we get on A5
