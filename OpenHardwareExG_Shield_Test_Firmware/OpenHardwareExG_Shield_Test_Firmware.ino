@@ -1308,10 +1308,14 @@ struct error_code run_tests()
 			}
 		}
 	}
+	// reset to ELECTRODE_INPUT
+	for (int i = 1; i <= 8; ++i) {
+		adc_wreg(CHnSET + i, ELECTRODE_INPUT);
+	}
 
-	// flip B high, A low - read analog data, ensure in approx range
-
-	// BIAS_OUT
+	// next: BIAS_OUT
+	// see if we can connect BIAS_OUT to a known signal
+	// measure what we get on A5
 
 	// slave board clocking and data
 
