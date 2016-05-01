@@ -2,6 +2,21 @@
  * investigate forking/pull-requesting
     https://github.com/KiCad/kicad-library
     for our custom modules
+	one of these?
+	./kicad-files/connectors.mod
+	./kicad-files/arduino_shield.pretty
+	./kicad-files/Hole_M3.mod
+	./kicad-files/arduino-shield.mod
+	./kicad-files/fiducial_mark.mod
+	./kicad-files/testing.mod
+	./kicad-files/smt-tactile-button.mod
+    https://github.com/KiCad/kicad-library/blob/master/CONTRIBUTING.md
+    https://github.com/KiCad/kicad-library/wiki/Kicad-Library-Convention
+    https://github.com/KiCad/kicad-library/wiki/Status-of-the-libraries
+  * the Mega seems to be missing the SPI header, might be worth adding
+    and contributing
+    https://github.com/KiCad/kicad-library/tree/master/template/Arduino_Mega_R3
+
 
 =Test Harness=
  * DOUT checking rigor (we mostly set check_dout to false)
