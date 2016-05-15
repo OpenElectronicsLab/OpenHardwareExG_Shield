@@ -531,6 +531,8 @@ struct error_code ERROR_BLINK_BAD_MOJO_2 = { 0x00016, "Bad MAGIC 2" };
 struct error_code ERROR_BLINK_DATA_OOR_2 = { 0x00017, "Data out of range 2" };
 struct error_code ERROR_BLINK_BIASOUT_NOT_ZERO = { 0x00018, "BIASOUT not 0" };
 struct error_code ERROR_BLINK_BIASOUT_BAD = { 0x00019, "BIASOUT bad" };
+struct error_code ERROR_BLINK_DRDY_EARLY = { 0x00020, "DRDY early" };
+struct error_code ERROR_BLINK_DRDY_STILL = { 0x00021, "DRDY still" };
 
 bool delay_or_go_button(unsigned delay_millis)
 {
@@ -588,7 +590,7 @@ unsigned long shift_in_mismatch(struct ShiftInputs *expected,
 	char buf[255];
 
 	const char *fmt = "Mismatch comparing %s: expected %u but was %u";
-	// const char *skip = "Surpressed comparing %s: expected %u but was %u";
+	const char *skip = "Surpressed comparing %s: expected %u but was %u";
 
 	if (expected->slave_and_slave_cs != actual->slave_and_slave_cs) {
 		errors |= (1L << i);
@@ -721,8 +723,9 @@ unsigned long shift_in_mismatch(struct ShiftInputs *expected,
 	}
 	++i;
 	if (expected->gpio4 != actual->gpio4) {
-		errors |= (1L<<i);
-		sprintf(buf, fmt, "gpio4", expected->gpio4, actual->gpio4);
+		// errors |= (1L<<i);
+		// sprintf(buf, fmt, "gpio4", expected->gpio4, actual->gpio4);
+		sprintf(buf, skip, "gpio4", expected->gpio4, actual->gpio4);
 		Serial.println(buf);
 	}
 	++i;
@@ -1159,8 +1162,11 @@ struct error_code run_tests()
 	Serial.println(buf);
 	delay(REF_SETTLE_TIME_MILLIS);
 	Serial.println("done waiting");
+	if (digitalRead(IPIN_DRDY) != HIGH) {
+		spi_teardown();
+		return ERROR_BLINK_DRDY_EARLY;
+	}
 	SPI.transfer(START);
-	delay(1);
 	{
 		unsigned long timeout_milliseconds = 200;
 		unsigned long start;
@@ -1168,6 +1174,7 @@ struct error_code run_tests()
 		start = millis();
 		while (digitalRead(IPIN_DRDY) == HIGH) {
 			if ((millis() - start) > timeout_milliseconds) {
+				spi_teardown();
 				return ERROR_BLINK_NO_DRDY_1;
 			}
 		}
@@ -1175,6 +1182,10 @@ struct error_code run_tests()
 	{
 		ADS1298::Data_frame frame;
 		read_data_frame(&frame);
+		if (digitalRead(IPIN_DRDY) != HIGH) {
+			spi_teardown();
+			return ERROR_BLINK_DRDY_STILL;
+		}
 		if (bad_magic(frame)) {
 			format_data_frame(frame, buf);
 			Serial.println(buf);

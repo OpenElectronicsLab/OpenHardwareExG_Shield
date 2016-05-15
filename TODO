@@ -19,6 +19,7 @@
 
 
 =Test Harness=
+ * DRDY we should test both LOW and HIGH for i_drdy
  * DOUT checking rigor (we mostly set check_dout to false)
  * Shortcomings we will ignore
    * serial output registers start uninitialized and thus in an undefined state
