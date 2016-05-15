@@ -530,6 +530,7 @@ struct error_code ERROR_BLINK_NO_DRDY_2 = { 0x00015, "No DRDY 2" };
 struct error_code ERROR_BLINK_BAD_MOJO_2 = { 0x00016, "Bad MAGIC 2" };
 struct error_code ERROR_BLINK_DATA_OOR_2 = { 0x00017, "Data out of range 2" };
 struct error_code ERROR_BLINK_BIASOUT_NOT_ZERO = { 0x00018, "BIASOUT not 0" };
+struct error_code ERROR_BLINK_BIASOUT_BAD = { 0x00019, "BIASOUT bad" };
 
 bool delay_or_go_button(unsigned delay_millis)
 {
@@ -1144,9 +1145,10 @@ struct error_code run_tests()
 	adc_wreg(CONFIG1, reserved7 | reserved4 | sps250);
 	uint8_t reserved6 = (1L << 6);
 	uint8_t reserved5 = (1L << 5);
-	uint8_t pdrefbuf7 = (1L << 7);
 	adc_wreg(CONFIG2, reserved7 | reserved6);
-	adc_wreg(CONFIG3, pdrefbuf7 | reserved6 | reserved5);
+	uint8_t biasref_int = (1L << 3);
+	uint8_t pdrefbuf7 = (1L << 7);
+	adc_wreg(CONFIG3, pdrefbuf7 | reserved6 | reserved5 | biasref_int);
 	adc_wreg(CONFIG4, SINGLE_SHOT);
 	for (int i = 1; i <= 8; ++i) {
 		adc_wreg(CHnSET + i, ELECTRODE_INPUT);	// | GAIN_12X);
@@ -1316,19 +1318,39 @@ struct error_code run_tests()
 
 	{
 		int biasoutfilt = analogRead(PIN_BIASOUT_FILT);
-		int half_volt = (int) ((1023.0/3.3) * 0.5);
-		if (biasoutfilt > half_volt) {
-			sprintf(buf, "PIN_BIASOUT_FILT: %d", biasoutfilt);
+		double one_volt = (1023.0/3.3);
+		int max_expected = (int) (0.1 * one_volt);
+		if (biasoutfilt > max_expected) {
+			sprintf(buf, "PIN_BIASOUT_FILT: %d > %d",
+				biasoutfilt, max_expected);
 			Serial.println(buf);
 			spi_teardown();
 			return ERROR_BLINK_BIASOUT_NOT_ZERO;
 		}
 	}
-	// next: BIAS_OUT
-	// see if we can connect BIAS_OUT to a known signal
-	// measure what we get on A5
 
-	// slave board clocking and data
+	uint8_t i_pd_bias = (1L << 2);
+	adc_wreg(CONFIG3, pdrefbuf7 | reserved6 | reserved5
+			| biasref_int | i_pd_bias);
+	delay(REF_SETTLE_TIME_MILLIS);
+	Serial.println("done waiting");
+
+	{
+		int biasoutfilt = analogRead(PIN_BIASOUT_FILT);
+		double expected_2_5_volt = ((1023.0/3.3) * 2.5);
+		int max_expected = (int) (1.1 * expected_2_5_volt);
+		int min_expected = (int) (0.9 * expected_2_5_volt);
+		if ((biasoutfilt > max_expected)
+			|| (biasoutfilt < min_expected)) {
+			sprintf(buf, "PIN_BIASOUT_FILT: %d outside %d - %d",
+				biasoutfilt, min_expected, max_expected);
+			Serial.println(buf);
+			spi_teardown();
+			return ERROR_BLINK_BIASOUT_BAD;
+		}
+	}
+
+	//TODO: slave board clocking and data
 
 	spi_teardown();
 
