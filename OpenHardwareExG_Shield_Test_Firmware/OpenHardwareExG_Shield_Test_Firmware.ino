@@ -588,7 +588,7 @@ unsigned long shift_in_mismatch(struct ShiftInputs *expected,
 	char buf[255];
 
 	const char *fmt = "Mismatch comparing %s: expected %u but was %u";
-	const char *skip = "Surpressed comparing %s: expected %u but was %u";
+	// const char *skip = "Surpressed comparing %s: expected %u but was %u";
 
 	if (expected->slave_and_slave_cs != actual->slave_and_slave_cs) {
 		errors |= (1L << i);
@@ -721,8 +721,8 @@ unsigned long shift_in_mismatch(struct ShiftInputs *expected,
 	}
 	++i;
 	if (expected->gpio4 != actual->gpio4) {
-		// errors |= (1L<<i); // FIXME: Eric's board is solder-bridged to DRDY
-		sprintf(buf, skip, "gpio4", expected->gpio4, actual->gpio4);
+		errors |= (1L<<i);
+		sprintf(buf, fmt, "gpio4", expected->gpio4, actual->gpio4);
 		Serial.println(buf);
 	}
 	++i;
