@@ -7,6 +7,10 @@ using namespace ADS1298;
 #include <stdio.h>
 #include <SPI.h>
 
+#ifndef BROKEN_GPIO4
+#define BROKEN_GPIO4 0
+#endif
+
 // this is very generous,
 // should dial this down when we have new boards
 #define V_TOLERANCE 0.15
@@ -723,9 +727,14 @@ unsigned long shift_in_mismatch(struct ShiftInputs *expected,
 	}
 	++i;
 	if (expected->gpio4 != actual->gpio4) {
-		// errors |= (1L<<i);
-		// sprintf(buf, fmt, "gpio4", expected->gpio4, actual->gpio4);
-		sprintf(buf, skip, "gpio4", expected->gpio4, actual->gpio4);
+		const char *msg;
+		if (BROKEN_GPIO4) {
+			msg = skip;
+		} else {
+			msg = fmt;
+			errors |= (1L<<i);
+		}
+		sprintf(buf, msg, "gpio4", expected->gpio4, actual->gpio4);
 		Serial.println(buf);
 	}
 	++i;
@@ -1101,8 +1110,8 @@ struct error_code run_tests()
 
 	for (int i = 0; i < 4; ++i) {
 		uint8_t data = (1 << (4 + i));
-		if (1) {	// FIXME Eric's gpio4 is broken
-			data |= 0x08;	// FIXME set gpio4 to be an input
+		if (BROKEN_GPIO4) {
+			data |= 0x08;	// set gpio4 to be an input
 		}
 		adc_wreg(GPIO, data);
 
