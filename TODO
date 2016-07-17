@@ -19,6 +19,9 @@
 
 
 =Test Harness=
+ * redesign larger "C-bracket" to be a board with holes for pogos and slots
+   for connectors and passthroughs and such
+ * Kendrick to order dowels from mcmaster
  * DRDY we should test both LOW and HIGH for i_drdy
  * DOUT checking rigor (we mostly set check_dout to false)
  * Shortcomings we will ignore
