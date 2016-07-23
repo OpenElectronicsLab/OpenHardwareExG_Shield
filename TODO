@@ -1,3 +1,8 @@
+=FIRMWARE=
+ * clean up software in OpenHardwareExG for ease-of-use,
+ * extract as separate project.
+   - start fresh?
+
 =kicad=
  * investigate forking/pull-requesting
     https://github.com/KiCad/kicad-library
@@ -19,8 +24,6 @@
 
 
 =Test Harness=
- * redesign larger "C-bracket" to be a board with holes for pogos and slots
-   for connectors and passthroughs and such
  * DRDY we should test both LOW and HIGH for i_drdy
  * DOUT checking rigor (we mostly set check_dout to false)
  * Shortcomings we will ignore
