@@ -1,0 +1,9 @@
+(module POGO_PIN_BASE (layer F.Cu) (tedit 545E4C86)
+  (fp_text reference POGO_PIN_BASE (at 0 -1.7) (layer F.SilkS)
+    (effects (font (size 1 1) (thickness 0.15)))
+  )
+  (fp_text value VAL** (at 0 2.1) (layer F.SilkS) hide
+    (effects (font (size 1 1) (thickness 0.15)))
+  )
+  (pad 1 thru_hole circle (at 0 0) (size 1.5 1.5) (drill 1.2) (layers *.Cu *.Mask F.SilkS))
+)

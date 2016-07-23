@@ -1,0 +1,10 @@
+(module POGO_HEAD_HOLE (layer F.Cu) (tedit 5793605A)
+  (fp_text reference REF** (at 0 2.54) (layer F.SilkS)
+    (effects (font (size 1 1) (thickness 0.15)))
+  )
+  (fp_text value POGO_HEAD_HOLE (at 0 -2.54) (layer F.Fab) hide
+    (effects (font (size 1 1) (thickness 0.15)))
+  )
+  (fp_circle (center 0 0) (end -0.8636 0) (layer F.SilkS) (width 0.0762))
+  (pad "" np_thru_hole circle (at 0 0) (size 1.524 1.524) (drill 1.5113) (layers *.Cu *.Mask F.SilkS))
+)
