@@ -11,6 +11,10 @@ using namespace ADS1298;
 #define BROKEN_GPIO4 0
 #endif
 
+#ifndef LAX_DRDY_STILL
+#define LAX_DRDY_STILL 1
+#endif
+
 // this is very generous,
 // should dial this down when we have new boards
 #define V_TOLERANCE 0.15
@@ -818,6 +822,9 @@ void spi_setup()
 	write_shift_out(output);
 	SPI.transfer(SDATAC);
 	delayMicroseconds(1);
+	// ADS defaults to RDATAC
+	SPI.transfer(STOP);
+	delayMicroseconds(1);
 }
 
 void spi_teardown()
@@ -1192,8 +1199,12 @@ struct error_code run_tests()
 		ADS1298::Data_frame frame;
 		read_data_frame(&frame);
 		if (digitalRead(IPIN_DRDY) != HIGH) {
-			spi_teardown();
-			return ERROR_BLINK_DRDY_STILL;
+			if (LAX_DRDY_STILL) {
+				Serial.println("LAX_DRDY_STILL");
+			} else {
+				spi_teardown();
+				return ERROR_BLINK_DRDY_STILL;
+			}
 		}
 		if (bad_magic(frame)) {
 			format_data_frame(frame, buf);
