@@ -1,37 +1,5 @@
 EESchema Schematic File Version 2
-LIBS:OpenHardwareExG_Shield_Test_Board-rescue
 LIBS:power
-LIBS:device
-LIBS:transistors
-LIBS:conn
-LIBS:linear
-LIBS:regul
-LIBS:74xx
-LIBS:cmos4000
-LIBS:adc-dac
-LIBS:memory
-LIBS:xilinx
-LIBS:microcontrollers
-LIBS:dsp
-LIBS:microchip
-LIBS:analog_switches
-LIBS:motorola
-LIBS:texas
-LIBS:intel
-LIBS:audio
-LIBS:interface
-LIBS:digital-audio
-LIBS:philips
-LIBS:display
-LIBS:cypress
-LIBS:siliconi
-LIBS:opto
-LIBS:atmel
-LIBS:contrib
-LIBS:valves
-LIBS:arduino-shield
-LIBS:isolators
-LIBS:additional-logic
 LIBS:OpenHardwareExG_Shield_Test_Board-cache
 EELAYER 25 0
 EELAYER END
@@ -93,7 +61,7 @@ F 3 "" H 5800 19950 60  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L +3.3V-RESCUE-OpenHardwareExG_Shield_Test_Board #PWR04
+L +3.3V #PWR04
 U 1 1 51B33644
 P 2450 17600
 F 0 "#PWR04" H 2450 17560 30  0001 C CNN
@@ -161,7 +129,7 @@ F 3 "" H 22200 5450 60  0001 C CNN
 	0    1    -1   0   
 $EndComp
 $Comp
-L C-RESCUE-OpenHardwareExG_Shield_Test_Board C10
+L C C10
 U 1 1 51ABEC55
 P 23100 5750
 F 0 "C10" H 23150 5850 50  0000 L CNN
@@ -172,7 +140,7 @@ F 3 "" H 23100 5750 60  0001 C CNN
 	-1   0    0    -1  
 $EndComp
 $Comp
-L C-RESCUE-OpenHardwareExG_Shield_Test_Board C9
+L C C9
 U 1 1 51ABEC54
 P 22700 5750
 F 0 "C9" H 22750 5850 50  0000 L CNN
@@ -183,7 +151,7 @@ F 3 "" H 22700 5750 60  0001 C CNN
 	-1   0    0    -1  
 $EndComp
 $Comp
-L C-RESCUE-OpenHardwareExG_Shield_Test_Board C12
+L C C12
 U 1 1 51ABEC4B
 P 26600 5750
 F 0 "C12" H 26650 5850 50  0000 L CNN
@@ -194,7 +162,7 @@ F 3 "" H 26600 5750 60  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L C-RESCUE-OpenHardwareExG_Shield_Test_Board C11
+L C C11
 U 1 1 51ABEC4A
 P 26200 5750
 F 0 "C11" H 26250 5850 50  0000 L CNN
@@ -216,7 +184,7 @@ F 3 "" H 27100 5450 60  0001 C CNN
 	0    -1   -1   0   
 $EndComp
 $Comp
-L R-RESCUE-OpenHardwareExG_Shield_Test_Board R40
+L R R40
 U 1 1 51976086
 P 9850 21800
 F 0 "R40" V 9930 21800 50  0000 C CNN
@@ -227,7 +195,7 @@ F 3 "" H 9850 21800 60  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L LED-RESCUE-OpenHardwareExG_Shield_Test_Board D1
+L LED D1
 U 1 1 51976061
 P 9850 20800
 F 0 "D1" H 9850 20900 50  0000 C CNN
@@ -326,7 +294,7 @@ ADS129x_CLK_BOGUS_ISO
 Text Label 10250 6200 2    60   ~ 0
 SHIFT_EXT_CARRY_BOGUS_ISO
 $Comp
-L R-RESCUE-OpenHardwareExG_Shield_Test_Board R17
+L R R17
 U 1 1 5442A5FD
 P 5750 2650
 F 0 "R17" V 5830 2650 40  0000 C CNN
@@ -337,7 +305,7 @@ F 3 "~" H 5750 2650 30  0000 C CNN
 	0    -1   -1   0   
 $EndComp
 $Comp
-L R-RESCUE-OpenHardwareExG_Shield_Test_Board R18
+L R R18
 U 1 1 5442A603
 P 5750 2800
 F 0 "R18" V 5830 2800 40  0000 C CNN
@@ -352,7 +320,7 @@ IN8P_LADDER
 Text Label 7600 2650 2    60   ~ 0
 IN8N_LADDER
 $Comp
-L R-RESCUE-OpenHardwareExG_Shield_Test_Board R19
+L R R19
 U 1 1 5442B159
 P 5750 2950
 F 0 "R19" V 5830 2950 40  0000 C CNN
@@ -363,7 +331,7 @@ F 3 "~" H 5750 2950 30  0000 C CNN
 	0    -1   -1   0   
 $EndComp
 $Comp
-L R-RESCUE-OpenHardwareExG_Shield_Test_Board R20
+L R R20
 U 1 1 5442B15F
 P 5750 3100
 F 0 "R20" V 5830 3100 40  0000 C CNN
@@ -378,7 +346,7 @@ IN7P_LADDER
 Text Label 7600 2950 2    60   ~ 0
 IN7N_LADDER
 $Comp
-L R-RESCUE-OpenHardwareExG_Shield_Test_Board R21
+L R R21
 U 1 1 5442B171
 P 5750 3250
 F 0 "R21" V 5830 3250 40  0000 C CNN
@@ -389,7 +357,7 @@ F 3 "~" H 5750 3250 30  0000 C CNN
 	0    -1   -1   0   
 $EndComp
 $Comp
-L R-RESCUE-OpenHardwareExG_Shield_Test_Board R22
+L R R22
 U 1 1 5442B177
 P 5750 3400
 F 0 "R22" V 5830 3400 40  0000 C CNN
@@ -404,7 +372,7 @@ IN6P_LADDER
 Text Label 7600 3250 2    60   ~ 0
 IN6N_LADDER
 $Comp
-L R-RESCUE-OpenHardwareExG_Shield_Test_Board R23
+L R R23
 U 1 1 5442B189
 P 5750 3550
 F 0 "R23" V 5830 3550 40  0000 C CNN
@@ -415,7 +383,7 @@ F 3 "~" H 5750 3550 30  0000 C CNN
 	0    -1   -1   0   
 $EndComp
 $Comp
-L R-RESCUE-OpenHardwareExG_Shield_Test_Board R24
+L R R24
 U 1 1 5442B18F
 P 5750 3700
 F 0 "R24" V 5830 3700 40  0000 C CNN
@@ -430,7 +398,7 @@ IN5P_LADDER
 Text Label 7600 3550 2    60   ~ 0
 IN5N_LADDER
 $Comp
-L R-RESCUE-OpenHardwareExG_Shield_Test_Board R25
+L R R25
 U 1 1 5442B1A1
 P 5750 3850
 F 0 "R25" V 5830 3850 40  0000 C CNN
@@ -441,7 +409,7 @@ F 3 "~" H 5750 3850 30  0000 C CNN
 	0    -1   -1   0   
 $EndComp
 $Comp
-L R-RESCUE-OpenHardwareExG_Shield_Test_Board R26
+L R R26
 U 1 1 5442B1A7
 P 5750 4000
 F 0 "R26" V 5830 4000 40  0000 C CNN
@@ -456,7 +424,7 @@ IN4P_LADDER
 Text Label 7600 3850 2    60   ~ 0
 IN4N_LADDER
 $Comp
-L R-RESCUE-OpenHardwareExG_Shield_Test_Board R27
+L R R27
 U 1 1 5442B1B9
 P 5750 4150
 F 0 "R27" V 5830 4150 40  0000 C CNN
@@ -467,7 +435,7 @@ F 3 "~" H 5750 4150 30  0000 C CNN
 	0    -1   -1   0   
 $EndComp
 $Comp
-L R-RESCUE-OpenHardwareExG_Shield_Test_Board R28
+L R R28
 U 1 1 5442B1BF
 P 5750 4300
 F 0 "R28" V 5830 4300 40  0000 C CNN
@@ -482,7 +450,7 @@ IN3P_LADDER
 Text Label 7600 4150 2    60   ~ 0
 IN3N_LADDER
 $Comp
-L R-RESCUE-OpenHardwareExG_Shield_Test_Board R29
+L R R29
 U 1 1 5442B1D1
 P 5750 4450
 F 0 "R29" V 5830 4450 40  0000 C CNN
@@ -493,7 +461,7 @@ F 3 "~" H 5750 4450 30  0000 C CNN
 	0    -1   -1   0   
 $EndComp
 $Comp
-L R-RESCUE-OpenHardwareExG_Shield_Test_Board R30
+L R R30
 U 1 1 5442B1D7
 P 5750 4600
 F 0 "R30" V 5830 4600 40  0000 C CNN
@@ -508,7 +476,7 @@ IN2P_LADDER
 Text Label 7600 4450 2    60   ~ 0
 IN2N_LADDER
 $Comp
-L R-RESCUE-OpenHardwareExG_Shield_Test_Board R31
+L R R31
 U 1 1 5442B1E9
 P 5750 4750
 F 0 "R31" V 5830 4750 40  0000 C CNN
@@ -519,7 +487,7 @@ F 3 "~" H 5750 4750 30  0000 C CNN
 	0    -1   -1   0   
 $EndComp
 $Comp
-L R-RESCUE-OpenHardwareExG_Shield_Test_Board R32
+L R R32
 U 1 1 5442B1EF
 P 5750 4900
 F 0 "R32" V 5830 4900 40  0000 C CNN
@@ -534,7 +502,7 @@ IN1P_LADDER
 Text Label 7600 4750 2    60   ~ 0
 IN1N_LADDER
 $Comp
-L R-RESCUE-OpenHardwareExG_Shield_Test_Board R33
+L R R33
 U 1 1 5442B3EE
 P 5750 5050
 F 0 "R33" V 5830 5050 40  0000 C CNN
@@ -560,7 +528,7 @@ $EndComp
 Text Label 6900 5050 2    60   ~ 0
 SIGNAL_B_LADDER
 $Comp
-L R-RESCUE-OpenHardwareExG_Shield_Test_Board R7
+L R R7
 U 1 1 5442BF2B
 P 1850 19950
 F 0 "R7" V 1930 19950 40  0000 C CNN
@@ -581,7 +549,7 @@ Text Label 2150 17600 2    60   ~ 0
 Text Label 850  19500 0    60   ~ 0
 GND_BOGUS_ISO
 $Comp
-L R-RESCUE-OpenHardwareExG_Shield_Test_Board R1
+L R R1
 U 1 1 5442E098
 P 800 18150
 F 0 "R1" V 880 18150 40  0000 C CNN
@@ -592,7 +560,7 @@ F 3 "~" H 800 18150 30  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L R-RESCUE-OpenHardwareExG_Shield_Test_Board R2
+L R R2
 U 1 1 5442E0A7
 P 800 18850
 F 0 "R2" V 880 18850 40  0000 C CNN
@@ -603,7 +571,7 @@ F 3 "~" H 800 18850 30  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L R-RESCUE-OpenHardwareExG_Shield_Test_Board R3
+L R R3
 U 1 1 5442E594
 P 1150 18150
 F 0 "R3" V 1230 18150 40  0000 C CNN
@@ -614,7 +582,7 @@ F 3 "~" H 1150 18150 30  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L R-RESCUE-OpenHardwareExG_Shield_Test_Board R4
+L R R4
 U 1 1 5442E59A
 P 1150 18850
 F 0 "R4" V 1230 18850 40  0000 C CNN
@@ -625,7 +593,7 @@ F 3 "~" H 1150 18850 30  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L R-RESCUE-OpenHardwareExG_Shield_Test_Board R5
+L R R5
 U 1 1 5442E5FC
 P 1500 18150
 F 0 "R5" V 1580 18150 40  0000 C CNN
@@ -636,7 +604,7 @@ F 3 "~" H 1500 18150 30  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L R-RESCUE-OpenHardwareExG_Shield_Test_Board R6
+L R R6
 U 1 1 5442E602
 P 1500 18850
 F 0 "R6" V 1580 18850 40  0000 C CNN
@@ -649,7 +617,7 @@ $EndComp
 Text Label 2150 17450 2    60   ~ 0
 GND_BOGUS_ISO
 $Comp
-L R-RESCUE-OpenHardwareExG_Shield_Test_Board R8
+L R R8
 U 1 1 5442F04D
 P 2050 19500
 F 0 "R8" V 2130 19500 40  0000 C CNN
@@ -1344,7 +1312,7 @@ Buffer
 Text Notes 19700 8950 2    60   ~ 0
 capacitors for logic chips
 $Comp
-L C-RESCUE-OpenHardwareExG_Shield_Test_Board C4
+L C C4
 U 1 1 544BDB64
 P 19550 9550
 F 0 "C4" H 19600 9650 50  0000 L CNN
@@ -1355,7 +1323,7 @@ F 3 "" H 19550 9550 60  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L C-RESCUE-OpenHardwareExG_Shield_Test_Board C3
+L C C3
 U 1 1 544BDB6A
 P 19200 9550
 F 0 "C3" H 19250 9650 50  0000 L CNN
@@ -1366,7 +1334,7 @@ F 3 "" H 19200 9550 60  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L C-RESCUE-OpenHardwareExG_Shield_Test_Board C1
+L C C1
 U 1 1 544BDB70
 P 18500 9550
 F 0 "C1" H 18550 9650 50  0000 L CNN
@@ -1377,7 +1345,7 @@ F 3 "" H 18500 9550 60  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L C-RESCUE-OpenHardwareExG_Shield_Test_Board C2
+L C C2
 U 1 1 544BDB76
 P 18850 9550
 F 0 "C2" H 18900 9650 50  0000 L CNN
@@ -1478,7 +1446,7 @@ GND_BOGUS_ISO
 Text Label 16700 9800 0    60   ~ 0
 GND_BOGUS_ISO
 $Comp
-L GND-RESCUE-OpenHardwareExG_Shield_Test_Board #PWR016
+L GND #PWR016
 U 1 1 544C074A
 P 21000 9900
 F 0 "#PWR016" H 21000 9900 30  0001 C CNN
@@ -1511,7 +1479,7 @@ F 3 "" H 6900 7150 60  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L GND-RESCUE-OpenHardwareExG_Shield_Test_Board #PWR019
+L GND #PWR019
 U 1 1 544C0BDF
 P 5100 6400
 F 0 "#PWR019" H 5100 6400 30  0001 C CNN
@@ -1522,7 +1490,7 @@ F 3 "" H 5100 6400 60  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L GND-RESCUE-OpenHardwareExG_Shield_Test_Board #PWR020
+L GND #PWR020
 U 1 1 544C0BEE
 P 5100 8100
 F 0 "#PWR020" H 5100 8100 30  0001 C CNN
@@ -1544,7 +1512,7 @@ F 3 "~" H 19050 7700 60  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L GND-RESCUE-OpenHardwareExG_Shield_Test_Board #PWR021
+L GND #PWR021
 U 1 1 544C0D86
 P 17800 7800
 F 0 "#PWR021" H 17800 7800 30  0001 C CNN
@@ -1557,7 +1525,7 @@ $EndComp
 Text Label 20750 7700 2    60   ~ 0
 MASTER_BOGUS_ISO
 $Comp
-L R-RESCUE-OpenHardwareExG_Shield_Test_Board R41
+L R R41
 U 1 1 544C10D6
 P 10350 21800
 F 0 "R41" V 10430 21800 50  0000 C CNN
@@ -1568,7 +1536,7 @@ F 3 "" H 10350 21800 60  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L LED-RESCUE-OpenHardwareExG_Shield_Test_Board D2
+L LED D2
 U 1 1 544C10DC
 P 10350 20800
 F 0 "D2" H 10350 20900 50  0000 C CNN
@@ -1583,7 +1551,7 @@ Success Indicator
 Text Notes 10650 21750 1    60   ~ 0
 Fault Indicator
 $Comp
-L R-RESCUE-OpenHardwareExG_Shield_Test_Board R42
+L R R42
 U 1 1 544C10E7
 P 10850 21800
 F 0 "R42" V 10930 21800 50  0000 C CNN
@@ -1594,7 +1562,7 @@ F 3 "" H 10850 21800 60  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L LED-RESCUE-OpenHardwareExG_Shield_Test_Board D3
+L LED D3
 U 1 1 544C10ED
 P 10850 20800
 F 0 "D3" H 10850 20900 50  0000 C CNN
@@ -1697,7 +1665,7 @@ ARDUINO_GND
 Text Label 21450 14500 2    60   ~ 0
 ARDUINO_GND
 $Comp
-L R-RESCUE-OpenHardwareExG_Shield_Test_Board R44
+L R R44
 U 1 1 544BC802
 P 22550 14000
 F 0 "R44" V 22630 14000 40  0000 C CNN
@@ -1727,7 +1695,7 @@ F 3 "~" H 15700 20200 60  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L R-RESCUE-OpenHardwareExG_Shield_Test_Board R43
+L R R43
 U 1 1 544BD479
 P 15150 20600
 F 0 "R43" V 15230 20600 40  0000 C CNN
@@ -1823,7 +1791,7 @@ SHIFT_CLK_BOGUS_ISO
 Text Label 2250 7300 0    60   ~ 0
 SHIFT_SH_~LD~_BOGUS_ISO
 $Comp
-L R-RESCUE-OpenHardwareExG_Shield_Test_Board R15
+L R R15
 U 1 1 545624CE
 P 4600 6550
 F 0 "R15" V 4680 6550 40  0000 C CNN
@@ -1834,7 +1802,7 @@ F 3 "~" H 4600 6550 30  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L R-RESCUE-OpenHardwareExG_Shield_Test_Board R13
+L R R13
 U 1 1 545624EA
 P 4400 6550
 F 0 "R13" V 4480 6550 40  0000 C CNN
@@ -1845,7 +1813,7 @@ F 3 "~" H 4400 6550 30  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L R-RESCUE-OpenHardwareExG_Shield_Test_Board R11
+L R R11
 U 1 1 545624F9
 P 4200 6550
 F 0 "R11" V 4280 6550 40  0000 C CNN
@@ -1856,7 +1824,7 @@ F 3 "~" H 4200 6550 30  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L R-RESCUE-OpenHardwareExG_Shield_Test_Board R9
+L R R9
 U 1 1 545624FF
 P 4000 6550
 F 0 "R9" V 4080 6550 40  0000 C CNN
@@ -1867,10 +1835,10 @@ F 3 "~" H 4000 6550 30  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L GND-RESCUE-OpenHardwareExG_Shield_Test_Board #PWR023
+L GND #PWR022
 U 1 1 54562C8E
 P 5100 6950
-F 0 "#PWR023" H 5100 6950 30  0001 C CNN
+F 0 "#PWR022" H 5100 6950 30  0001 C CNN
 F 1 "GND" H 5100 6880 30  0001 C CNN
 F 2 "" H 5100 6950 60  0000 C CNN
 F 3 "" H 5100 6950 60  0000 C CNN
@@ -2580,7 +2548,7 @@ Wire Wire Line
 	4600 6800 4600 6900
 Connection ~ 4600 6900
 $Comp
-L R-RESCUE-OpenHardwareExG_Shield_Test_Board R16
+L R R16
 U 1 1 54563821
 P 4600 8250
 F 0 "R16" V 4680 8250 40  0000 C CNN
@@ -2591,7 +2559,7 @@ F 3 "~" H 4600 8250 30  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L R-RESCUE-OpenHardwareExG_Shield_Test_Board R14
+L R R14
 U 1 1 54563827
 P 4400 8250
 F 0 "R14" V 4480 8250 40  0000 C CNN
@@ -2602,7 +2570,7 @@ F 3 "~" H 4400 8250 30  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L R-RESCUE-OpenHardwareExG_Shield_Test_Board R12
+L R R12
 U 1 1 5456382D
 P 4200 8250
 F 0 "R12" V 4280 8250 40  0000 C CNN
@@ -2613,7 +2581,7 @@ F 3 "~" H 4200 8250 30  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L R-RESCUE-OpenHardwareExG_Shield_Test_Board R10
+L R R10
 U 1 1 54563833
 P 4000 8250
 F 0 "R10" V 4080 8250 40  0000 C CNN
@@ -2624,10 +2592,10 @@ F 3 "~" H 4000 8250 30  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L GND-RESCUE-OpenHardwareExG_Shield_Test_Board #PWR024
+L GND #PWR023
 U 1 1 54563839
 P 5100 8650
-F 0 "#PWR024" H 5100 8650 30  0001 C CNN
+F 0 "#PWR023" H 5100 8650 30  0001 C CNN
 F 1 "GND" H 5100 8580 30  0001 C CNN
 F 2 "" H 5100 8650 60  0000 C CNN
 F 3 "" H 5100 8650 60  0000 C CNN
@@ -2662,7 +2630,7 @@ Wire Wire Line
 	4000 8000 4000 7500
 Connection ~ 4000 7500
 $Comp
-L R-RESCUE-OpenHardwareExG_Shield_Test_Board R34
+L R R34
 U 1 1 54563FE2
 P 7950 6600
 F 0 "R34" V 8030 6600 40  0000 C CNN
@@ -2673,10 +2641,10 @@ F 3 "~" H 7950 6600 30  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L GND-RESCUE-OpenHardwareExG_Shield_Test_Board #PWR025
+L GND #PWR024
 U 1 1 54563FE8
 P 9050 7000
-F 0 "#PWR025" H 9050 7000 30  0001 C CNN
+F 0 "#PWR024" H 9050 7000 30  0001 C CNN
 F 1 "GND" H 9050 6930 30  0001 C CNN
 F 2 "" H 9050 7000 60  0000 C CNN
 F 3 "" H 9050 7000 60  0000 C CNN
@@ -2693,7 +2661,7 @@ Wire Wire Line
 	8150 6850 8150 6950
 Connection ~ 8150 6950
 $Comp
-L R-RESCUE-OpenHardwareExG_Shield_Test_Board R39
+L R R39
 U 1 1 545643DF
 P 8350 8250
 F 0 "R39" V 8430 8250 40  0000 C CNN
@@ -2704,7 +2672,7 @@ F 3 "~" H 8350 8250 30  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L R-RESCUE-OpenHardwareExG_Shield_Test_Board R37
+L R R37
 U 1 1 545643E5
 P 8150 8250
 F 0 "R37" V 8230 8250 40  0000 C CNN
@@ -2715,7 +2683,7 @@ F 3 "~" H 8150 8250 30  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L R-RESCUE-OpenHardwareExG_Shield_Test_Board R35
+L R R35
 U 1 1 545643EB
 P 7950 8250
 F 0 "R35" V 8030 8250 40  0000 C CNN
@@ -2726,10 +2694,10 @@ F 3 "~" H 7950 8250 30  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L GND-RESCUE-OpenHardwareExG_Shield_Test_Board #PWR026
+L GND #PWR025
 U 1 1 545643F1
 P 9050 8650
-F 0 "#PWR026" H 9050 8650 30  0001 C CNN
+F 0 "#PWR025" H 9050 8650 30  0001 C CNN
 F 1 "GND" H 9050 8580 30  0001 C CNN
 F 2 "" H 9050 8650 60  0000 C CNN
 F 3 "" H 9050 8650 60  0000 C CNN
@@ -2764,7 +2732,7 @@ Wire Wire Line
 	8350 8000 8350 7800
 Connection ~ 8350 7800
 $Comp
-L R-RESCUE-OpenHardwareExG_Shield_Test_Board R36
+L R R36
 U 1 1 54563FDC
 P 8150 6600
 F 0 "R36" V 8230 6600 40  0000 C CNN
@@ -2969,7 +2937,7 @@ F 3 "" H 12100 2050 60  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L R-RESCUE-OpenHardwareExG_Shield_Test_Board R38
+L R R38
 U 1 1 54563490
 P 8350 6600
 F 0 "R38" V 8430 6600 40  0000 C CNN
@@ -3022,10 +2990,10 @@ LED3
 Text Label 6500 6500 3    60   ~ 0
 MIDDLE_CARRY
 $Comp
-L VCC #PWR027
+L VCC #PWR026
 U 1 1 55044D1F
 P 20800 5300
-F 0 "#PWR027" H 20800 5400 30  0001 C CNN
+F 0 "#PWR026" H 20800 5400 30  0001 C CNN
 F 1 "VCC" H 20800 5400 30  0000 C CNN
 F 2 "" H 20800 5300 60  0000 C CNN
 F 3 "" H 20800 5300 60  0000 C CNN
@@ -3037,10 +3005,10 @@ Wire Wire Line
 Wire Notes Line
 	24850 4900 24850 500 
 $Comp
-L PWR_FLAG #FLG028
+L PWR_FLAG #FLG027
 U 1 1 550451AB
 P 20450 9650
-F 0 "#FLG028" H 20450 9745 30  0001 C CNN
+F 0 "#FLG027" H 20450 9745 30  0001 C CNN
 F 1 "PWR_FLAG" H 20450 9830 30  0000 C CNN
 F 2 "" H 20450 9650 60  0001 C CNN
 F 3 "" H 20450 9650 60  0001 C CNN
@@ -3057,7 +3025,7 @@ SHIFT
 Text Notes 21150 18650 1    45   ~ 0
 Buffer
 $Comp
-L C-RESCUE-OpenHardwareExG_Shield_Test_Board C8
+L C C8
 U 1 1 550458EB
 P 21850 18950
 F 0 "C8" H 21900 19050 50  0000 L CNN
@@ -3068,7 +3036,7 @@ F 3 "" H 21850 18950 60  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L C-RESCUE-OpenHardwareExG_Shield_Test_Board C7
+L C C7
 U 1 1 550458F1
 P 21500 18950
 F 0 "C7" H 21550 19050 50  0000 L CNN
@@ -3079,7 +3047,7 @@ F 3 "" H 21500 18950 60  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L C-RESCUE-OpenHardwareExG_Shield_Test_Board C5
+L C C5
 U 1 1 550458F7
 P 20800 18950
 F 0 "C5" H 20850 19050 50  0000 L CNN
@@ -3090,7 +3058,7 @@ F 3 "" H 20800 18950 60  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L C-RESCUE-OpenHardwareExG_Shield_Test_Board C6
+L C C6
 U 1 1 550458FD
 P 21150 18950
 F 0 "C6" H 21200 19050 50  0000 L CNN
@@ -3136,10 +3104,10 @@ Wire Wire Line
 	10850 5450 10850 7500
 Connection ~ 10850 5800
 $Comp
-L VCC #PWR029
+L VCC #PWR028
 U 1 1 550D64DE
 P 10850 5450
-F 0 "#PWR029" H 10850 5550 30  0001 C CNN
+F 0 "#PWR028" H 10850 5550 30  0001 C CNN
 F 1 "VCC" H 10850 5550 30  0000 C CNN
 F 2 "" H 10850 5450 60  0000 C CNN
 F 3 "" H 10850 5450 60  0000 C CNN
