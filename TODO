@@ -37,6 +37,10 @@
 
 =Sheild=
 
+ * Consider redsign where Chip Select is a shift-out register allowing
+   us to talk to each slave board indivually, and we could also support
+   a ALL SLAVES or MASTER-PLUS-ALL-SLAVES mode
+
 #DONE (rev 0.1): FIX two errors on board:
 # * exclude test points in solder mask (solder lumps push pins to side)
 # * review VCAP capacitor values
@@ -59,4 +63,15 @@
 #    (adding a second top "C" bracket seems to address this)
 #    (adding a set of washers below the C brackets also works)
 
+=Hardware for developing countries=
+2017-07-08: Plan to start with writing software to write an 
+   ExG signal to an SD card. Using Arduino 101 + Sparkfun SD card +
+   ExG Shield. Planning to record to SD and send via Bluetooth. Setting
+   up Arduino 101 required running command for udev rule:
+   ~/.arduino15/packages/Intel/hardware/arc32/2.0.2/scripts/create_dfu_udev_rule
+   Able to connect via Web Bluetooth from Chrome on Android but not on 
+   Linux or Windows.
+
+   
+   
 drink champagne
